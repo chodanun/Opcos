@@ -27,17 +27,17 @@ export class AppContainer extends Component {
 
   	render() {
 	   return (
-	      <View>
-	      	<Text style={{marginTop:20}}>
+	      <View style={styles.scene} >
+	      	<Text style={styles.count} >
 	      		Count : {this.props.num}
 	      	</Text>
-	      	<TouchableHighlight onPress={()=>this.addCount()} >
-	      	<Text>
-	      		Add
-	      	</Text>
+	      	<TouchableHighlight onPress={()=>this.addCount()} style={styles.buttonCount} >
+		      	<Text>
+		      		Add
+		      	</Text>
 	      	</TouchableHighlight>
 
-	      	<Home {...this.props} />
+	      	<Home {...this.props} style={styles.home} />
 
 	      </View>
 
@@ -45,6 +45,23 @@ export class AppContainer extends Component {
 	  }
 
 }
+
+const styles = StyleSheet.create({
+  scene: {
+    flex: 1,
+  },
+  count : {
+  	flex : 0.025,
+  	marginTop : 20,
+  },
+  buttonCount : {
+  	flex : 0.025,
+  },
+  home : {
+  	flex : 0.95,
+  },
+
+})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);

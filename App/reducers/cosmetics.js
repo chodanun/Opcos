@@ -7,7 +7,7 @@ export const searchedCosmetics = createReducer({},{
 		let id = 0
 		action.cosmetics.forEach( (cosmetic) => {
 			// console.log(cosmetic)
-			newState[id] = cosmetic
+			newState[id] = Object.assign(cosmetic,{id})
 			id++
 		})
 		return newState
