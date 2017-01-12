@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
+import Home from '../components/Home'
 import {
   Animated,
   StyleSheet,
@@ -9,7 +10,9 @@ import {
   Text,
   NavigationExperimental,
   TouchableHighlight
-} from 'react-native';
+} from 'react-native'
+
+
 
 export class AppContainer extends Component {
 
@@ -18,7 +21,7 @@ export class AppContainer extends Component {
 	  // this.state = {num:0};
 	}
 
-	add(){
+	addCount(){
 		this.props.add()
 	}
 
@@ -28,11 +31,14 @@ export class AppContainer extends Component {
 	      	<Text style={{marginTop:20}}>
 	      		Count : {this.props.num}
 	      	</Text>
-	      	<TouchableHighlight onPress={()=>this.add()} >
+	      	<TouchableHighlight onPress={()=>this.addCount()} >
 	      	<Text>
 	      		Add
 	      	</Text>
 	      	</TouchableHighlight>
+
+	      	<Home {...this.props} />
+
 	      </View>
 
 	    );
