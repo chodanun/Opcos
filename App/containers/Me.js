@@ -18,7 +18,6 @@ export class AppContainer extends Component {
 
 	constructor(props) {
 	  super(props);
-	  // this.state = {num:0};
 	}
 
 	addCount(){
@@ -27,18 +26,34 @@ export class AppContainer extends Component {
 
   	render() {
 	   return (
-        <ApplicationTabs {...this.props} style={styles.tabs} />
-      )
-	    
-	   
+	      <View style={styles.scene} >
+	      	<Text style={styles.count} >
+	      		Count : {this.props.num}
+	      	</Text>
+	      	<TouchableHighlight onPress={()=>this.addCount()} style={styles.buttonCount} >
+		      	<Text>
+		      		Add
+		      	</Text>
+	      	</TouchableHighlight>
+	      </View>
+
+	    );
 	  }
 
 }
 
 const styles = StyleSheet.create({
-  tabs : {
-  	flex : 1,
+  scene: {
+    marginTop:20,
+    flex: 1,
   },
+  count : {
+  	
+  },
+  buttonCount : {
+  	
+  },
+  
 
 })
 
