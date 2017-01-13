@@ -50,16 +50,10 @@ class ApplicationTabs extends Component {
 	}
 
 	render(){
-		console.log(this.props.title)
+		console.log(this.props)
 		return (
-			// <View>
-		 //        <Text>Current Scene: </Text>
-		 //        <TouchableHighlight onPress={this._onForward}>
-		 //          <Text>Tap me to load the next scene</Text>
-		 //        </TouchableHighlight>
-		 //    </View>
-
-			<TabBarIOS style={{flex:1}}>
+			
+			<TabBarIOS style={{marginTop:80}}>
 				
 				<TabBarIOS.Item
 				// icon={require('../../image/test.png')}

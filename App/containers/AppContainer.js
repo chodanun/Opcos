@@ -10,7 +10,7 @@ import {
   StyleSheet,
   View,
   Text,
-  Navigator,
+  NavigatorIOS,
   TouchableHighlight
 } from 'react-native'
 
@@ -25,14 +25,14 @@ export class AppContainer extends Component {
 
   render() {
     return (
-        <Navigator
-        initialRoute={{ component : MyScene }}
-        renderScene={(route, navigator) =>{
-          let component = route.component
-            return React.createElement(component,{ navigator:navigator,...this.props})
+        <NavigatorIOS
+        initialRoute={{
+          component: ApplicationTabs,
+          title: 'My Initial Scene',
+          // passProps: {...this.props},
         }}
         style={{flex: 1}}
-        />
+      />
         // <ApplicationTabs {...this.props} style={styles.tabs}/>
       )
 	    
