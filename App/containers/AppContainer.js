@@ -3,16 +3,15 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ApplicationTabs from './ApplicationTabs'
+import MyScene from './MyScene'
 import {
   Animated,
   StyleSheet,
   View,
   Text,
-  NavigationExperimental,
+  NavigatorIOS,
   TouchableHighlight
 } from 'react-native'
-
-
 
 export class AppContainer extends Component {
 
@@ -21,16 +20,21 @@ export class AppContainer extends Component {
 	  // this.state = {num:0};
 	}
 
-	addCount(){
-		this.props.add()
-	}
-
-  	render() {
-	   return (
-        <ApplicationTabs {...this.props} style={styles.tabs} />
+  render() {
+    return (
+        <NavigatorIOS
+        initialRoute={{
+          component: MyScene,
+          title : 'My initial Scene',
+          passProps : {
+            title: 'My initial Scene',
+          }
+        }}
+        style={{flex: 1}}
+        />
+        // <ApplicationTabs {...this.props} style={styles.tabs}/>
       )
 	    
-	   
 	  }
 
 }
@@ -51,6 +55,5 @@ function mapStateToProps(state) {
   	num : state.num
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

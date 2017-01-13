@@ -21,6 +21,7 @@ class Home extends Component {
 	}
 
 	searchedPress(){
+		
 		this.setState({ searching:true })
 		this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
 			this.setState( {searching: false})

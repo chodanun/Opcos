@@ -1,4 +1,4 @@
-import React , { Component } from 'react'
+import React , { Component, PropTypes} from 'react'
 import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
@@ -14,7 +14,7 @@ const {
 	StyleSheet,
 } = ReactNative
 
-class Home extends Component {
+class Shop extends Component {
 	constructor(props) {
 	  super(props)
 	  this.state = { searching: false ,cosmeticsInput: ''};
@@ -103,4 +103,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Home)
+export default connect(mapStateToProps,mapDispatchToProps)(Shop)
