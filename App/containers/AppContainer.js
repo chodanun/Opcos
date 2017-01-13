@@ -4,12 +4,13 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ApplicationTabs from './ApplicationTabs'
 import MyScene from './MyScene'
+import MyScene2 from './MyScene2'
 import {
   Animated,
   StyleSheet,
   View,
   Text,
-  NavigatorIOS,
+  Navigator,
   TouchableHighlight
 } from 'react-native'
 
@@ -20,15 +21,15 @@ export class AppContainer extends Component {
 	  // this.state = {num:0};
 	}
 
+ 
+
   render() {
     return (
-        <NavigatorIOS
-        initialRoute={{
-          component: MyScene,
-          title : 'My initial Scene',
-          passProps : {
-            title: 'My initial Scene',
-          }
+        <Navigator
+        initialRoute={{ component : MyScene }}
+        renderScene={(route, navigator) =>{
+          let component = route.component
+            return React.createElement(component,{ navigator:navigator,...this.props})
         }}
         style={{flex: 1}}
         />
