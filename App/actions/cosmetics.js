@@ -12,7 +12,7 @@ export function fetchCosmetics(code){
       	// console.log(resp)
     }).catch( (ex) => {
       console.log(ex);
-    });
+    })
   }
 }
 
@@ -27,4 +27,10 @@ export function add(){
 	return {
 		type : types.ADD,
 	}
+}
+
+export function changeSceneCosmeticsSearch(){
+  return{
+    type : types.CHANGE_SCENE_COSMETICS_SEARCH,
+  }
 }

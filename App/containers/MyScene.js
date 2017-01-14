@@ -16,7 +16,7 @@ export default class MyScene extends Component {
 
     return (
       <View style={{marginTop:100}}>
-        <Text>Current Scene: { this.props.route.title }</Text>
+        <Text> Current Scene 2 </Text>
         <TouchableHighlight onPress={this._onForward}>
           <Text>Tap me to load the next scene</Text>
         </TouchableHighlight>

@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Shop from '../Shop'
-import Home from '../Home'
+import NewFeed from '../NewFeed'
 import Me from '../Me'
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../../actions'
 import { 
 	View,
 	TabBarIOS, 
@@ -11,6 +13,8 @@ import {
 	Text,
 	TouchableHighlight,
 } from 'react-native'
+import MyScene from '../MyScene'
+import MyScene2 from '../MyScene2'
 
 class ApplicationTabs extends Component {
 
@@ -18,22 +22,11 @@ class ApplicationTabs extends Component {
 		super(props)
 		this.state = {
 			selectedTab : 'search',
-			titleHome : 'top-rated',
+			titleNewFeed : 'top-rated',
 			titleShop : 'search',
 			titleMe : 'more',
 		};
 	}
-
-	// static propTypes = {
-	// 	title: PropTypes.string.isRequired,
-	// 	navigator: PropTypes.object.isRequired,
-	// }
-
-	_onForward = () => {
-		this.props.navigator.push({
-			title: 'Scene ' + nextIndex,
-		})
-  	}
 
 	changeTabs(title){
 		this.setState({
@@ -49,18 +42,32 @@ class ApplicationTabs extends Component {
 		)
 	}
 
+	_changeSceneCosmeticsSearch(){
+    	this.props.changeSceneCosmeticsSearch()
+  	}
+
+	_checkSceneCosmeticsSearch(){
+		if (this.props.changeSceneCosmeticSearch){
+			this.props.navigator.push({
+				component:MyScene,
+			})
+			this._changeSceneCosmeticsSearch()
+		}
+	}
+
+	componentDidUpdate(){
+		this._checkSceneCosmeticsSearch()
+	}
+
 	render(){
-		console.log(this.props)
 		return (
-			
 			<TabBarIOS style={{marginTop:80}}>
-				
 				<TabBarIOS.Item
 				// icon={require('../../image/test.png')}
-				systemIcon={this.state.titleHome}
-				selected={this.state.selectedTab === this.state.titleHome}
-				onPress={() => this.changeTabs(this.state.titleHome) }>
-					{this.renderScene(Home)}
+				systemIcon={this.state.titleNewFeed}
+				selected={this.state.selectedTab === this.state.titleNewFeed}
+				onPress={() => this.changeTabs(this.state.titleNewFeed) }>
+					{this.renderScene(NewFeed)}
 				</TabBarIOS.Item>
 
 				<TabBarIOS.Item 
@@ -78,13 +85,19 @@ class ApplicationTabs extends Component {
 				</TabBarIOS.Item>
 			</TabBarIOS>
 		)
+
+
 	}
 }
 
 function mapStateToProps(state){
 	return {
-
+		changeSceneCosmeticSearch : state.changeSceneCosmeticSearch
 	}
 }
 
-export default connect(mapStateToProps)(ApplicationTabs)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationTabs);

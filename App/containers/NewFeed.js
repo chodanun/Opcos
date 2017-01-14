@@ -3,6 +3,7 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import MyScene2 from './MyScene2'
 
 const {
 	ScrollView,
@@ -14,14 +15,13 @@ const {
 	StyleSheet,
 } = ReactNative
 
-class Home extends Component {
+class NewFeed extends Component {
 	constructor(props) {
 	  super(props)
 	  this.state = { searching: false ,cosmeticsInput: ''};
 	}
 
 	searchedPress(){
-		
 		this.setState({ searching:true })
 		this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
 			this.setState( {searching: false})
@@ -31,7 +31,7 @@ class Home extends Component {
 	cosmetics(){
 		return Object.keys(this.props.searchedCosmetics).map( key => this.props.searchedCosmetics[key])
 	}
-
+	
 	render(){
 		// console.log(this.cosmetics())
 		return (
@@ -104,4 +104,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Home)
+export default connect(mapStateToProps,mapDispatchToProps)(NewFeed)

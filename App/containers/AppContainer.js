@@ -21,15 +21,19 @@ export class AppContainer extends Component {
 	  // this.state = {num:0};
 	}
 
- 
-
+  _changeSceneCosmeticsSearch(){
+    this.props.changeSceneCosmeticsSearch()
+  }
+  
   render() {
     return (
         <NavigatorIOS
         initialRoute={{
           component: ApplicationTabs,
-          title: 'My Initial Scene',
-          // passProps: {...this.props},
+          title: 'OPCOS',
+          rightButtonSystemIcon: 'search',
+          onRightButtonPress: () => this._changeSceneCosmeticsSearch() ,
+          backButtonTitle: 'Back',
         }}
         style={{flex: 1}}
       />
