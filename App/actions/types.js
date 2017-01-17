@@ -3,4 +3,3 @@ export const ADD = 'ADD'
 
 //Navigation
 export const SET_TAB = 'SET_TAB' 
-export const CHANGE_SCENE_COSMETICS_SEARCH = 'CHANGE_SCENE_COSMETICS_SEARCH'

@@ -26,11 +26,3 @@ export const num = createReducer(0,{
 	}
 });
 
-export const changeSceneCosmeticSearch = createReducer(false,{
-	[types.CHANGE_SCENE_COSMETICS_SEARCH](state, action){
-		if (state)
-			return false
-		else 
-			return true
-	}
-})

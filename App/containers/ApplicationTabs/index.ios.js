@@ -3,14 +3,12 @@ import { connect } from 'react-redux'
 import Shop from '../Shop'
 import NewFeed from '../NewFeed'
 import Me from '../Me'
-import Search from '../Search'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions'
 import { 
 	View,
 	TabBarIOS, 
 	TabBarItemIOS, 
-	NavigatorIOS, 
 	Text,
 	TouchableHighlight,
 } from 'react-native'
@@ -43,30 +41,11 @@ class ApplicationTabs extends Component {
 		)
 	}
 
-	_changeSceneCosmeticsSearch(){
-		this.props.changeSceneCosmeticsSearch()
-	}
 
-	_checkSceneCosmeticsSearch(){
-		if (this.props.changeSceneCosmeticSearch){
-			this.props.navigator.push({
-				component:Search,
-				title: 'Search',
-				rightButtonSystemIcon: 'search',
-				onRightButtonPress: () => console.log("SEARCH TEST") ,
-				backButtonTitle: 'Back',
-			})
-			this._changeSceneCosmeticsSearch()
-		}
-	}
-
-	componentDidUpdate(){
-		this._checkSceneCosmeticsSearch()
-	}
 
 	render(){
 		return (
-			<TabBarIOS style={{marginTop:80}}>
+			<TabBarIOS >
 				<TabBarIOS.Item
 				// icon={require('../../image/test.png')}
 				systemIcon={this.state.titleNewFeed}
