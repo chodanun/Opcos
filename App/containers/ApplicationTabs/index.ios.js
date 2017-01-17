@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Shop from '../Shop'
 import NewFeed from '../NewFeed'
 import Me from '../Me'
+import Search from '../Search'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions'
 import { 
@@ -13,8 +14,8 @@ import {
 	Text,
 	TouchableHighlight,
 } from 'react-native'
-import MyScene from '../MyScene'
-import MyScene2 from '../MyScene2'
+
+
 
 class ApplicationTabs extends Component {
 
@@ -43,13 +44,17 @@ class ApplicationTabs extends Component {
 	}
 
 	_changeSceneCosmeticsSearch(){
-    	this.props.changeSceneCosmeticsSearch()
-  	}
+		this.props.changeSceneCosmeticsSearch()
+	}
 
 	_checkSceneCosmeticsSearch(){
 		if (this.props.changeSceneCosmeticSearch){
 			this.props.navigator.push({
-				component:MyScene,
+				component:Search,
+				title: 'Search',
+				rightButtonSystemIcon: 'search',
+				onRightButtonPress: () => console.log("SEARCH TEST") ,
+				backButtonTitle: 'Back',
 			})
 			this._changeSceneCosmeticsSearch()
 		}

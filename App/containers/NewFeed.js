@@ -3,7 +3,6 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import MyScene2 from './MyScene2'
 
 const {
 	ScrollView,
@@ -31,7 +30,7 @@ class NewFeed extends Component {
 	cosmetics(){
 		return Object.keys(this.props.searchedCosmetics).map( key => this.props.searchedCosmetics[key])
 	}
-	
+
 	render(){
 		// console.log(this.cosmetics())
 		return (

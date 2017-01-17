@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ApplicationTabs from './ApplicationTabs'
-import MyScene from './MyScene'
-import MyScene2 from './MyScene2'
 import {
   Animated,
   StyleSheet,
