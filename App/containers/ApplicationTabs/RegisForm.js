@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ReactNative from 'react-native'
 import { Spinner } from '../components';
-import { Scene, Router, Actions } from 'react-native-router-flux';
 const {
 	View,
 	TextInput,
@@ -23,6 +22,10 @@ class LoginForm extends Component {
 			password:'',
 			error:'',
 			loading: false,
+			fullname:'',
+			sirname:'',
+			age:'',
+
 		}
 	}
 	
@@ -51,26 +54,14 @@ class LoginForm extends Component {
 
 	onPressLogin(){
 		this.clearErrorDisplayed()
-		const { email, password } = this.state;
-
-		firebase.auth().signInWithEmailAndPassword(email, password)
+		firebase.auth().createUserWithEmailAndPassword(email, password)
 		.then(this.onLoginSuccess.bind(this))
-		.catch((signInError) => {
-			// const signInErrorDetail = `code: ${signInError.code} message: ${signInError.message} `
-			// console.log(signInErrorDetail)
-			firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(this.onLoginSuccess.bind(this))
-			.catch((signUpError) => {
-				this.onLoginFail()
-				// const signUpErrorDetail = `code: ${signUpError.code}
-				// message: ${signUpError.message}`
-				// console.log(signUpErrorDetail)
-			})
+		.catch((signUpError) => {
+			this.onLoginFail()
+			// const signUpErrorDetail = `code: ${signUpError.code}
+			// message: ${signUpError.message}`
+			// console.log(signUpErrorDetail)
 		})
-	}
-
-	onPressRegist(){
-		Actions.regist()
 	}
 
 	renderButton(){
@@ -78,20 +69,12 @@ class LoginForm extends Component {
 			return <Spinner size='small' />
 		}
 		else{
-			return <View>
-					<Button
+			return <Button
 						onPress={ () => this.onPressLogin() }
-						title="Login"
+						title="LOGIN"
 						color="#841584"
 						accessibilityLabel="Learn more about this purple button"
 					/>
-					<Button
-						onPress={ () => this.onPressRegist() }
-						title="Register"
-						color="#841584"
-						accessibilityLabel="Learn more about this purple button"
-					/>
-					</View>
 		}
 		// firebase.auth().signOut() }
 	}
@@ -99,6 +82,27 @@ class LoginForm extends Component {
 	render(){
 		return (
 			<View>
+				<TextInput 
+					autoCorrect={false}
+					placeholder="fullname"
+					value={this.state.fullname}
+					onChangeText={ fullname => this.setState({ fullname })}
+					style={{ height: 20, width: 200 }}
+				/>
+				<TextInput 
+					autoCorrect={false}
+					placeholder="sirname"
+					value={this.state.sirname}
+					onChangeText={ sirname => this.setState({ sirname })}
+					style={{ height: 20, width: 200 }}
+				/>
+				<TextInput 
+					autoCorrect={false}
+					placeholder="age"
+					value={this.state.age}
+					onChangeText={ email => this.setState({ age })}
+					style={{ height: 20, width: 200 }}
+				/>
 				<TextInput 
 					autoCorrect={false}
 					placeholder="email"

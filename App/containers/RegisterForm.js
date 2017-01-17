@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ReactNative from 'react-native'
 import { Spinner } from '../components';
-import { Scene, Router, Actions } from 'react-native-router-flux';
 const {
 	View,
 	TextInput,
+	DatePickerIOS,
 	Text,
 	StyleSheet,
 	Button,
@@ -16,6 +16,11 @@ const {
 
 class LoginForm extends Component {
 	
+	static defaultProps = {
+		date: new Date(),
+		timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
+  	}
+
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -23,6 +28,10 @@ class LoginForm extends Component {
 			password:'',
 			error:'',
 			loading: false,
+			fullname:'',
+			sirname:'',
+			dateOfBirth: this.props.date,
+			timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
 		}
 	}
 	
@@ -39,6 +48,9 @@ class LoginForm extends Component {
 			email: '',
 			password: '',
 			error:'',
+			fullname:'',
+			sirname:'',
+			dateOfBirth:'',
 		})
 	}
 
@@ -49,28 +61,18 @@ class LoginForm extends Component {
 		})
 	}
 
-	onPressLogin(){
-		this.clearErrorDisplayed()
-		const { email, password } = this.state;
-
-		firebase.auth().signInWithEmailAndPassword(email, password)
-		.then(this.onLoginSuccess.bind(this))
-		.catch((signInError) => {
-			// const signInErrorDetail = `code: ${signInError.code} message: ${signInError.message} `
-			// console.log(signInErrorDetail)
-			firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(this.onLoginSuccess.bind(this))
-			.catch((signUpError) => {
-				this.onLoginFail()
-				// const signUpErrorDetail = `code: ${signUpError.code}
-				// message: ${signUpError.message}`
-				// console.log(signUpErrorDetail)
-			})
-		})
-	}
-
 	onPressRegist(){
-		Actions.regist()
+		const { email, password } = this.state
+
+		this.clearErrorDisplayed()
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+		.then(this.onLoginSuccess.bind(this))
+		.catch((signUpError) => {
+			this.onLoginFail()
+			// const signUpErrorDetail = `code: ${signUpError.code}
+			// message: ${signUpError.message}`
+			// console.log(signUpErrorDetail)
+		})
 	}
 
 	renderButton(){
@@ -78,27 +80,45 @@ class LoginForm extends Component {
 			return <Spinner size='small' />
 		}
 		else{
-			return <View>
-					<Button
-						onPress={ () => this.onPressLogin() }
-						title="Login"
-						color="#841584"
-						accessibilityLabel="Learn more about this purple button"
-					/>
-					<Button
+			return <Button
 						onPress={ () => this.onPressRegist() }
 						title="Register"
 						color="#841584"
 						accessibilityLabel="Learn more about this purple button"
 					/>
-					</View>
 		}
 		// firebase.auth().signOut() }
+	}
+
+	onDateChange(date){
+		this.setState({
+			dateOfBirth:date,
+		})
 	}
 
 	render(){
 		return (
 			<View>
+				<TextInput 
+					autoCorrect={false}
+					placeholder="fullname"
+					value={this.state.fullname}
+					onChangeText={ fullname => this.setState({ fullname })}
+					style={{ height: 20, width: 200 }}
+				/>
+				<TextInput 
+					autoCorrect={false}
+					placeholder="sirname"
+					value={this.state.sirname}
+					onChangeText={ sirname => this.setState({ sirname })}
+					style={{ height: 20, width: 200 }}
+				/>
+				<DatePickerIOS
+					date={this.state.dateOfBirth}
+					mode="date"
+					timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+					onDateChange={ (date) => {this.onDateChange(date)} }
+				/>
 				<TextInput 
 					autoCorrect={false}
 					placeholder="email"

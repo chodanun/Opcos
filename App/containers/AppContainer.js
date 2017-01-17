@@ -1,3 +1,4 @@
+import firebase from 'firebase'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -14,23 +15,51 @@ import {
 export class AppContainer extends Component {
 
 	constructor(props) {
-	  super(props);
-	  // this.state = {num:0};
+		super(props);
+		this.state = {
+			loggedIn: null
+			// this.state = {num:0}
+		}
+		
 	}
 
-  render() {
-    return (
-        <RouterComponent />
-        // <ApplicationTabs {...this.props} style={styles.tabs}/>
-      )
-	    
-	  }
+  // Initialize Firebase
+	componentDidMount(){
+		const config = {
+			apiKey: 'AIzaSyDXZCNAAv3XCQy-c5GxYTBzO2iVLXxl0cM',
+			authDomain: 'opcos-9267e.firebaseapp.com',
+			databaseURL: 'https://opcos-9267e.firebaseio.com',
+			storageBucket: 'opcos-9267e.appspot.com',
+			messagingSenderId: '655410303822'
+		}
+		firebase.initializeApp(config)
+
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.setState({ loggedIn: true });
+			}
+			else {
+				this.setState({ loggedIn: false });
+			}
+			console.log(this.state.loggedIn)
+		})
+
+	}
+
+
+	render() {
+		return (
+			<RouterComponent />
+			// <ApplicationTabs {...this.props} style={styles.tabs}/>
+		)
+		
+	}
 
 }
 
 const styles = StyleSheet.create({
   tabs : {
-  	flex : 1,
+	flex : 1,
   },
 
 })
@@ -41,7 +70,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return { 
-  	num : state.num
+	num : state.num
   };
 }
 
