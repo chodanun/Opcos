@@ -52,22 +52,13 @@ class LoginForm extends Component {
 	onPressLogin(){
 		this.clearErrorDisplayed()
 		const { email, password } = this.state;
-
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(this.onLoginSuccess.bind(this))
 		.catch((signInError) => {
-			// const signInErrorDetail = `code: ${signInError.code} message: ${signInError.message} `
-			// console.log(signInErrorDetail)
-			firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(this.onLoginSuccess.bind(this))
-			.catch((signUpError) => {
-				this.onLoginFail()
-				// const signUpErrorDetail = `code: ${signUpError.code}
-				// message: ${signUpError.message}`
-				// console.log(signUpErrorDetail)
-			})
+			this.onLoginFail()
 		})
 	}
+	
 
 	onPressRegist(){
 		Actions.regist()
@@ -93,29 +84,42 @@ class LoginForm extends Component {
 					/>
 					</View>
 		}
-		// firebase.auth().signOut() }
 	}
 
+	renderScene(){
+		if (this.props.status_user == false){
+			return (
+				<View>
+					<TextInput 
+						autoCorrect={false}
+						placeholder="email"
+						value={this.state.email}
+						onChangeText={ email => this.setState({ email })}
+						style={{ height: 20, width: 200 }}
+					/>
+					<TextInput 
+						autoCorrect={false}
+						secureTextEntry
+						placeholder="password"
+						value={this.state.password}
+						onChangeText={ password => this.setState({ password })}
+						style={{ height: 20, width: 200 }}
+					/>
+					<Text> {this.state.error} </Text>
+					{this.renderButton()} 
+				</View>
+			)
+		}
+		else{
+			return <View/>
+		}
+		
+	}
 	render(){
 		return (
 			<View>
-				<TextInput 
-					autoCorrect={false}
-					placeholder="email"
-					value={this.state.email}
-					onChangeText={ email => this.setState({ email })}
-					style={{ height: 20, width: 200 }}
-				/>
-				<TextInput 
-					autoCorrect={false}
-					secureTextEntry
-					placeholder="password"
-					value={this.state.password}
-					onChangeText={ password => this.setState({ password })}
-					style={{ height: 20, width: 200 }}
-				/>
-				<Text> {this.state.error} </Text>
-				{this.renderButton()} 
+
+				{this.renderScene()}
 				
 			</View>
 		)
@@ -124,6 +128,7 @@ class LoginForm extends Component {
 
 function mapStateToProps(state){
 	return {
+		status_user: state.status_user,
 	}
 }
 

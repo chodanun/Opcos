@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import RouterComponent from './Router'
+
 import {
   Animated,
   StyleSheet,
@@ -20,17 +21,16 @@ export class AppContainer extends Component {
 			loggedIn: null
 			// this.state = {num:0}
 		}
-		
 	}
 
-  // Initialize Firebase
-	componentDidMount(){
+	// Initialize Firebase
+	componentWillMount(){
 		const config = {
 			apiKey: 'AIzaSyDXZCNAAv3XCQy-c5GxYTBzO2iVLXxl0cM',
 			authDomain: 'opcos-9267e.firebaseapp.com',
 			databaseURL: 'https://opcos-9267e.firebaseio.com',
 			storageBucket: 'opcos-9267e.appspot.com',
-			messagingSenderId: '655410303822'
+			messagingSenderId: '655410303822',
 		}
 		firebase.initializeApp(config)
 
@@ -41,9 +41,13 @@ export class AppContainer extends Component {
 			else {
 				this.setState({ loggedIn: false });
 			}
-			console.log(this.state.loggedIn)
+			this.updateStatusUser()
 		})
+		
+	}
 
+	updateStatusUser(){
+		this.props.updateStatusUser(this.state.loggedIn)
 	}
 
 
@@ -70,7 +74,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return { 
-	num : state.num
+	// num : state.num,
+	status_user : state.status_user ,
   };
 }
 

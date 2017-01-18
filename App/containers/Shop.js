@@ -1,3 +1,4 @@
+import firebase from 'firebase';
 import React , { Component, PropTypes} from 'react'
 import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'

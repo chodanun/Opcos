@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "firebase": "^3.6.5",
+    "native-base": "^0.5.22",
     "react": "15.4.2",
     "react-native": "0.40.0",
     "react-native-router-flux": "^3.37.0",

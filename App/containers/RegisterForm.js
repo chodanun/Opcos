@@ -26,6 +26,7 @@ class LoginForm extends Component {
 		this.state = {
 			email:'',
 			password:'',
+			confirm_password:'',
 			error:'',
 			loading: false,
 			fullname:'',
@@ -54,25 +55,31 @@ class LoginForm extends Component {
 		})
 	}
 
-	onLoginFail(){
+	onLoginFail(error){
 		this.setState({ 
-			error: 'Authentication Failed.',
+			error,
 			loading: false ,
 		})
 	}
 
 	onPressRegist(){
-		const { email, password } = this.state
-
-		this.clearErrorDisplayed()
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-		.then(this.onLoginSuccess.bind(this))
-		.catch((signUpError) => {
-			this.onLoginFail()
-			// const signUpErrorDetail = `code: ${signUpError.code}
-			// message: ${signUpError.message}`
-			// console.log(signUpErrorDetail)
-		})
+		const { email, password , confirm_password} = this.state
+		if (password == confirm_password){
+			this.clearErrorDisplayed()
+			firebase.auth().createUserWithEmailAndPassword(email, password)
+			.then(this.onLoginSuccess.bind(this))
+			.catch((signUpError) => {
+				const signUpErrorDetail = `code: ${signUpError.code} message: ${signUpError.message}`
+				this.onLoginFail(signUpErrorDetail)
+				
+			})	
+		}
+		else{
+			this.setState({
+				error: 'password not matched'
+			})
+		}
+		
 	}
 
 	renderButton(){
@@ -113,12 +120,7 @@ class LoginForm extends Component {
 					onChangeText={ sirname => this.setState({ sirname })}
 					style={{ height: 20, width: 200 }}
 				/>
-				<DatePickerIOS
-					date={this.state.dateOfBirth}
-					mode="date"
-					timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-					onDateChange={ (date) => {this.onDateChange(date)} }
-				/>
+				
 				<TextInput 
 					autoCorrect={false}
 					placeholder="email"
@@ -132,6 +134,14 @@ class LoginForm extends Component {
 					placeholder="password"
 					value={this.state.password}
 					onChangeText={ password => this.setState({ password })}
+					style={{ height: 20, width: 200 }}
+				/>
+				<TextInput 
+					autoCorrect={false}
+					secureTextEntry
+					placeholder="confirm password"
+					value={this.state.confirm_password}
+					onChangeText={ confirm_password => this.setState({ confirm_password })}
 					style={{ height: 20, width: 200 }}
 				/>
 				<Text> {this.state.error} </Text>
@@ -152,3 +162,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginForm)
+
+// <DatePickerIOS
+// 					date={this.state.dateOfBirth}
+// 					mode="date"
+// 					timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+// 					onDateChange={ (date) => {this.onDateChange(date)} }
+// 				/>

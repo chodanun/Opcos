@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
-import * as cosmiticsReducers from './cosmetics'
+import * as CosmiticsReducers from './Cosmetics'
+import * as Authentications from './Authentications'
 
 export default combineReducers(Object.assign(
-	cosmiticsReducers,
+	CosmiticsReducers,
+	Authentications,
 ));
