@@ -3,9 +3,11 @@ import React , { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
-import ReactNative from 'react-native'
 import { Spinner } from '../components';
 import { Scene, Router, Actions } from 'react-native-router-flux';
+import ReactNative from 'react-native'
+import { Container, Content, List, ListItem, InputGroup, Input, Icon } from 'native-base';
+
 const {
 	View,
 	TextInput,
@@ -117,6 +119,7 @@ class LoginForm extends Component {
 	}
 	render(){
 		return (
+			
 			<View>
 
 				{this.renderScene()}

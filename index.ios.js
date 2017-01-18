@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import reducer from './App/reducers';
 import AppContainer from './App/containers/AppContainer'
+
 import {
   AppRegistry,
   StyleSheet,
@@ -31,6 +32,8 @@ const App = () => (
     <AppContainer />
   </Provider>
 );
+
+
 
 
 AppRegistry.registerComponent('Opcos', () => App);
