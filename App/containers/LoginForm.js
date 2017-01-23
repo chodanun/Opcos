@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import { Spinner } from '../components';
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router, Actions } from 'react-native-router-flux'
 import ReactNative from 'react-native'
-import { Container, Content, List, ListItem, InputGroup, Input, Icon } from 'native-base';
+import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button } from 'native-base'
 
 const {
 	View,
@@ -14,7 +14,6 @@ const {
 	Text,
 	StyleSheet,
 	Image,
-	Button,
 } = ReactNative
 
 class LoginForm extends Component {
@@ -77,24 +76,14 @@ class LoginForm extends Component {
 		}
 		else{
 			return <View>
-					<Button
-						onPress={ () => this.onPressLogin() }
-						title="Login"
-						color="#841584"
-						accessibilityLabel="Learn more about this purple button"
-					/>
-					<Button
-						onPress={ () => this.onPressLoginFacebook() }
-						title="Facebook Login"
-						color="#841584"
-						accessibilityLabel="Learn more about this purple button"
-					/>
-					<Button
-						onPress={ () => this.onPressRegist() }
-						title="Register"
-						color="#841584"
-						accessibilityLabel="Learn more about this purple button"
-					/>
+						<Button 
+							block success
+							onPress={ () => this.onPressLogin() }
+						> Login </Button>
+						<Button 
+							block danger
+							onPress={ () => this.onPressRegist() }
+						> Register </Button>
 					</View>
 		}
 	}
@@ -102,25 +91,38 @@ class LoginForm extends Component {
 	renderScene(){
 		if (this.props.status_user == false){
 			return (
-				<View>
-					<TextInput 
-						autoCorrect={false}
-						placeholder="email"
-						value={this.state.email}
-						onChangeText={ email => this.setState({ email })}
-						style={{ height: 20, width: 200 }}
-					/>
-					<TextInput 
-						autoCorrect={false}
-						secureTextEntry
-						placeholder="password"
-						value={this.state.password}
-						onChangeText={ password => this.setState({ password })}
-						style={{ height: 20, width: 200 }}
-					/>
-					<Text> {this.state.error} </Text>
-					{this.renderButton()} 
-				</View>
+				<Container>
+                <Content>
+                    <List>
+                        <ListItem>
+                            <InputGroup>
+                                <Icon name='ios-person' />
+                                <Input 
+                                	placeholder='EMAIL'
+                                	value={this.state.email}
+									onChangeText={ email => this.setState({ email })}
+                                />
+                            </InputGroup>
+                        </ListItem>
+
+                        <ListItem>
+                            <InputGroup>
+                                <Icon name='ios-unlock' />
+                                <Input 
+                                	placeholder='PASSWORD'
+                                	secureTextEntry={true}
+                                	value={this.state.password}
+									onChangeText={ password => this.setState({ password })}
+									onSubmitEditing={ ()=> this.onPressLogin() }
+                                />
+                            </InputGroup>
+                        </ListItem>
+                    </List>
+                    {this.renderButton()}
+                </Content>
+
+            </Container>
+				
 			)
 		}
 		else{
@@ -162,3 +164,24 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginForm)
+
+
+	// <View>
+	// <TextInput 
+	// 	autoCorrect={false}
+	// 	placeholder="email"
+	// 	value={this.state.email}
+	// 	onChangeText={ email => this.setState({ email })}
+	// 	style={{ height: 20, width: 200 }}
+	// />
+	// <TextInput 
+	// 	autoCorrect={false}
+	// 	secureTextEntry
+	// 	placeholder="password"
+	// 	value={this.state.password}
+	// 	onChangeText={ password => this.setState({ password })}
+	// 	style={{ height: 20, width: 200 }}
+	// />
+	// <Text> {this.state.error} </Text>
+	// {this.renderButton()} 
+	// </View>

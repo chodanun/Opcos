@@ -5,13 +5,12 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ReactNative from 'react-native'
 import { Spinner } from '../components';
+import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button, Card,  CardItem, Text  } from 'native-base'
 const {
 	View,
 	TextInput,
 	DatePickerIOS,
-	Text,
 	StyleSheet,
-	Button,
 } = ReactNative
 
 class LoginForm extends Component {
@@ -19,7 +18,7 @@ class LoginForm extends Component {
 	static defaultProps = {
 		date: new Date(),
 		timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-  	}
+	}
 
 	constructor(props) {
 		super(props)
@@ -29,8 +28,7 @@ class LoginForm extends Component {
 			confirm_password:'',
 			error:'',
 			loading: false,
-			fullname:'',
-			sirname:'',
+			name: '',
 			dateOfBirth: this.props.date,
 			timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
 		}
@@ -49,7 +47,7 @@ class LoginForm extends Component {
 			email: '',
 			password: '',
 			error:'',
-			fullname:'',
+			name:'',
 			sirname:'',
 			dateOfBirth:'',
 		})
@@ -57,28 +55,23 @@ class LoginForm extends Component {
 
 	onLoginFail(error){
 		this.setState({ 
-			error,
+			error: error,
 			loading: false ,
 		})
 	}
 
 	onPressRegist(){
-		const { email, password , confirm_password} = this.state
-		if (password == confirm_password){
-			this.clearErrorDisplayed()
-			firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(this.onLoginSuccess.bind(this))
-			.catch((signUpError) => {
-				const signUpErrorDetail = `code: ${signUpError.code} message: ${signUpError.message}`
-				this.onLoginFail(signUpErrorDetail)
-				
-			})	
-		}
-		else{
-			this.setState({
-				error: 'password not matched'
-			})
-		}
+		this.setState({error:''})
+		const { email, password } = this.state
+		
+		this.clearErrorDisplayed()
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+		.then(this.onLoginSuccess.bind(this))
+		.catch((signUpError) => {
+			const signUpErrorDetail = `code: ${signUpError.code} message: ${signUpError.message}`
+			this.onLoginFail(signUpErrorDetail)
+			
+		})	
 		
 	}
 
@@ -87,12 +80,12 @@ class LoginForm extends Component {
 			return <Spinner size='small' />
 		}
 		else{
-			return <Button
-						onPress={ () => this.onPressRegist() }
-						title="Register"
-						color="#841584"
-						accessibilityLabel="Learn more about this purple button"
-					/>
+			if (this.state.password!= '' && this.state.password == this.state.confirm_password )
+				return	<Button block success onPress={ () => this.onPressRegist()} >
+							Register 
+						</Button>
+			else
+				return	<Button block danger onPress={() => this.setState({error:'code: password does not match'}) } > Register </Button>
 		}
 		// firebase.auth().signOut() }
 	}
@@ -103,54 +96,79 @@ class LoginForm extends Component {
 		})
 	}
 
+	renderError(){
+		if (this.state.error!= '')
+		return <Card style={styles.error}>
+	                <CardItem>                        
+	                    <Text>
+	                        {this.state.error}
+	                    </Text>
+	                </CardItem>
+	            </Card>
+	}
 	render(){
 		return (
-			<View>
-				<TextInput 
-					autoCorrect={false}
-					placeholder="fullname"
-					value={this.state.fullname}
-					onChangeText={ fullname => this.setState({ fullname })}
-					style={{ height: 20, width: 200 }}
-				/>
-				<TextInput 
-					autoCorrect={false}
-					placeholder="sirname"
-					value={this.state.sirname}
-					onChangeText={ sirname => this.setState({ sirname })}
-					style={{ height: 20, width: 200 }}
-				/>
-				
-				<TextInput 
-					autoCorrect={false}
-					placeholder="email"
-					value={this.state.email}
-					onChangeText={ email => this.setState({ email })}
-					style={{ height: 20, width: 200 }}
-				/>
-				<TextInput 
-					autoCorrect={false}
-					secureTextEntry
-					placeholder="password"
-					value={this.state.password}
-					onChangeText={ password => this.setState({ password })}
-					style={{ height: 20, width: 200 }}
-				/>
-				<TextInput 
-					autoCorrect={false}
-					secureTextEntry
-					placeholder="confirm password"
-					value={this.state.confirm_password}
-					onChangeText={ confirm_password => this.setState({ confirm_password })}
-					style={{ height: 20, width: 200 }}
-				/>
-				<Text> {this.state.error} </Text>
-				{this.renderButton()} 
-				
-			</View>
+			<Container>
+				<Content>
+					<List>
+						<ListItem>
+							<InputGroup>
+								<Icon name='ios-person' />
+								<Input 
+									placeholder='EMAIL' 
+									onChangeText={ email => this.setState({ email })}
+									value = {this.state.email}
+								/>
+							</InputGroup>
+						</ListItem>
+
+						<ListItem>
+							<InputGroup>
+								<Icon name='ios-unlock' />
+								<Input 
+									placeholder='PASSWORD' 
+									secureTextEntry={true}
+									onChangeText={ password => this.setState({ password })}
+								/>
+							</InputGroup>
+						</ListItem>
+
+						<ListItem>
+							<InputGroup>
+								<Icon name='ios-unlock' />
+								<Input 
+									placeholder='VERIFY PASSWORD' 
+									secureTextEntry={true}
+									onChangeText={ confirm_password => this.setState({ confirm_password })}
+								/>
+							</InputGroup>
+						</ListItem>
+
+						<ListItem>
+							<InputGroup >
+								<Input
+									autoCorrect={false}
+									inlineLabel label='NAME' 
+									placeholder='John Doe' 
+									value={this.state.name} 
+									onChangeText={ name => this.setState({ name })}
+								/>
+							</InputGroup>
+						</ListItem>
+					</List>
+					{this.renderButton()}
+					{this.renderError()}
+
+				</Content>
+			</Container>
 		)
 	}
 }
+const styles = StyleSheet.create({
+	error : {
+		marginTop: 0,
+	}
+})
 
 function mapStateToProps(state){
 	return {
@@ -162,6 +180,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginForm)
+
 
 // <DatePickerIOS
 // 					date={this.state.dateOfBirth}
