@@ -4,12 +4,11 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import { Container, Content, Card, CardItem, Text} from 'native-base'
 const {
 	ScrollView,
 	View,
 	TextInput,
-	Text,
 	Image,
 	TouchableHighlight,
 	StyleSheet,
@@ -22,9 +21,9 @@ class Shop extends Component {
 	}
 
 	searchedPress(){
-		this.setState({ searching:true })
+		this.setState({ searching:true, cosmeticsInput: this.state.cosmeticsInput + " ... in searching " })
 		this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
-			this.setState( {searching: false})
+			this.setState( {searching: false, cosmeticsInput:''})
 		})
 	}
 
@@ -33,31 +32,44 @@ class Shop extends Component {
 	}
 
 	render(){
-		// console.log(this.cosmetics())
 		return (
 			<View style={styles.scene}>
 				<View style={styles.searchSection}>
 					<TextInput style={styles.searchInput} 
 						returnKeyType='search'	
-						placeholder='search cosmetics'
+						placeholder='Search name'
 						onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
 						value={this.state.cosmeticsInput}
+						onSubmitEditing={()=> this.searchedPress()}
 					/>
-					<TouchableHighlight onPress={()=> this.searchedPress()} style={styles.searchButton}>
-						<Text>
-							Fetch Cosmetics
-						</Text>
-					</TouchableHighlight>
 				</View>
+
 				<ScrollView style={styles.scrollSection}>
-					{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-						return <View key={cosmetic.id} >
-							<Image source={ { uri: cosmetic.thumbnail } } style={styles.resultImage} />
-							<Text style={styles.resultText} > {cosmetic.title} </Text>
-						</View>
-					})}
-					{this.state.searching ? <Text> Searching</Text> : null} 
+				<Container>
+					<Content>
+						<Card>
+								{!this.state.searching && this.cosmetics().map( (cosmetic) => {
+									return 	<View key={cosmetic.id} style={styles.card} >
+											<CardItem header style={styles.resultHeaderText}>
+												<Text> {cosmetic.id+1}.  {cosmetic.title} </Text>
+											</CardItem>
+											<CardItem style={ styles.list }>
+												<Image style={styles.resultImageDetail} source={ { uri: cosmetic.thumbnail } }  />
+												<View>
+													<Text style={{marginTop:5}} >rate : </Text>
+													<Text >Description : </Text>
+													<Text style={styles.resultDescriptionDetail}> {cosmetic.ingredients} </Text>
+												</View>
+											</CardItem>
+											</View>
+								})}
+								 
+							
+						</Card>
+					</Content>
+				</Container>
 				</ScrollView>
+
 			</View>
 		)
 	}
@@ -66,12 +78,11 @@ class Shop extends Component {
 const styles = StyleSheet.create({
   scene: {
     flex: 1,
-    marginTop: 20,
   },
   searchSection: {
-    height: 30,
-    borderBottomColor: '#000',
-    borderBottomWidth: 1,
+    height: 25,
+    // borderBottomColor: '#000',
+    // borderBottomWidth: 1,
     padding: 5,
     flexDirection : 'row',
   },
@@ -84,14 +95,33 @@ const styles = StyleSheet.create({
   scrollSection: {
     flex: 0.8,
   },
-  resultImage : {
-  	height : 150,
+  
+  card : {
+  	flex : 1,
   },
-  resultText : {
-  	backgroundColor : '#000',
-  	color : '#FFF',
-  	height : 20 ,
+  resultHeaderText : {
+  	// backgroundColor : '#000',
+  	// color : '#FFF',
+  	// height : 20 ,
+  },
+  list : {
+  	flexDirection: 'row',
+  	// marginTop : 10,
+  },
+  resultImageDetail : {
+  	resizeMode : 'contain',
+  	height : 150,
+  	width : 150,
+  	margin : 10,
+  },
+  resultDescriptionDetail : {
+  	
   }
+  
+  
+  
+
+
 });
 
 function mapStateToProps(state){

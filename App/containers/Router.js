@@ -4,12 +4,13 @@ import ApplicationTabs from './ApplicationTabs'
 import Search from './Search'
 import LoginForm from './LoginForm'
 import RegisterForm  from './RegisterForm'
+
  
 const RouterComponent = () => {
  return (
    <Router sceneStyle= {{ paddingTop:65 }}>
 
-		<Scene key="auth" initial >
+		<Scene key="auth"  >
 			<Scene key="login" component={LoginForm} title="Authentication" />
 			<Scene key="regist" component={RegisterForm} title="Register Form" />
 		</Scene>

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 export function fetchCosmetics(code){
 	return (dispatch, getState) => {
     const params = [
-      `i=${encodeURIComponent(code)}`,
+      `i=${code}`,
       'p=1'
     ].join('&')
     return Api.get(`/api/?${params}`).then(resp => {

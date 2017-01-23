@@ -13,6 +13,7 @@ const {
 	TextInput,
 	Text,
 	StyleSheet,
+	Image,
 	Button,
 } = ReactNative
 
@@ -66,6 +67,10 @@ class LoginForm extends Component {
 		Actions.regist()
 	}
 
+	onPressLoginFacebook(){
+
+	}
+
 	renderButton(){
 		if (this.state.loading){
 			return <Spinner size='small' />
@@ -75,6 +80,12 @@ class LoginForm extends Component {
 					<Button
 						onPress={ () => this.onPressLogin() }
 						title="Login"
+						color="#841584"
+						accessibilityLabel="Learn more about this purple button"
+					/>
+					<Button
+						onPress={ () => this.onPressLoginFacebook() }
+						title="Facebook Login"
 						color="#841584"
 						accessibilityLabel="Learn more about this purple button"
 					/>
@@ -120,14 +131,25 @@ class LoginForm extends Component {
 	render(){
 		return (
 			
-			<View>
-
-				{this.renderScene()}
-				
+			<View style={styles.container}>
+				<View style={styles.login}>
+					{this.renderScene()}
+				</View>
+	
 			</View>
 		)
 	}
 }
+
+var styles = StyleSheet.create({
+  container: {
+  	flex:1,
+  },
+  login:{
+  	flex:1,
+  },
+
+ })
 
 function mapStateToProps(state){
 	return {
