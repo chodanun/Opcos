@@ -40,19 +40,8 @@ class Shop extends Component {
 	render(){
 		return (
 			<Container style={styles.container}>
-				<Header searchBar rounded>
-					<InputGroup>
-                        <Icon name='ios-search' />
-                        <Input placeholder='Search' />
-                        <Icon name='ios-people' />
-                    </InputGroup>
-                    <Button transparent>
-                        Search
-                    </Button>
-                    
-                </Header>
 				<Content style={styles.content} >
-					<InputGroup borderType='rounded' >
+					<InputGroup borderType='rounded' style={styles.searchBar} >
 						<Icon 
 							name='ios-search' 
 							style={{paddingLeft:10,}} 
@@ -62,9 +51,7 @@ class Shop extends Component {
             				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
 							value={this.state.cosmeticsInput}
 							onSubmitEditing={()=> this.searchedPress()}
-
             			/>
-            			
 	            	</InputGroup>
             		<ScrollView style={styles.scrollView} >
             		<Text>{this.props.barcode_number}</Text>
@@ -99,7 +86,14 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-
+  searchBar:{
+  	marginTop:10,
+  	marginLeft:10,
+  	marginRight:10,
+  },
+  scrollView:{
+  	marginTop:-10,
+  },
   resultHeaderText : {
   },
   list : {

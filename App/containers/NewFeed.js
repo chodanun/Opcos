@@ -3,6 +3,7 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Container, Content, Tabs } from 'native-base';
 
 const {
 	ScrollView,
@@ -22,9 +23,13 @@ class NewFeed extends Component {
 	render(){
 		// console.log(this.cosmetics())
 		return (
+			<Container>
+			<Content>
 			<View>
 				
 			</View>
+			</Content>
+			</Container>
 		)
 	}
 }

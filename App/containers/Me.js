@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import ApplicationTabs from './ApplicationTabs'
+import { Container, Content, Tabs } from 'native-base';
 import {
   Animated,
   StyleSheet,
@@ -34,6 +35,8 @@ export class AppContainer extends Component {
 
   	render() {
 	   return (
+        <Container>
+          <Content>
 	      <View style={styles.scene} >
 	      	<Text style={styles.count} >
 	      		Count : {this.props.num}
@@ -50,6 +53,8 @@ export class AppContainer extends Component {
             accessibilityLabel="Learn more about this purple button"
           />
 	      </View>
+        </Content>
+        </Container>
 
 	    );
 	  }

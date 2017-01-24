@@ -1,10 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
-import Shop from '../Shop'
-import NewFeed from '../NewFeed'
-import Me from '../Me'
-import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../../actions'
+import { Container, Content, Tabs, Header, Title, Button} from 'native-base'
 import { 
 	View,
 	TabBarIOS, 
@@ -12,32 +7,33 @@ import {
 	Text,
 	TouchableHighlight,
 } from 'react-native'
+import Shop from '../Shop'
+import NewFeed from '../NewFeed'
+import Me from '../Me'
 
 
 
-class ApplicationTabs extends Component {
+export default class ApplicationTabs extends Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			selectedTab : 'search',
-			titleNewFeed : 'top-rated',
-			titleShop : 'search',
-			titleMe : 'more',
+			titile: null,
 		};
 	}
+	
+	renderTitle(){
+		if (this.state.title==0)
+			var title = "HOME"
+		else if (this.state.title==1)
+			var title ="SHOP"
+		else
+			var title ="ME"
 
-	changeTabs(title){
-		this.setState({
-			selectedTab: title,
-		})
-	}
-
-	renderScene(component){
 		return (
-			<View style={{flex:1}}>
-				{React.createElement(component, this.props)}
-			</View>
+			<Title>
+				{title}
+			</Title>
 		)
 	}
 
@@ -45,43 +41,47 @@ class ApplicationTabs extends Component {
 
 	render(){
 		return (
-			<TabBarIOS >
-				<TabBarIOS.Item
-				// icon={require('../../image/test.png')}
-				systemIcon={this.state.titleNewFeed}
-				selected={this.state.selectedTab === this.state.titleNewFeed}
-				onPress={() => this.changeTabs(this.state.titleNewFeed) }>
-					{this.renderScene(NewFeed)}
-				</TabBarIOS.Item>
+			 <Container>
+				 <Header>
+					{this.renderTitle()}
+                </Header>
+                <Content>
+                    <Tabs 
+                    	tabBarPosition="top"
+                    	onChangeTab={ (obj) => this.setState({title:obj.i})}
+                    >
+                    	<NewFeed tabLabel='Home' />
+                        <Shop tabLabel='Shop' />
+                        <Me tabLabel='Me' />
 
-				<TabBarIOS.Item 
-				systemIcon={this.state.titleShop} 
-				selected={this.state.selectedTab === this.state.titleShop}
-				onPress={() => this.changeTabs(this.state.titleShop) }>
-					{this.renderScene(Shop)}
-				</TabBarIOS.Item>
-
-				<TabBarIOS.Item 
-				systemIcon={this.state.titleMe}
-				selected={this.state.selectedTab === this.state.titleMe}
-				onPress={() => this.changeTabs(this.state.titleMe) }>
-					{this.renderScene(Me)}
-				</TabBarIOS.Item>
-			</TabBarIOS>
+                    </Tabs>
+                </Content>
+            </Container>
 		)
-
-
 	}
 }
 
-function mapStateToProps(state){
-	return {
-		changeSceneCosmeticSearch : state.changeSceneCosmeticSearch
-	}
-}
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
-}
+// <TabBarIOS >
+// 				<TabBarIOS.Item
+// 				// icon={require('../../image/test.png')}
+// 				systemIcon={this.state.titleNewFeed}
+// 				selected={this.state.selectedTab === this.state.titleNewFeed}
+// 				onPress={() => this.changeTabs(this.state.titleNewFeed) }>
+// 					{this.renderScene(NewFeed)}
+// 				</TabBarIOS.Item>
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationTabs);
+// 				<TabBarIOS.Item 
+// 				systemIcon={this.state.titleShop} 
+// 				selected={this.state.selectedTab === this.state.titleShop}
+// 				onPress={() => this.changeTabs(this.state.titleShop) }>
+// 					{this.renderScene(Shop)}
+// 				</TabBarIOS.Item>
+
+// 				<TabBarIOS.Item 
+// 				systemIcon={this.state.titleMe}
+// 				selected={this.state.selectedTab === this.state.titleMe}
+// 				onPress={() => this.changeTabs(this.state.titleMe) }>
+// 					{this.renderScene(Me)}
+// 				</TabBarIOS.Item>
+// 			</TabBarIOS>
