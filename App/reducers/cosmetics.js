@@ -24,5 +24,11 @@ export const num = createReducer(0,{
 	[types.ADD](state, action){
 		return state+10
 	}
-});
+})
+
+export const barcode_number = createReducer(0,{
+	[types.SET_BARCODE_NUMBER](state, action){
+		return action.obj.data
+	}
+})
 

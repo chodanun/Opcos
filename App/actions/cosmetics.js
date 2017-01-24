@@ -31,6 +31,13 @@ export function add(){
 	}
 }
 
+export function setBarcodeNumber(obj) {
+  return{
+    type: types.SET_BARCODE_NUMBER,
+    obj
+  }
+}
+
 
 // react native router flux
 // const loginUserSuccess = (dispatch, user) => {

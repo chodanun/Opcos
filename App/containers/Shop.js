@@ -60,6 +60,7 @@ class Shop extends Component {
             			
 	            	</InputGroup>
             		<ScrollView style={styles.scrollView} >
+            		<Text>{this.props.barcode_number}</Text>
 						<Card>
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.id}  >
@@ -106,9 +107,6 @@ const styles = StyleSheet.create({
   resultDescriptionDetail : {
   	
   }
-  
-  
-  
 
 
 });
@@ -116,6 +114,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state){
 	return {
 		searchedCosmetics : state.searchedCosmetics,
+		barcode_number : state.barcode_number,
 	}
 }
 
