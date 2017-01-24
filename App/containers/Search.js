@@ -36,8 +36,8 @@ class Search extends Component {
 		      	}}
 			>
 				<View style={styles.rectangleContainer}>
-			        <View style={styles.rectangle} />
-			     </View>
+					<View style={styles.rectangle} />
+			    </View>
 				
 		    </Camera>
 		  </View>

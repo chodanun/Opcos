@@ -8,9 +8,9 @@ import RegisterForm  from './RegisterForm'
  
 const RouterComponent = () => {
  return (
-   <Router sceneStyle= {{ paddingTop:65 }}>
+   <Router >
 
-		<Scene key="auth"  >
+		<Scene key="auth" sceneStyle= {{ paddingTop:65 }} >
 			<Scene key="login" component={LoginForm} title="Authentication" />
 			<Scene key="regist" component={RegisterForm} title="Register Form" />
 		</Scene>
@@ -18,12 +18,13 @@ const RouterComponent = () => {
 		<Scene key="main" >
 			<Scene 
 				key="home" 
-				component={ApplicationTabs} 
+				component={ApplicationTabs}
 				title="Opcos"
 				onRight={() => Actions.search()}
         		rightTitle="Scan"
+        		hideNavBar
         	/>
-     		<Scene key="search" component={Search} title="Search" />
+     		<Scene key="search" component={Search} title="Search" hideNavBar/>
 		</Scene>
    </Router>
  );
