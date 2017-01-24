@@ -21,7 +21,8 @@ const RouterComponent = () => {
 				component={ApplicationTabs} 
 				title="Opcos"
 				onRight={() => Actions.search()}
-        		rightTitle="Scan"/>
+        		rightTitle="Scan"
+        	/>
      		<Scene key="search" component={Search} title="Search" />
 		</Scene>
    </Router>
@@ -29,3 +30,11 @@ const RouterComponent = () => {
 };
  
 export default RouterComponent;
+
+// <Scene 
+// 				key="home" 
+// 				component={ApplicationTabs} 
+// 				title="Opcos"
+// 				onRight={() => Actions.search()}
+//         		rightTitle="Scan"/>
+//      		<Scene key="search" component={Search} title="Search" />

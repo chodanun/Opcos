@@ -6,7 +6,7 @@ import { ActionCreators } from '../actions'
 import { Spinner } from '../components';
 import { Scene, Router, Actions } from 'react-native-router-flux'
 import ReactNative from 'react-native'
-import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button } from 'native-base'
+import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button, Card, CardItem } from 'native-base'
 
 const {
 	View,
@@ -88,6 +88,17 @@ class LoginForm extends Component {
 		}
 	}
 
+	renderError(){
+		if (this.state.error!= '')
+		return <Card style={styles.error}>
+	                <CardItem>                        
+	                    <Text>
+	                        {this.state.error}
+	                    </Text>
+	                </CardItem>
+	            </Card>
+	}
+
 	renderScene(){
 		if (this.props.status_user == false){
 			return (
@@ -119,6 +130,7 @@ class LoginForm extends Component {
                         </ListItem>
                     </List>
                     {this.renderButton()}
+                    {this.renderError()}
                 </Content>
 
             </Container>
@@ -150,7 +162,9 @@ var styles = StyleSheet.create({
   login:{
   	flex:1,
   },
-
+  error:{
+  	marginTop:50,
+  }
  })
 
 function mapStateToProps(state){
