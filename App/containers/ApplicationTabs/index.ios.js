@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Container, Content, Tabs, Header, Title, Button} from 'native-base'
+import { Container, Content, Tabs, Header, Title, Button, Icon} from 'native-base'
 import { 
 	View,
 	TabBarIOS, 
@@ -21,7 +21,7 @@ export default class ApplicationTabs extends Component {
 			titile: null,
 		};
 	}
-	
+
 	renderTitle(){
 		if (this.state.title==0)
 			var title = "HOME"
