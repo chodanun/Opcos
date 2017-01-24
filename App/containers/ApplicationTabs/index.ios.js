@@ -1,9 +1,9 @@
+import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import React, { Component, PropTypes } from 'react'
 import { Container, Content, Tabs, Header, Title, Button, Icon} from 'native-base'
 import { 
 	View,
-	TabBarIOS, 
-	TabBarItemIOS, 
 	Text,
 	TouchableHighlight,
 } from 'react-native'
@@ -22,6 +22,11 @@ export default class ApplicationTabs extends Component {
 		};
 	}
 
+	onPressSignOut(){
+	    firebase.auth().signOut()
+	    Actions.auth()
+  	}
+
 	renderTitle(){
 		if (this.state.title==0)
 			var title = "HOME"
@@ -37,17 +42,24 @@ export default class ApplicationTabs extends Component {
 		)
 	}
 
-
+	barcodeSearch(){
+		Actions.barcodeSearch()
+	}
 
 	render(){
 		return (
 			 <Container>
 				 <Header>
+					<Button transparent onPress = {this.onPressSignOut} >
+						<Icon size={30}  name='ios-power' />
+                    </Button>
 					{this.renderTitle()}
+					<Button transparent onPress = {this.barcodeSearch} >
+                        <Icon name='ios-barcode'/>
+                    </Button>
                 </Header>
                 <Content>
                     <Tabs 
-                    	tabBarPosition="top"
                     	onChangeTab={ (obj) => this.setState({title:obj.i})}
                     >
                     	<NewFeed tabLabel='Home' />

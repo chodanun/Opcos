@@ -10,9 +10,9 @@ const RouterComponent = () => {
  return (
    <Router >
 
-		<Scene key="auth" sceneStyle= {{ paddingTop:65 }} >
-			<Scene key="login" component={LoginForm} title="Authentication" />
-			<Scene key="regist" component={RegisterForm} title="Register Form" />
+		<Scene key="auth"  >
+			<Scene key="login" component={LoginForm} title="Authentication" sceneStyle= {{ paddingTop:65 }}/>
+			<Scene key="regist" component={RegisterForm} title="Register Form" sceneStyle= {{ paddingTop:65 }} />
 		</Scene>
 
 		<Scene key="main" >
@@ -24,7 +24,7 @@ const RouterComponent = () => {
         		rightTitle="Scan"
         		hideNavBar
         	/>
-     		<Scene key="search" component={Search} title="Search" hideNavBar/>
+     		<Scene key="barcodeSearch" component={Search} title="Search" hideNavBar/>
 		</Scene>
    </Router>
  );

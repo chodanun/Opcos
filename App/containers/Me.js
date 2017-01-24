@@ -1,5 +1,3 @@
-import firebase from 'firebase';
-import { Actions } from 'react-native-router-flux';
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -28,11 +26,6 @@ export class AppContainer extends Component {
 		this.props.add()
 	}
 
-  onPressSignOut(){
-    firebase.auth().signOut()
-    Actions.auth()
-  }
-
   	render() {
 	   return (
         <Container>
@@ -46,12 +39,6 @@ export class AppContainer extends Component {
 		      		Add
 		      	</Text>
 	      	</TouchableHighlight>
-          <Button
-            onPress={ () => this.onPressSignOut() }
-            title="Logout"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
 	      </View>
         </Content>
         </Container>
