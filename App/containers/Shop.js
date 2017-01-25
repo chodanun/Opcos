@@ -4,7 +4,7 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Container, Content, Card, CardItem, Text, InputGroup, Input, Icon, Header, Title, Button} from 'native-base'
+import { Container, Content, Card, CardItem, Text, InputGroup, Input, Icon} from 'native-base'
 const {
 	ScrollView,
 	View,
@@ -13,7 +13,7 @@ const {
 	TouchableHighlight,
 	StyleSheet,
 } = ReactNative
-
+import { Icon as Icons } from 'react-native-elements'
 
 
 class Shop extends Component {
@@ -41,18 +41,24 @@ class Shop extends Component {
 		return (
 			<Container style={styles.container}>
 				<Content style={styles.content} >
-					<InputGroup borderType='rounded' style={styles.searchBar} >
-						<Icon 
-							name='ios-search' 
-							style={{paddingLeft:10,}} 
-						/>
-            			<Input
-            				placeholder='Search option'
-            				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
-							value={this.state.cosmeticsInput}
-							onSubmitEditing={()=> this.searchedPress()}
-            			/>
-	            	</InputGroup>
+					<View style= {styles.searchOption}>
+						<InputGroup borderType='rounded' style={styles.searchBar}>
+							<Icon
+								name='ios-search' 
+								style={{paddingLeft:10,}} 
+							/>
+	            			<Input 
+	            				placeholder='Search option'
+	            				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
+								value={this.state.cosmeticsInput}
+								onSubmitEditing={()=> this.searchedPress()}
+	            			/>
+		            	</InputGroup>
+		            	<View style={styles.option}>
+		            		<Icons name='build' onPress={ ()=> console.log("ICON PRESS")} />
+		            	</View>
+	            	</View>
+	            	
             		<ScrollView style={styles.scrollView} >
             		<Text>{this.props.barcode_number}</Text>
 						<Card>
@@ -90,6 +96,7 @@ const styles = StyleSheet.create({
   	marginTop:10,
   	marginLeft:10,
   	marginRight:10,
+  	flex:10,
   },
   scrollView:{
   	marginTop:-10,
@@ -107,7 +114,16 @@ const styles = StyleSheet.create({
   },
   resultDescriptionDetail : {
   	
-  }
+  },
+  searchOption:{
+  	flexDirection: 'row',
+  },
+  option:{
+  	flex:1,
+  	flexDirection: 'row',
+  	justifyContent: 'space-between',
+  	paddingTop:5,
+  },
 
 
 });
@@ -124,43 +140,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Shop)
-
-// <Container style={styles.container}>
-				
-// 				<Content style={styles.content} >
-// 					<InputGroup borderType='rounded' >
-// 						<Icon 
-// 							name='ios-search' 
-// 							style={{paddingLeft:10,}} 
-// 						/>
-//             			<Input
-//             				placeholder='Search option'
-//             				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
-// 							value={this.state.cosmeticsInput}
-// 							onSubmitEditing={()=> this.searchedPress()}
-
-//             			/>
-            			
-// 	            	</InputGroup>
-//             		<ScrollView style={styles.scrollView} >
-//             		<Text>{this.props.barcode_number}</Text>
-// 						<Card>
-// 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-// 								return 	<View key={cosmetic.id}  >
-// 										<CardItem header >
-// 											<Text style={styles.resultHeaderText}> {cosmetic.id+1}.  {cosmetic.title} </Text>
-// 										</CardItem>
-// 										<CardItem style={ styles.list }>
-// 											<Image style={styles.resultImageDetail} source={ { uri: cosmetic.thumbnail } }  />
-// 											<View>
-// 												<Text style={{marginTop:5}} >rate : </Text>
-// 												<Text >Description : </Text>
-// 												<Text style={styles.resultDescriptionDetail}> {cosmetic.ingredients} </Text>
-// 											</View>
-// 										</CardItem>
-// 										</View>
-// 							})}
-// 						</Card>
-// 					</ScrollView>
-// 				</Content>
-// 			</Container>

@@ -19,7 +19,6 @@ export class AppContainer extends Component {
 		super(props);
 		this.state = {
 			loggedIn: null
-			// this.state = {num:0}
 		}
 	}
 
