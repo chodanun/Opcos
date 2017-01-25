@@ -4,7 +4,10 @@ import { Actions } from 'react-native-router-flux';
 
 export function fetchCosmetics(input){
 	return (dispatch, getState) => {
-    return Api.get('/api/search/all').then(resp => {
+    const params = [
+      `${input}`,
+    ].join('&')
+    return Api.get(`/api/search/byName/${params}`).then(resp => {
     	dispatch(setSearchedCosmetics({cosmetics : resp}))
       // console.log(resp)
     }).catch( (ex) => {
