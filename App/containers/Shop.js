@@ -36,10 +36,9 @@ class Shop extends Component {
 
 	searchedPress(){
 		this.setState({ searching:true, cosmeticsInput: this.state.cosmeticsInput + " ... in searching " })
-		// this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
-		// 	this.setState( {searching: false, cosmeticsInput:''})
-		// })
-		this.props.searchedCosmetics()
+		this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
+			this.setState( {searching: false, cosmeticsInput:''})
+		})
 	}
 
 	cosmetics(){
@@ -118,14 +117,14 @@ class Shop extends Component {
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.id}  >
 										<CardItem header >
-											<Text style={styles.resultHeaderText}> {cosmetic.id+1}.  {cosmetic.title} </Text>
+											<Text style={styles.resultHeaderText}> {cosmetic.id}.  {cosmetic.name} </Text>
 										</CardItem>
 										<CardItem style={ styles.list }>
-											<Image style={styles.resultImageDetail} source={ { uri: cosmetic.thumbnail } }  />
+											<Image style={styles.resultImageDetail} source={ { uri: cosmetic.img } }  />
 											<View>
 												<Text style={{marginTop:5}} >rate : </Text>
 												<Text >Description : </Text>
-												<Text style={styles.resultDescriptionDetail}> {cosmetic.ingredients} </Text>
+												<Text style={styles.resultDescriptionDetail}> {cosmetic.description}  </Text>
 											</View>
 										</CardItem>
 										</View>
