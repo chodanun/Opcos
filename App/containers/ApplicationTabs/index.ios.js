@@ -61,6 +61,7 @@ export default class ApplicationTabs extends Component {
                 <Content>
                     <Tabs 
                     	onChangeTab={ (obj) => this.setState({title:obj.i})}
+                    	initialPage= {1}
                     >
                     	<NewFeed tabLabel='Home' />
                         <Shop tabLabel='Shop' />

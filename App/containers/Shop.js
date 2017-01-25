@@ -4,7 +4,7 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Container, Content, Card, CardItem, Text, InputGroup, Input, Icon} from 'native-base'
+import { Container, Content, Card, CardItem, Text, InputGroup, Input, Icon, List, ListItem, CheckBox} from 'native-base'
 const {
 	ScrollView,
 	View,
@@ -21,7 +21,9 @@ class Shop extends Component {
 	  super(props)
 	  this.state = { 
 	  	searching: false,
-	  	cosmeticsInput: '',
+	  	cosmeticsInput: this.props.barcode_number? this.props.barcode_number:'',
+	  	searchOption : false,
+	  	searchValue: "Search name",
 	  	
 	  }
 	}
@@ -37,6 +39,25 @@ class Shop extends Component {
 		return Object.keys(this.props.searchedCosmetics).map( key => this.props.searchedCosmetics[key])
 	}
 
+	renderSearchOption(){
+		if (this.state.searchOption)
+			return 	<List>
+	                        <ListItem>
+	                            <CheckBox checked={true}/>
+	                            <Text>Daily Stand Up</Text>
+	                        </ListItem>
+	                        <ListItem>
+	                            <CheckBox checked={false} />
+	                            <Text>Discussion with Client</Text>
+	                        </ListItem>
+	                    </List>
+	}
+
+	searchOptionPress(){
+		this.setState({
+			searchOption:!this.state.searchOption
+		})
+	}
 	render(){
 		return (
 			<Container style={styles.container}>
@@ -48,19 +69,18 @@ class Shop extends Component {
 								style={{paddingLeft:10,}} 
 							/>
 	            			<Input 
-	            				placeholder='Search option'
+	            				placeholder= {this.state.searchValue}
 	            				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
 								value={this.state.cosmeticsInput}
 								onSubmitEditing={()=> this.searchedPress()}
 	            			/>
 		            	</InputGroup>
 		            	<View style={styles.option}>
-		            		<Icons name='build' onPress={ ()=> console.log("ICON PRESS")} />
+		            		<Icons name='build' onPress={ ()=> this.searchOptionPress() }/>
 		            	</View>
 	            	</View>
-	            	
+	            	{this.renderSearchOption()}
             		<ScrollView style={styles.scrollView} >
-            		<Text>{this.props.barcode_number}</Text>
 						<Card>
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.id}  >
@@ -99,7 +119,6 @@ const styles = StyleSheet.create({
   	flex:10,
   },
   scrollView:{
-  	marginTop:-10,
   },
   resultHeaderText : {
   },
