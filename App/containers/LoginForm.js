@@ -138,7 +138,7 @@ class LoginForm extends Component {
 			)
 		}
 		else{
-			return <View/>
+			return <Spinner size='large' />
 		}
 		
 	}

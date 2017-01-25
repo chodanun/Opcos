@@ -51,7 +51,7 @@ export default class ApplicationTabs extends Component {
 			 <Container>
 				 <Header>
 					<Button transparent onPress = {this.onPressSignOut} >
-						<Icon size={30}  name='ios-power' />
+						<Icon size={30}  name='ios-power' style={{fontSize: 30, color: 'red'}} />
                     </Button>
 					{this.renderTitle()}
 					<Button transparent onPress = {this.barcodeSearch} >

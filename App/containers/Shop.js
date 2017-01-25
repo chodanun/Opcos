@@ -4,16 +4,19 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Container, Content, Card, CardItem, Text, InputGroup, Input, Icon, List, ListItem, CheckBox} from 'native-base'
+import { Container, Content, Card, CardItem, InputGroup, Input, Icon, List, ListItem, CheckBox} from 'native-base'
 const {
 	ScrollView,
 	View,
 	TextInput,
+	Text,
 	Image,
 	TouchableHighlight,
 	StyleSheet,
+	TouchableWithoutFeedback,
 } = ReactNative
 import { Icon as Icons } from 'react-native-elements'
+import { RadioButtons } from 'react-native-radio-buttons'
 
 
 class Shop extends Component {
@@ -22,8 +25,11 @@ class Shop extends Component {
 	  this.state = { 
 	  	searching: false,
 	  	cosmeticsInput: this.props.barcode_number? this.props.barcode_number:'',
+
+	  	// search options
 	  	searchOption : false,
-	  	searchValue: "Search name",
+	  	searchChecked: [true,false,false],
+	  	searchName : 'Search by name',
 	  	
 	  }
 	}
@@ -39,18 +45,41 @@ class Shop extends Component {
 		return Object.keys(this.props.searchedCosmetics).map( key => this.props.searchedCosmetics[key])
 	}
 
+	checkedPress(index){
+		// console.log(obj.target)
+		// console.log(this.state.searchChecked[0])
+		switch (index){
+			case 0 :
+			console.log("0")
+				this.setState({ searchChecked: [true,false,false] , searchName: 'Search by name'})
+				break
+			case 1:
+				console.log("1")
+				this.setState({ searchChecked: [false,true,false], searchName: 'Search by brand' }) 
+				break
+			default :
+			this.setState({ searchChecked: [false,false,true], searchName: 'Advance searching' }) 
+				console.log("2")
+		}
+
+		// this.setState({searchIndex:0})
+	}
 	renderSearchOption(){
 		if (this.state.searchOption)
 			return 	<List>
-	                        <ListItem>
-	                            <CheckBox checked={true}/>
-	                            <Text>Daily Stand Up</Text>
-	                        </ListItem>
-	                        <ListItem>
-	                            <CheckBox checked={false} />
-	                            <Text>Discussion with Client</Text>
-	                        </ListItem>
-	                    </List>
+                        <ListItem>
+                            <CheckBox checked={this.state.searchChecked[0]} onPress={ ()=> this.checkedPress(0) }/>
+                            <Text>Search by name</Text>
+                        </ListItem>
+                        <ListItem>
+                            <CheckBox checked={this.state.searchChecked[1]} onPress={ ()=> this.checkedPress(1) } />
+                            <Text>Search by brand</Text>
+                        </ListItem>
+                        <ListItem>
+                            <CheckBox checked={this.state.searchChecked[2]} onPress={ ()=> this.checkedPress(2) } />
+                            <Text>Advance Searching</Text>
+                        </ListItem>
+                    </List>
 	}
 
 	searchOptionPress(){
@@ -59,6 +88,7 @@ class Shop extends Component {
 		})
 	}
 	render(){
+  
 		return (
 			<Container style={styles.container}>
 				<Content style={styles.content} >
@@ -69,17 +99,19 @@ class Shop extends Component {
 								style={{paddingLeft:10,}} 
 							/>
 	            			<Input 
-	            				placeholder= {this.state.searchValue}
+	            				onFocus = { () => this.setState({searchOption:false,}) }
+	            				placeholder= {this.state.searchName}
 	            				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
 								value={this.state.cosmeticsInput}
 								onSubmitEditing={()=> this.searchedPress()}
 	            			/>
 		            	</InputGroup>
 		            	<View style={styles.option}>
-		            		<Icons name='build' onPress={ ()=> this.searchOptionPress() }/>
+		            		<Icons name='build' onPress={ ()=> this.searchOptionPress() } color = {this.state.searchOption ? 'black' : 'blue'} />
 		            	</View>
 	            	</View>
 	            	{this.renderSearchOption()}
+	            	
             		<ScrollView style={styles.scrollView} >
 						<Card>
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
