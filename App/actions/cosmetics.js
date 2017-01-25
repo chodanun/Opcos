@@ -38,6 +38,18 @@ export function setBarcodeNumber(obj) {
   }
 }
 
+export function searchedCosmetics(){
+  return (dispatch, getState) => {
+    return Api.get('/api/search/all').then(resp => {
+      // dispatch(setSearchedCosmetics({cosmetics : resp}))
+      // Actions.search();
+        console.log(resp)
+    }).catch( (ex) => {
+      console.log(ex);
+    })
+  }
+}
+
 // react native router flux
 // const loginUserSuccess = (dispatch, user) => {
 //   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });

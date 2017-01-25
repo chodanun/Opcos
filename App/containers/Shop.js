@@ -36,9 +36,10 @@ class Shop extends Component {
 
 	searchedPress(){
 		this.setState({ searching:true, cosmeticsInput: this.state.cosmeticsInput + " ... in searching " })
-		this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
-			this.setState( {searching: false, cosmeticsInput:''})
-		})
+		// this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
+		// 	this.setState( {searching: false, cosmeticsInput:''})
+		// })
+		this.props.searchedCosmetics()
 	}
 
 	cosmetics(){
