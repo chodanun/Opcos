@@ -64,5 +64,25 @@
     <string>Your message to user when the photo library is accessed for the first time</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Your message to user when the microsphone is accessed for the first time</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb1554911037852695</string>
+        </array>
+      </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1554911037852695</string>
+    <key>FacebookDisplayName</key>
+    <string>Opcos</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
   </dict>
 </plist>

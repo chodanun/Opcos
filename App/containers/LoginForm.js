@@ -7,7 +7,6 @@ import { Spinner } from '../components';
 import { Scene, Router, Actions } from 'react-native-router-flux'
 import ReactNative from 'react-native'
 import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button, Card, CardItem } from 'native-base'
-
 const {
 	View,
 	TextInput,
@@ -15,6 +14,38 @@ const {
 	StyleSheet,
 	Image,
 } = ReactNative
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+  AccessToken
+} = FBSDK;
+
+var Login = React.createClass({
+  render: function() {
+    return (
+      <View>
+        <LoginButton
+          publishPermissions={["publish_actions"]}
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                alert("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                alert("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    alert(data.accessToken.toString())
+                  }
+                )
+              }
+            }
+          }
+          onLogoutFinished={() => alert("logout.")}/>
+      </View>
+    );
+  }
+});
 
 class LoginForm extends Component {
 	
@@ -80,6 +111,9 @@ class LoginForm extends Component {
 							block success
 							onPress={ () => this.onPressLogin() }
 						> Login </Button>
+						
+						<Login/>
+
 						<Button 
 							block danger
 							onPress={ () => this.onPressRegist() }
