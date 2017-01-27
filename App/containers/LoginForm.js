@@ -7,6 +7,7 @@ import { Spinner } from '../components';
 import { Scene, Router, Actions } from 'react-native-router-flux'
 import ReactNative from 'react-native'
 import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button, Card, CardItem } from 'native-base'
+import { SocialIcon } from 'react-native-elements'
 const {
 	View,
 	TextInput,
@@ -14,38 +15,40 @@ const {
 	StyleSheet,
 	Image,
 } = ReactNative
+
 const FBSDK = require('react-native-fbsdk');
 const {
-  LoginButton,
-  AccessToken
+	LoginManager,
+  	LoginButton,
+  	AccessToken
 } = FBSDK;
 
-var Login = React.createClass({
-  render: function() {
-    return (
-      <View>
-        <LoginButton
-          publishPermissions={["publish_actions"]}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                alert("login has error: " + result.error);
-              } else if (result.isCancelled) {
-                alert("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-                  (data) => {
-                    alert(data.accessToken.toString())
-                  }
-                )
-              }
-            }
-          }
-          onLogoutFinished={() => alert("logout.")}/>
-      </View>
-    );
-  }
-});
+// var Login = React.createClass({
+//   render: function() {
+//     return (
+//       <View>
+//         <LoginButton
+//           publishPermissions={["publish_actions"]}
+//           onLoginFinished={
+//             (error, result) => {
+//               if (error) {
+//                 alert("login has error: " + result.error);
+//               } else if (result.isCancelled) {
+//                 alert("login is cancelled.");
+//               } else {
+//                 AccessToken.getCurrentAccessToken().then(
+//                   (data) => {
+//                     alert(data.accessToken.toString())
+//                   }
+//                 )
+//               }
+//             }
+//           }
+//           onLogoutFinished={() => alert("logout.")}/>
+//       </View>
+//     );
+//   }
+// });
 
 class LoginForm extends Component {
 	
@@ -98,7 +101,19 @@ class LoginForm extends Component {
 	}
 
 	onPressLoginFacebook(){
-
+		LoginManager.logInWithReadPermissions(['public_profile']).then(
+		  function(result) {
+		    if (result.isCancelled) {
+		      alert('Login was cancelled');
+		    } else {
+		      alert('Login was successful with permissions: '
+		        + result.grantedPermissions.toString());
+		    }
+		  },
+		  function(error) {
+		    alert('Login failed with error: ' + error);
+		  }
+		);
 	}
 
 	renderButton(){
@@ -106,17 +121,22 @@ class LoginForm extends Component {
 			return <Spinner size='small' />
 		}
 		else{
-			return <View>
+			return <View style={{marginTop:10}} >
+						<SocialIcon
+						  title='Sign In With Facebook'
+						  button type='facebook'
+						  onPress={ () => this.onPressLoginFacebook() }
+						/>
 						<Button 
 							block success
 							onPress={ () => this.onPressLogin() }
+							style ={styles.login_button}
 						> Login </Button>
-						
-						<Login/>
 
 						<Button 
 							block danger
 							onPress={ () => this.onPressRegist() }
+							style ={styles.login_button}
 						> Register </Button>
 					</View>
 		}
@@ -136,38 +156,49 @@ class LoginForm extends Component {
 	renderScene(){
 		if (this.props.status_user == false){
 			return (
-				<Container>
-                <Content>
-                    <List>
-                        <ListItem>
-                            <InputGroup>
-                                <Icon name='ios-person' />
-                                <Input 
-                                	placeholder='EMAIL'
-                                	value={this.state.email}
-									onChangeText={ email => this.setState({ email })}
-                                />
-                            </InputGroup>
-                        </ListItem>
 
-                        <ListItem>
-                            <InputGroup>
-                                <Icon name='ios-unlock' />
-                                <Input 
-                                	placeholder='PASSWORD'
-                                	secureTextEntry={true}
-                                	value={this.state.password}
-									onChangeText={ password => this.setState({ password })}
-									onSubmitEditing={ ()=> this.onPressLogin() }
-                                />
-                            </InputGroup>
-                        </ListItem>
-                    </List>
-                    {this.renderButton()}
-                    {this.renderError()}
-                </Content>
+				<Container style={{flex:1}} >
+	                <Content style={{flex:1}}>
+	                	<View style={styles.logo} >
+	                		<Text>OPCOS</Text>
+	                	</View>
+	                	
+	                	<View style={styles.input_form} >
+		                    <List>
+		                        <ListItem>
+		                            <InputGroup>
+		                                <Icon name='ios-person' />
+		                                <Input 
+		                                	placeholder='EMAIL'
+		                                	value={this.state.email}
+											onChangeText={ email => this.setState({ email })}
+		                                />
+		                            </InputGroup>
+		                        </ListItem>
 
-            </Container>
+		                        <ListItem>
+		                            <InputGroup>
+		                                <Icon name='ios-unlock' />
+		                                <Input 
+		                                	placeholder='PASSWORD'
+		                                	secureTextEntry={true}
+		                                	value={this.state.password}
+											onChangeText={ password => this.setState({ password })}
+											onSubmitEditing={ ()=> this.onPressLogin() }
+		                                />
+		                            </InputGroup>
+		                        </ListItem>
+		                    </List>
+	                    </View>
+
+	                    <View style={styles.button} >
+	                    	{this.renderButton()}	
+	                    </View>
+						{this.renderError()}
+	                    
+	                </Content>
+
+	            </Container>
 				
 			)
 		}
@@ -180,11 +211,12 @@ class LoginForm extends Component {
 		return (
 			
 			<View style={styles.container}>
-				<View style={styles.login}>
+				<View style={{flex:1}}>
 					{this.renderScene()}
 				</View>
-	
 			</View>
+	
+			
 		)
 	}
 }
@@ -193,11 +225,14 @@ var styles = StyleSheet.create({
   container: {
   	flex:1,
   },
-  login:{
+  logo:{
   	flex:1,
   },
-  error:{
-  	marginTop:50,
+  input_form:{
+  	flex:1,
+  },
+  button:{
+  	flex:1,
   }
  })
 
@@ -212,24 +247,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginForm)
-
-
-	// <View>
-	// <TextInput 
-	// 	autoCorrect={false}
-	// 	placeholder="email"
-	// 	value={this.state.email}
-	// 	onChangeText={ email => this.setState({ email })}
-	// 	style={{ height: 20, width: 200 }}
-	// />
-	// <TextInput 
-	// 	autoCorrect={false}
-	// 	secureTextEntry
-	// 	placeholder="password"
-	// 	value={this.state.password}
-	// 	onChangeText={ password => this.setState({ password })}
-	// 	style={{ height: 20, width: 200 }}
-	// />
-	// <Text> {this.state.error} </Text>
-	// {this.renderButton()} 
-	// </View>
