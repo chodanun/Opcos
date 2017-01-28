@@ -20,3 +20,9 @@ export const login_token = createReducer(null,{
 		return action.token
 	}
 })
+
+export const user_profile = createReducer({},{
+	[types.SET_USER_DETAILS](state, action){
+		return action.user_profile
+	}
+})

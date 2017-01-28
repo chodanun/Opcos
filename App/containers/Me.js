@@ -4,13 +4,10 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import { Container, Content, Tabs } from 'native-base';
 import {
-  Animated,
+  Image,
   StyleSheet,
   View,
   Text,
-  NavigationExperimental,
-  Button,
-  TouchableHighlight
 } from 'react-native'
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -20,33 +17,28 @@ const {
 
 
 
-export class AppContainer extends Component {
+export class Me extends Component {
 
 	constructor(props) {
 	  super(props);
 	}
 
-	addCount(){
-		this.props.add()
-	}
+	renderImage(){
+        // console.log(this.props.user_profile.picture != undefined)
+        if (this.props.user_profile.picture != undefined)
+            return <Image style={styles.imageProfile} source={ { uri: this.props.user_profile.picture.data.url } }  />
+    }
 
   	render() {
 	   return (
-        <Container>
-          <Content>
+        <Container style={styles.container} >
+          <Content style={styles.container}>
     	      <View style={styles.scene} >
-    	      	<Text style={styles.count} >
-    	      		Count : {this.props.num}
-    	      	</Text>
-    	      	<TouchableHighlight onPress={()=>this.addCount()} style={styles.buttonCount} >
-    		      	<Text>
-    		      		Add
-    		      	</Text>
-    	      	</TouchableHighlight>
-                <Text> name : </Text>
-                <Text> birthday : </Text>
-                <Text> email : </Text>
-                <Text> photoURL : </Text>
+                    {this.renderImage()}
+                    <Text> name :  {this.props.user_profile.name} </Text>
+                    <Text> birthday : {this.props.user_profile.birthday} </Text>
+                    <Text> email : {this.props.user_profile.email} </Text>
+                    <Text> photoURL : {} </Text>
     	      </View>
           </Content>
         </Container>
@@ -57,17 +49,17 @@ export class AppContainer extends Component {
 }
 
 const styles = StyleSheet.create({
+  container :{
+    flex:1,
+  },
   scene: {
-    marginTop:20,
     flex: 1,
   },
-  count : {
-  	
+  imageProfile:{
+    height:150,
+    width:150,
   },
-  buttonCount : {
-  	
-  },
-  
+
 
 })
 
@@ -77,9 +69,10 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return { 
-  	num : state.num
+  	num : state.num,
+    user_profile : state.user_profile,
   };
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Me);

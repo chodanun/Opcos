@@ -13,12 +13,10 @@ export function updateStatusUser(status,login_method,token){
 	if (status){
 	  Actions.main()
 	  if (login_method == "facebook"){
-		// console.log("fetch facebook user detail")
-		const route = `/me?fields=id,name,email,birthday,picture{url}&access_token=${token}`
-		// console.log(route)
+		const route = `/me?fields=id,name,email,birthday,picture.height(400){url}&access_token=${token}`
 	    return Api.fb_get(route).then(resp => {
-	    	// dispatch(setUserDetails({user_details : resp}))
-	      	console.log(resp)
+	    	dispatch(setUserDetails({user_profile : resp}))
+	      	// console.log(resp)
 	    }).catch( (ex) => {
 	      console.log(ex);
 	    })
@@ -29,10 +27,10 @@ export function updateStatusUser(status,login_method,token){
 	}
 }
 
-export function setUserDetails(user_details){
+export function setUserDetails({user_profile}){
 	return {
 		type : types.SET_USER_DETAILS,
-		user_details
+		user_profile,
 	}
 }
 

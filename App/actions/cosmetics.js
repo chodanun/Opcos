@@ -24,11 +24,11 @@ export function setSearchedCosmetics({ cosmetics }){
 	}
 }
 
-export function add(){
-	return {
-		type : types.ADD,
-	}
-}
+// export function add(){
+// 	return {
+// 		type : types.ADD,
+// 	}
+// }
 
 export function setBarcodeNumber(obj) {
   return{
@@ -43,27 +43,3 @@ export function setBarcodeNumber(obj) {
  
 //   Actions.employeeList();
 // };
-
-
-// export function fetchCosmetics(code){
-//   return (dispatch, getState) => {
-//     const params = [
-//       `i=${code}`,
-//       'p=1'
-//     ].join('&')
-//     return Api.get(`/api/?${params}`).then(resp => {
-//       dispatch(setSearchedCosmetics({cosmetics : resp}))
-//       // Actions.search();
-//         // console.log(resp)
-//     }).catch( (ex) => {
-//       console.log(ex);
-//     })
-//   }
-// }
-
-// export function setSearchedCosmetics({ cosmetics }){
-//   return {
-//     type : types.SET_SEARCHED_COSMETICS,
-//     cosmetics
-//   }
-// }

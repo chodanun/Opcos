@@ -88,7 +88,6 @@ class Shop extends Component {
 		})
 	}
 	render(){
-  
 		return (
 			<Container style={styles.container}>
 				<Content style={styles.content} >

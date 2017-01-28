@@ -34,8 +34,9 @@ class ApplicationTabs extends Component {
 	onPressSignOut(){
 	    firebase.auth().signOut()
 	    LoginManager.logOut()
-	    this.props.loginType(null)
-  		this.props.updateStatusUser(false)
+  		
+  		this.props.loginToken(null)    
+        this.props.updateStatusUser(false,null,null)
 	    Actions.auth()
   	}
 
