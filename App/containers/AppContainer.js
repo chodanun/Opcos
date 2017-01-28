@@ -18,7 +18,9 @@ export class AppContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loggedIn: null
+			loggedIn: null,
+			name : '',
+			email:'',
 		}
 	}
 
@@ -35,12 +37,19 @@ export class AppContainer extends Component {
 
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
-				// name = user.displayName;
-				// email = user.email;
+				name = user.displayName;
+				email = user.email;
 				// photoUrl = user.photoURL;
 				// emailVerified = user.emailVerified;
 				// uid = user.uid; 
-				this.setState({ loggedIn: true });
+				// console.log(name)
+				// console.log(email)
+				this.setState({ 
+					loggedIn: true ,
+					name : name,
+					email : email,
+
+				});
 			}
 			else {
 				this.setState({ loggedIn: false });
@@ -51,8 +60,12 @@ export class AppContainer extends Component {
 	}
 
 	updateStatusUser(){
-		if (this.state.loggedIn)
+		if (this.state.loggedIn){
+			var user_profile = {}
+			user_profile = {name: this.state.name , email : this.state.email}
 			this.props.updateStatusUser(this.state.loggedIn,"opcos")
+			this.props.setUserDetails_noObj(user_profile)
+		}
 		else
 			this.props.updateStatusUser(this.state.loggedIn,null,null)
 	}
@@ -61,7 +74,6 @@ export class AppContainer extends Component {
 	render() {
 		return (
 			<RouterComponent />
-			// <ApplicationTabs {...this.props} style={styles.tabs}/>
 		)
 		
 	}

@@ -65,7 +65,14 @@ class LoginForm extends Component {
 		
 		this.clearErrorDisplayed()
 		firebase.auth().createUserWithEmailAndPassword(email, password)
-		.then(this.onLoginSuccess.bind(this))
+		.then( ()=>{
+			var user = firebase.auth().currentUser
+			user.updateProfile({
+			  displayName: displayName ,
+			  photoURL: "https://www.stickboybangkok.com/images/2015/06/who-is-stickboy.jpeg"
+			})
+			this.onLoginSuccess.bind(this)
+		})
 		.catch((signUpError) => {
 			const signUpErrorDetail = `code: ${signUpError.code} message: ${signUpError.message}`
 			this.onLoginFail(signUpErrorDetail)
