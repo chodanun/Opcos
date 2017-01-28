@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
-import ApplicationTabs from './ApplicationTabs'
 import { Container, Content, Tabs } from 'native-base';
 import {
   Animated,

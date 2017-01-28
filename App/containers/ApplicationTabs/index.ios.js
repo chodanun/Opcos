@@ -1,4 +1,7 @@
 import firebase from 'firebase';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../../actions'
 import { Actions } from 'react-native-router-flux';
 import React, { Component, PropTypes } from 'react'
 import { Container, Content, Tabs, Header, Title, Button, Icon} from 'native-base'
@@ -7,13 +10,19 @@ import {
 	Text,
 	TouchableHighlight,
 } from 'react-native'
+
+const FBSDK = require('react-native-fbsdk');
+const {
+	LoginManager,
+} = FBSDK;
+
 import Shop from '../Shop'
 import NewFeed from '../NewFeed'
 import Me from '../Me'
 
 
 
-export default class ApplicationTabs extends Component {
+class ApplicationTabs extends Component {
 
 	constructor(props) {
 		super(props)
@@ -24,6 +33,9 @@ export default class ApplicationTabs extends Component {
 
 	onPressSignOut(){
 	    firebase.auth().signOut()
+	    LoginManager.logOut()
+
+  		this.props.updateStatusUser(false)
 	    Actions.auth()
   	}
 
@@ -50,7 +62,7 @@ export default class ApplicationTabs extends Component {
 		return (
 			 <Container>
 				 <Header>
-					<Button transparent onPress = {this.onPressSignOut} >
+					<Button transparent onPress = { () => this.onPressSignOut()} >
 						<Icon size={30}  name='ios-power' style={{fontSize: 30, color: 'red'}} />
                     </Button>
 					{this.renderTitle()}
@@ -73,6 +85,20 @@ export default class ApplicationTabs extends Component {
 		)
 	}
 }
+
+
+function mapStateToProps(state){
+	return {
+		
+	}
+}
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ApplicationTabs)
+
 
 
 // <TabBarIOS >

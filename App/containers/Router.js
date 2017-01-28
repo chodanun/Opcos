@@ -12,9 +12,8 @@ const RouterComponent = () => {
 
 		<Scene key="auth"  >
 			<Scene key="login" component={LoginForm} title="Authentication" hideNavBar/>
-			<Scene key="regist" component={RegisterForm} title="Register Form" sceneStyle= {{ paddingTop:65 }} />
 		</Scene>
-
+		<Scene key="regist" component={RegisterForm} title="Register" sceneStyle= {{ paddingTop:65 }} />
 		<Scene key="main" >
 			<Scene 
 				key="home" 

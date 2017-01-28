@@ -59,6 +59,7 @@ class LoginForm extends Component {
 			password:'',
 			error:'',
 			loading: false,
+			facebookLoggedIn:false,
 		}
 	}
 	
@@ -78,11 +79,12 @@ class LoginForm extends Component {
 		})
 	}
 
-	onLoginFail(){
+	onLoginFail(code,message){
 		this.setState({ 
-			error: 'Authentication Failed.',
+			error: message,
 			loading: false ,
 		})
+		alert(this.state.error)
 	}
 
 	onPressLogin(){
@@ -90,55 +92,47 @@ class LoginForm extends Component {
 		const { email, password } = this.state;
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(this.onLoginSuccess.bind(this))
-		.catch((signInError) => {
-			this.onLoginFail()
+		.catch((error) => {
+			var errorCode = error.code;
+  			var errorMessage = error.message;
+			this.onLoginFail(errorCode,errorMessage)
 		})
 	}
 	
 
 	onPressRegist(){
 		Actions.regist()
+		// LoginManager.logOut()
 	}
 
 	onPressLoginFacebook(){
 		LoginManager.logInWithReadPermissions(['public_profile']).then(
-		  function(result) {
+		  (result) => {
 		    if (result.isCancelled) {
-		      alert('Login was cancelled');
+		      alert('Login was cancelled')
 		    } else {
-		      alert('Login was successful with permissions: '
-		        + result.grantedPermissions.toString());
+		      // alert('Login was successful with permissions: '
+		        // + result.grantedPermissions.toString())
+		        this.props.updateStatusUser(true)
 		    }
 		  },
 		  function(error) {
 		    alert('Login failed with error: ' + error);
 		  }
-		);
+		)
 	}
+
 
 	renderButton(){
 		if (this.state.loading){
 			return <Spinner size='small' />
 		}
 		else{
-			return <View style={{marginTop:10}} >
-						<SocialIcon
-						  title='Sign In With Facebook'
-						  button type='facebook'
-						  onPress={ () => this.onPressLoginFacebook() }
-						/>
-						<Button 
-							block success
-							onPress={ () => this.onPressLogin() }
-							style ={styles.login_button}
-						> Login </Button>
-
-						<Button 
-							block danger
-							onPress={ () => this.onPressRegist() }
-							style ={styles.login_button}
-						> Register </Button>
-					</View>
+			return <Button 
+						block success
+						onPress={ () => this.onPressLogin() }
+						style ={styles.login_button}
+					> Login </Button>
 		}
 	}
 
@@ -156,14 +150,14 @@ class LoginForm extends Component {
 	renderScene(){
 		if (this.props.status_user == false){
 			return (
+				<Container style={styles.container}>
+	            	<View style={styles.logo} >
+	            		<Text>..logo..</Text>
+	            		<Text>OpCos</Text>
+	            	</View>
 
-				<Container style={{flex:1}} >
-	                <Content style={{flex:1}}>
-	                	<View style={styles.logo} >
-	                		<Text>OPCOS</Text>
-	                	</View>
-	                	
-	                	<View style={styles.input_form} >
+	            	<View style={styles.input_form} >
+	            		<View style={{flex:3,justifyContent:'center' }}>
 		                    <List>
 		                        <ListItem>
 		                            <InputGroup>
@@ -189,16 +183,36 @@ class LoginForm extends Component {
 		                            </InputGroup>
 		                        </ListItem>
 		                    </List>
+		                </View>
+		                <View style={{flex:2,justifyContent:'center'}}>
+	                    	{this.renderButton()}
 	                    </View>
+	                    <View style={{flex:5,justifyContent:'center'}}>
+							<View style={styles.text} >
+		                		<Text> OR </Text>
+		                	</View>
+		                	<SocialIcon
+							  title='Sign In With Facebook'
+							  button type='facebook'
+							  onPress={ () => this.onPressLoginFacebook() }
+							  iconSize={20}
+							  style={{height:42,margin:10,}}
+							/>
+						</View>
+	                </View>
 
-	                    <View style={styles.button} >
-	                    	{this.renderButton()}	
-	                    </View>
-						{this.renderError()}
-	                    
-	                </Content>
-
-	            </Container>
+	                <View style={styles.footer}>
+                		<Text>
+	                		CREATE AN ACCOUNT?
+	                	</Text>
+	                	<Button 
+							block danger
+							onPress={ () => this.onPressRegist() }
+							style = {styles.login_button}
+						> Register 
+						</Button>
+					</View>
+		        </Container>
 				
 			)
 		}
@@ -211,9 +225,9 @@ class LoginForm extends Component {
 		return (
 			
 			<View style={styles.container}>
-				<View style={{flex:1}}>
+				
 					{this.renderScene()}
-				</View>
+				
 			</View>
 	
 			
@@ -226,13 +240,29 @@ var styles = StyleSheet.create({
   	flex:1,
   },
   logo:{
-  	flex:1,
+  	flex:3,
+  	justifyContent: 'center',
+  	alignItems : 'center',
+  	backgroundColor: 'powderblue',
   },
   input_form:{
-  	flex:1,
+  	flex:5,
+  	justifyContent: 'center',
+  	backgroundColor: 'skyblue',
   },
-  button:{
-  	flex:1,
+  footer:{
+	flex:3,
+	alignItems:'center',
+	justifyContent:'center',
+	backgroundColor: 'steelblue',
+  },
+  login_button:{
+  	margin:10,
+  	borderRadius:30,
+  },
+  text:{
+  	alignItems : 'center', 
+  	margin:20,
   }
  })
 
@@ -247,3 +277,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(LoginForm)
+
+
