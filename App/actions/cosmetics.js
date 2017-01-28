@@ -7,7 +7,8 @@ export function fetchCosmetics(input){
     const params = [
       `${input}`,
     ].join('&')
-    return Api.get(`/api/search/byName/${params}`).then(resp => {
+    const route = `/api/search/byName/${params}`
+    return Api.get(route).then(resp => {
     	dispatch(setSearchedCosmetics({cosmetics : resp}))
       // console.log(resp)
     }).catch( (ex) => {

@@ -35,6 +35,11 @@ export class AppContainer extends Component {
 
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
+				// name = user.displayName;
+				// email = user.email;
+				// photoUrl = user.photoURL;
+				// emailVerified = user.emailVerified;
+				// uid = user.uid; 
 				this.setState({ loggedIn: true });
 			}
 			else {
@@ -46,7 +51,10 @@ export class AppContainer extends Component {
 	}
 
 	updateStatusUser(){
-		this.props.updateStatusUser(this.state.loggedIn)
+		if (this.state.loggedIn)
+			this.props.updateStatusUser(this.state.loggedIn,"opcos")
+		else
+			this.props.updateStatusUser(this.state.loggedIn,null,null)
 	}
 
 

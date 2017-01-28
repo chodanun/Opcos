@@ -106,14 +106,20 @@ class LoginForm extends Component {
 	}
 
 	onPressLoginFacebook(){
-		LoginManager.logInWithReadPermissions(['public_profile']).then(
+		LoginManager.logInWithReadPermissions(['public_profile','email','user_birthday']).then(
 		  (result) => {
 		    if (result.isCancelled) {
-		      alert('Login was cancelled')
+		      // alert('Login was cancelled')
 		    } else {
 		      // alert('Login was successful with permissions: '
 		        // + result.grantedPermissions.toString())
-		        this.props.updateStatusUser(true)
+		        AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                		this.props.loginToken(data.accessToken.toString())    
+                		this.props.updateStatusUser(true,"facebook",data.accessToken.toString())
+                  }
+                )
+		        
 		    }
 		  },
 		  function(error) {
@@ -122,6 +128,27 @@ class LoginForm extends Component {
 		)
 	}
 
+	onPressLoginGoogle(){
+		var provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithPopup(provider).then(function(result) {
+		  // This gives you a Google Access Token. You can use it to access the Google API.
+		  var token = result.credential.accessToken;
+		  // The signed-in user info.
+		  var user = result.user;
+		  alert(token)
+		  // ...
+		}).catch(function(error) {
+		  // Handle Errors here.
+		  var errorCode = error.code;
+		  var errorMessage = error.message;
+		  // The email of the user's account used.
+		  var email = error.email;
+		  // The firebase.auth.AuthCredential type that was used.
+		  var credential = error.credential;
+		  alert(errorMessage)
+		  // ...
+		});
+	}
 
 	renderButton(){
 		if (this.state.loading){
@@ -134,17 +161,6 @@ class LoginForm extends Component {
 						style ={styles.login_button}
 					> Login </Button>
 		}
-	}
-
-	renderError(){
-		if (this.state.error!= '')
-		return <Card style={styles.error}>
-	                <CardItem>                        
-	                    <Text>
-	                        {this.state.error}
-	                    </Text>
-	                </CardItem>
-	            </Card>
 	}
 
 	renderScene(){
@@ -184,10 +200,10 @@ class LoginForm extends Component {
 		                        </ListItem>
 		                    </List>
 		                </View>
-		                <View style={{flex:2,justifyContent:'center'}}>
+		                <View style={{flex:1,justifyContent:'center'}}>
 	                    	{this.renderButton()}
 	                    </View>
-	                    <View style={{flex:5,justifyContent:'center'}}>
+	                    <View style={{flex:5}}>
 							<View style={styles.text} >
 		                		<Text> OR </Text>
 		                	</View>
@@ -196,7 +212,14 @@ class LoginForm extends Component {
 							  button type='facebook'
 							  onPress={ () => this.onPressLoginFacebook() }
 							  iconSize={20}
-							  style={{height:42,margin:10,}}
+							  style={{height:42,margin:10,marginTop:0}}
+							/>
+							<SocialIcon
+							  title='Sign In With Google+'
+							  button type='google-plus-official'
+							  onPress={ () => this.onPressLoginGoogle() }
+							  iconSize={20}
+							  style={{height:42,margin:10,marginTop:0}}
 							/>
 						</View>
 	                </View>
@@ -206,7 +229,7 @@ class LoginForm extends Component {
 	                		CREATE AN ACCOUNT?
 	                	</Text>
 	                	<Button 
-							block danger
+							block warning
 							onPress={ () => this.onPressRegist() }
 							style = {styles.login_button}
 						> Register 
@@ -251,7 +274,7 @@ var styles = StyleSheet.create({
   	backgroundColor: 'skyblue',
   },
   footer:{
-	flex:3,
+	flex:2,
 	alignItems:'center',
 	justifyContent:'center',
 	backgroundColor: 'steelblue',
@@ -269,6 +292,7 @@ var styles = StyleSheet.create({
 function mapStateToProps(state){
 	return {
 		status_user: state.status_user,
+		login_token : state.login_token,
 	}
 }
 

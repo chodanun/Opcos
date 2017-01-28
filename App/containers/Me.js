@@ -12,6 +12,11 @@ import {
   Button,
   TouchableHighlight
 } from 'react-native'
+const FBSDK = require('react-native-fbsdk');
+const {
+  GraphRequest,
+  GraphRequestManager,
+} = FBSDK;
 
 
 
@@ -29,17 +34,21 @@ export class AppContainer extends Component {
 	   return (
         <Container>
           <Content>
-	      <View style={styles.scene} >
-	      	<Text style={styles.count} >
-	      		Count : {this.props.num}
-	      	</Text>
-	      	<TouchableHighlight onPress={()=>this.addCount()} style={styles.buttonCount} >
-		      	<Text>
-		      		Add
-		      	</Text>
-	      	</TouchableHighlight>
-	      </View>
-        </Content>
+    	      <View style={styles.scene} >
+    	      	<Text style={styles.count} >
+    	      		Count : {this.props.num}
+    	      	</Text>
+    	      	<TouchableHighlight onPress={()=>this.addCount()} style={styles.buttonCount} >
+    		      	<Text>
+    		      		Add
+    		      	</Text>
+    	      	</TouchableHighlight>
+                <Text> name : </Text>
+                <Text> birthday : </Text>
+                <Text> email : </Text>
+                <Text> photoURL : </Text>
+    	      </View>
+          </Content>
         </Container>
 
 	    );

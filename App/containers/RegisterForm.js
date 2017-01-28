@@ -17,7 +17,6 @@ class LoginForm extends Component {
 	
 	static defaultProps = {
 		date: new Date(),
-		timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
 	}
 
 	constructor(props) {
@@ -28,7 +27,7 @@ class LoginForm extends Component {
 			confirm_password:'',
 			error:'',
 			loading: false,
-			name: '',
+			displayName: '',
 			dateOfBirth: this.props.date,
 			timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
 		}
@@ -47,7 +46,7 @@ class LoginForm extends Component {
 			email: '',
 			password: '',
 			error:'',
-			name:'',
+			displayName:'',
 			sirname:'',
 			dateOfBirth:'',
 		})
@@ -62,7 +61,7 @@ class LoginForm extends Component {
 
 	onPressRegist(){
 		this.setState({error:''})
-		const { email, password } = this.state
+		const { email, password ,displayName} = this.state
 		
 		this.clearErrorDisplayed()
 		firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -150,8 +149,8 @@ class LoginForm extends Component {
 									autoCorrect={false}
 									inlineLabel label='NAME' 
 									placeholder='John Doe' 
-									value={this.state.name} 
-									onChangeText={ name => this.setState({ name })}
+									value={this.state.displayName} 
+									onChangeText={ displayName => this.setState({ displayName })}
 								/>
 							</InputGroup>
 						</ListItem>
