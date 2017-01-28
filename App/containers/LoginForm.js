@@ -59,7 +59,7 @@ class LoginForm extends Component {
 			password:'',
 			error:'',
 			loading: false,
-			facebookLoggedIn:false,
+			facebook_loading:false,
 		}
 	}
 	
@@ -67,6 +67,12 @@ class LoginForm extends Component {
 		this.setState({
 			error : '',
 			loading: true,
+		})
+	}
+
+	facebookLoading(){
+		this.setState({
+			facebook_loading: true ,
 		})
 	}
 
@@ -106,6 +112,7 @@ class LoginForm extends Component {
 	}
 
 	onPressLoginFacebook(){
+		this.facebookLoading()
 		LoginManager.logInWithReadPermissions(['public_profile','email','user_birthday']).then(
 		  (result) => {
 		    if (result.isCancelled) {
@@ -163,6 +170,20 @@ class LoginForm extends Component {
 		}
 	}
 
+	renderFacebookButton(){
+
+		if (this.state.facebook_loading)
+			return <Spinner size='small' />
+		else
+			return <SocialIcon
+				  title='Sign In With Facebook'
+				  button type='facebook'
+				  onPress={ () => this.onPressLoginFacebook() }
+				  iconSize={20}
+				  style={{height:42,margin:10,marginTop:0}}
+				/>
+	}
+
 	renderScene(){
 		if (this.props.status_user == false){
 			return (
@@ -207,13 +228,7 @@ class LoginForm extends Component {
 							<View style={styles.text} >
 		                		<Text> OR </Text>
 		                	</View>
-		                	<SocialIcon
-							  title='Sign In With Facebook'
-							  button type='facebook'
-							  onPress={ () => this.onPressLoginFacebook() }
-							  iconSize={20}
-							  style={{height:42,margin:10,marginTop:0}}
-							/>
+		                	{this.renderFacebookButton()}
 							<SocialIcon
 							  title='Sign In With Google+'
 							  button type='google-plus-official'
