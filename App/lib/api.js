@@ -24,8 +24,8 @@ class Api {
   }
 
   static xhr(route, params, verb) {
-    // const host = 'http://www.recipepuppy.com'
-    const host ="http://localhost:8000"
+    const host = 'http://158.108.143.225:8000'
+    // const host ="http://localhost:8000"
     const url = `${host}${route}`
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null );
     options.headers = Api.headers()

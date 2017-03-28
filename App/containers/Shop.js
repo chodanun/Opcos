@@ -25,18 +25,17 @@ class Shop extends Component {
 	  this.state = { 
 	  	searching: false,
 	  	cosmeticsInput: this.props.barcode_number? this.props.barcode_number:'',
-
 	  	// search options
 	  	searchOption : false,
-	  	searchChecked: [true,false,false],
+	  	searchChecked: [true,false,false,false],
 	  	searchName : 'Search by name',
 	  	
 	  }
 	}
 
 	searchedPress(){
-		this.setState({ searching:true, cosmeticsInput: this.state.cosmeticsInput + " ... in searching " })
-		this.props.fetchCosmetics(this.state.cosmeticsInput).then( () => {
+		this.setState({ searching:true })
+		this.props.fetchCosmetics(this.state.cosmeticsInput,this.state.searchName).then( () => {
 			this.setState( {searching: false, cosmeticsInput:''})
 		})
 	}
@@ -51,15 +50,19 @@ class Shop extends Component {
 		switch (index){
 			case 0 :
 			console.log("0")
-				this.setState({ searchChecked: [true,false,false] , searchName: 'Search by name'})
+				this.setState({ searchChecked: [true,false,false,false] , searchName: 'Search by name'})
 				break
 			case 1:
 				console.log("1")
-				this.setState({ searchChecked: [false,true,false], searchName: 'Search by brand' }) 
+				this.setState({ searchChecked: [false,true,false,false], searchName: 'Search by brand' }) 
+				break
+			case 2:
+				this.setState({ searchChecked: [false,false,true,false], searchName: 'Advance searching' }) 
+				console.log("2")
 				break
 			default :
-			this.setState({ searchChecked: [false,false,true], searchName: 'Advance searching' }) 
-				console.log("2")
+				this.setState({ searchChecked: [false,false,false,true], searchName: 'Search by barcode' }) 
+				console.log("3")
 		}
 
 		// this.setState({searchIndex:0})
@@ -79,6 +82,10 @@ class Shop extends Component {
                             <CheckBox checked={this.state.searchChecked[2]} onPress={ ()=> this.checkedPress(2) } />
                             <Text>Advance Searching</Text>
                         </ListItem>
+                        <ListItem>
+                            <CheckBox checked={this.state.searchChecked[3]} onPress={ ()=> this.checkedPress(3) } />
+                            <Text>Search by barcode</Text>
+                        </ListItem>
                     </List>
 	}
 
@@ -87,6 +94,16 @@ class Shop extends Component {
 			searchOption:!this.state.searchOption
 		})
 	}
+
+	componentWillMount(){
+		if (this.props.barcode_number!=null){
+			this.props.fetchCosmetics(this.state.cosmeticsInput,"Search by barcode").then( () => {
+				this.setState( {searching: false, cosmeticsInput:''} )
+			})	
+		}
+		
+	}
+
 	render(){
 		return (
 			<Container style={styles.container}>
@@ -114,7 +131,7 @@ class Shop extends Component {
             		<ScrollView style={styles.scrollView} >
 						<Card>
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-								return 	<View key={cosmetic.id}  >
+								return 	<View key={cosmetic.id} >
 										<CardItem header >
 											<Text style={styles.resultHeaderText}> {cosmetic.id}.  {cosmetic.name} </Text>
 										</CardItem>
