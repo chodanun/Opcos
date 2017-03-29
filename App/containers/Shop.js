@@ -20,6 +20,7 @@ import { RadioButtons } from 'react-native-radio-buttons'
 
 
 class Shop extends Component {
+
 	constructor(props) {
 	  super(props)
 	  this.state = { 
@@ -96,6 +97,8 @@ class Shop extends Component {
 	}
 
 	componentWillMount(){
+		this.setState({cosmeticsInput: '604147575287'}) // for debug
+		this.checkedPress(3) // for debug
 		if (this.props.barcode_number!=null){
 			this.props.fetchCosmetics(this.state.cosmeticsInput,"Search by barcode").then( () => {
 				this.setState( {searching: false, cosmeticsInput:''} )
