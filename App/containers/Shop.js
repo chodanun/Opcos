@@ -131,9 +131,9 @@ class Shop extends Component {
             		<ScrollView style={styles.scrollView} >
 						<Card>
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-								return 	<View key={cosmetic.id} >
+								return 	<View key={cosmetic.item_id} >
 										<CardItem header >
-											<Text style={styles.resultHeaderText}> {cosmetic.id}.  {cosmetic.name} </Text>
+											<Text style={styles.resultHeaderText}> {cosmetic.item_id}.  {cosmetic.name} </Text>
 										</CardItem>
 										<CardItem style={ styles.list }>
 											<Image style={styles.resultImageDetail} source={ { uri: cosmetic.img } }  />

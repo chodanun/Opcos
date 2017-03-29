@@ -19,6 +19,7 @@ class Search extends Component {
 
 	onBarCodeRead(obj){
 		// console.log(obj.data)
+		alert(obj.data)
 		this.props.setBarcodeNumber(obj)
 		Actions.home() 
 		
