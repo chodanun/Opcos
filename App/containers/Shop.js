@@ -4,7 +4,7 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Container, Content, Card, CardItem, InputGroup, Input, Icon, List, ListItem, CheckBox} from 'native-base'
+import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon, List, ListItem, CheckBox, Button} from 'native-base'
 const {
 	ScrollView,
 	View,
@@ -17,7 +17,6 @@ const {
 } = ReactNative
 import { Icon as Icons } from 'react-native-elements'
 import { RadioButtons } from 'react-native-radio-buttons'
-
 
 class Shop extends Component {
 
@@ -135,17 +134,23 @@ class Shop extends Component {
 						<Card>
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.item_id} >
-										<CardItem header >
-											<Text style={styles.resultHeaderText}> {cosmetic.item_id}.  {cosmetic.name} </Text>
-										</CardItem>
-										<CardItem style={ styles.list }>
-											<Image style={styles.resultImageDetail} source={ { uri: cosmetic.img } }  />
-											<View>
-												<Text style={{marginTop:5}} >rate : </Text>
-												<Text >Description : </Text>
-												<Text style={styles.resultDescriptionDetail}> {cosmetic.description}  </Text>
-											</View>
-										</CardItem>
+											 <Card>
+						                        <CardItem >
+						                            <Thumbnail  source={ { uri: cosmetic.img } }  />
+						                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
+						                            <Text note style={{fontWeight: '400',fontSize: 11,}} >{cosmetic.brand}</Text>
+						                        </CardItem>
+
+						                        <CardItem cardBody>
+						                            <Image style={{ resizeMode: 'contain' }} source = { { uri: cosmetic.img } } />
+						                            <Text>
+						                                {cosmetic.description} 
+						                            </Text>
+						                            <Button transparent textStyle={{color: '#87838B'}}>
+						                                Matching Point : {cosmetic.point}
+						                            </Button>
+						                        </CardItem>
+						                   </Card>
 										</View>
 							})}
 						</Card>
@@ -155,6 +160,17 @@ class Shop extends Component {
 		)
 	}
 }
+// <CardItem header >
+	// 	<Text style={styles.resultHeaderText}> {cosmetic.item_id}.  {cosmetic.name} </Text>
+	// </CardItem>
+	// <CardItem style={ styles.list }>
+	// 	<Image style={styles.resultImageDetail} source={ { uri: cosmetic.img } }  />
+	// 	<View>
+	// 		<Text style={{marginTop:5}} >rate : </Text>
+	// 		<Text >Description : </Text>
+	// 		<Text style={styles.resultDescriptionDetail}> {cosmetic.description}  </Text>
+	// 	</View>
+	// </CardItem>
 
 const styles = StyleSheet.create({
   container: {
@@ -172,6 +188,9 @@ const styles = StyleSheet.create({
   scrollView:{
   },
   resultHeaderText : {
+  	flex: 1,
+  	fontWeight: 'bold',
+    fontSize: 15,
   },
   list : {
   	flexDirection: 'row',
