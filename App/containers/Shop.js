@@ -136,7 +136,6 @@ class Shop extends Component {
 	            	{this.renderSearchOption()}
 	            	
             		<ScrollView style={styles.scrollView} >
-						
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.item_id} >
 											 <Card>

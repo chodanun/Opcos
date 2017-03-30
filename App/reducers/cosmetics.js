@@ -13,6 +13,13 @@ export const searchedCosmetics = createReducer({},{
 	}
 });
 
+export const cosmeticDetails = createReducer({},{
+	[types.SET_DETAILS_COSMETIC](state, action){
+		let newState = Object.assign({},action.cosmetic)
+		return newState
+	}
+});
+
 export const cosmeticCount = createReducer(0,{
 	[types.SET_SEARCHED_COSMETICS](state, action){
 		return action.cosmetics.length

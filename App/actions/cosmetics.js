@@ -31,13 +31,25 @@ export function setSearchedCosmetics({ cosmetics }){
 }
 
 export function navToDeatils({cosmetic}){
-  item_id = cosmetic.item_id
-  console.log(cosmetic.brand)
+  var item_id = cosmetic.item_id
+  var item_type = cosmetic.type
   Actions.details({cosmetic})
-  return {
+  return (dispatch, getState) => {
+    const route = `/api/search/itemOpinion/${item_type}/${item_id}`
+    return Api.get(route).then(resp => {
+      dispatch(setItemDetails(resp))
+    }).catch( (ex) => {
+      console.log(ex);
+    })
+  }
+  
+}
+
+export function setItemDetails(cosmetic) {
+  return{
     type : types.SET_DETAILS_COSMETIC,
-    item_id
-  } 
+    cosmetic
+  }
 }
 
 export function setBarcodeNumber(obj) {
