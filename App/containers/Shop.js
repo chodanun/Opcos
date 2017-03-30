@@ -11,7 +11,7 @@ const {
 	TextInput,
 	Text,
 	Image,
-	TouchableHighlight,
+	TouchableOpacity,
 	StyleSheet,
 	TouchableWithoutFeedback,
 } = ReactNative
@@ -24,13 +24,25 @@ class Shop extends Component {
 	  super(props)
 	  this.state = { 
 	  	searching: false,
-	  	cosmeticsInput: this.props.barcode_number? this.props.barcode_number:'',
+	  	cosmeticsInput: this.props.barcode? this.props.barcode:'',
 	  	// search options
 	  	searchOption : false,
 	  	searchChecked: [true,false,false,false],
 	  	searchName : 'Search by name',
 	  	
 	  }
+	}
+
+	componentWillMount(){
+		console.log("TEST BARCODE") // debuging
+		if (this.props.barcode){
+			this.checkedPress(3)
+			// this.setState({ searching:true })
+			// this.props.fetchCosmetics(this.props.barcode,"Search by barcode").then( () => {
+			// 	this.setState( {searching: false})
+			// })
+		}
+		
 	}
 
 	searchedPress(){
@@ -95,15 +107,8 @@ class Shop extends Component {
 		})
 	}
 
-	componentWillMount(){
-		this.setState({cosmeticsInput: '604147575287'}) // for debug
-		this.checkedPress(3) // for debug
-		if (this.props.barcode_number!=null){
-			this.props.fetchCosmetics(this.state.cosmeticsInput,"Search by barcode").then( () => {
-				this.setState( {searching: false, cosmeticsInput:''} )
-			})	
-		}
-		
+	navToDetailsPage(item_id){
+		this.props.navToDeatils(item_id)
 	}
 
 	render(){
@@ -131,16 +136,17 @@ class Shop extends Component {
 	            	{this.renderSearchOption()}
 	            	
             		<ScrollView style={styles.scrollView} >
-						<Card>
+						
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.item_id} >
 											 <Card>
 						                        <CardItem >
 						                            <Thumbnail  source={ { uri: cosmetic.img } }  />
-						                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
+						                            <TouchableOpacity onPress={ () => this.navToDetailsPage(cosmetic.item_id) } >
+							                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
+						                            </TouchableOpacity>
 						                            <Text note style={{fontWeight: '400',fontSize: 11,}} >{cosmetic.brand}</Text>
 						                        </CardItem>
-
 						                        <CardItem cardBody>
 						                            <Image style={{ resizeMode: 'contain' }} source = { { uri: cosmetic.img } } />
 						                            <Text>
@@ -153,7 +159,7 @@ class Shop extends Component {
 						                   </Card>
 										</View>
 							})}
-						</Card>
+						
 					</ScrollView>
 				</Content>
 			</Container>
@@ -186,6 +192,7 @@ const styles = StyleSheet.create({
   	flex:10,
   },
   scrollView:{
+  	flex:1,
   },
   resultHeaderText : {
   	flex: 1,

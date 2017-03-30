@@ -4,6 +4,7 @@ import ApplicationTabs from './ApplicationTabs'
 import Search from './Search'
 import LoginForm from './LoginForm'
 import RegisterForm  from './RegisterForm'
+import Details  from './Details'
 
  
 const RouterComponent = () => {
@@ -23,6 +24,7 @@ const RouterComponent = () => {
         		rightTitle="Scan"
         		hideNavBar
         	/>
+        	<Scene key="details" component={Details} title="Deatils" />
      		<Scene key="barcodeSearch" component={Search} title="Search" hideNavBar/>
 		</Scene>
    </Router>

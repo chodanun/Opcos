@@ -15,4 +15,7 @@ export const SET_USER_DETAILS = 'SET_USER_DETAILS'
 //Barcode
 export const SET_BARCODE_NUMBER = 'SET_BARCODE_NUMBER' 
 
+//Detail Pages
+export const SET_DETAILS_COSMETIC = 'SET_DETAILS_COSMETIC' 
+
 

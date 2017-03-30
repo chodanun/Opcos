@@ -4,13 +4,11 @@ import * as types from '../actions/types'
 export const searchedCosmetics = createReducer({},{
 	[types.SET_SEARCHED_COSMETICS](state, action){
 		let newState = {}
-		console.log(action.cosmetics)
 		var start = 1
 		action.cosmetics.forEach( (cosmetic) => {
 			newState[start] = Object.assign(cosmetic)
 			start+=1
 		})
-		console.log(newState)
 		return newState
 	}
 });

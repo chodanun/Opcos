@@ -77,7 +77,7 @@ class ApplicationTabs extends Component {
                     	initialPage= {1}
                     >
                     	<NewFeed tabLabel='Home' />
-                        <Shop tabLabel='Shop' />
+                        <Shop tabLabel='Shop' barcode = {this.props.barcode} />
                         <Me tabLabel='Me' />
 
                     </Tabs>

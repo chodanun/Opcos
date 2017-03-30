@@ -15,7 +15,7 @@ export function fetchCosmetics(input,option){
       route = `/api/search/byBarcode/${params}`
     }
     return Api.get(route).then(resp => {
-    	dispatch(setSearchedCosmetics({cosmetics : resp}))
+    	dispatch(setSearchedCosmetics({cosmetics : resp,option}))
       // console.log(resp)
     }).catch( (ex) => {
       console.log(ex);
@@ -30,11 +30,13 @@ export function setSearchedCosmetics({ cosmetics }){
 	}
 }
 
-// export function add(){
-// 	return {
-// 		type : types.ADD,
-// 	}
-// }
+export function navToDeatils(item_id){
+  Actions.details()
+  return {
+    type : types.SET_DETAILS_COSMETIC,
+    item_id
+  } 
+}
 
 export function setBarcodeNumber(obj) {
   return{
@@ -49,3 +51,10 @@ export function setBarcodeNumber(obj) {
  
 //   Actions.employeeList();
 // };
+
+
+// export function add(){
+//  return {
+//    type : types.ADD,
+//  }
+// }
