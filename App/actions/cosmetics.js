@@ -30,8 +30,10 @@ export function setSearchedCosmetics({ cosmetics }){
 	}
 }
 
-export function navToDeatils(item_id){
-  Actions.details()
+export function navToDeatils({cosmetic}){
+  item_id = cosmetic.item_id
+  console.log(cosmetic.brand)
+  Actions.details({cosmetic})
   return {
     type : types.SET_DETAILS_COSMETIC,
     item_id

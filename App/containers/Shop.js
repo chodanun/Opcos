@@ -107,8 +107,8 @@ class Shop extends Component {
 		})
 	}
 
-	navToDetailsPage(item_id){
-		this.props.navToDeatils(item_id)
+	navToDetailsPage({cosmetic}){
+		this.props.navToDeatils({cosmetic})
 	}
 
 	render(){
@@ -142,7 +142,7 @@ class Shop extends Component {
 											 <Card>
 						                        <CardItem >
 						                            <Thumbnail  source={ { uri: cosmetic.img } }  />
-						                            <TouchableOpacity onPress={ () => this.navToDetailsPage(cosmetic.item_id) } >
+						                            <TouchableOpacity onPress={ () => this.navToDetailsPage({cosmetic}) } >
 							                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
 						                            </TouchableOpacity>
 						                            <Text note style={{fontWeight: '400',fontSize: 11,}} >{cosmetic.brand}</Text>

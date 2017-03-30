@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
-import { Container, Content, Tabs, List, ListItem } from 'native-base';
+import { Container, Header, Button, Icon, Title, Content, Card, CardItem } from 'native-base';
 import {
   Image,
   StyleSheet,
@@ -19,12 +19,37 @@ export class Details extends Component {
         }
 	}
 
-
   	render() {
 	   return (
-            <View>
-              <Text>Hello Details</Text>
-            </View>
+            <Container>
+                <Header>
+                    <Button transparent>
+                        <Icon name="ios-arrow-back" />
+                    </Button>
+
+                    <Title> Opinion Analysis </Title>
+
+                    <Button transparent>
+                        <Icon name="ios-menu" />
+                    </Button>
+                </Header>
+                <Content>
+                  <Card>
+                          <CardItem>
+                              <Text>{this.props.cosmetic.name}</Text>
+                              <Text note>{this.props.cosmetic.brand}</Text>
+                          </CardItem>
+
+                          <CardItem>
+                              <Image style={{ resizeMode: 'contain' }} source={{ uri: this.props.cosmetic.img }} />
+                          </CardItem>
+
+                          <CardItem>
+                              <Text></Text>
+                          </CardItem>
+                    </Card>
+                  </Content>
+            </Container>
               
             
 
