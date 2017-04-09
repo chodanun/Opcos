@@ -34,7 +34,6 @@ class Shop extends Component {
 	}
 
 	componentWillMount(){
-		console.log("TEST BARCODE") // debuging
 		if (this.props.barcode){
 			this.checkedPress(3)
 			// this.setState({ searching:true })
@@ -61,22 +60,21 @@ class Shop extends Component {
 		// console.log(this.state.searchChecked[0])
 		switch (index){
 			case 0 :
-			console.log("0")
+			// console.log("0")
 				this.setState({ searchChecked: [true,false,false,false] , searchName: 'Search by name'})
 				break
 			case 1:
-				console.log("1")
+				// console.log("1")
 				this.setState({ searchChecked: [false,true,false,false], searchName: 'Search by brand' }) 
 				break
 			case 2:
 				this.setState({ searchChecked: [false,false,true,false], searchName: 'Advance searching' }) 
-				console.log("2")
+				// console.log("2")
 				break
 			default :
 				this.setState({ searchChecked: [false,false,false,true], searchName: 'Search by barcode' }) 
-				console.log("3")
+				// console.log("3")
 		}
-
 		// this.setState({searchIndex:0})
 	}
 	renderSearchOption(){

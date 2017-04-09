@@ -10,6 +10,7 @@ import {
   View,
   Text,
 } from 'react-native'
+import { Radar } from 'react-native-pathjs-charts'
 
 export class Details extends Component {
 
@@ -21,11 +22,44 @@ export class Details extends Component {
 	}
 
   itemDetails(){
-    return Object.keys(this.props.item_details).map( key => this.props.item_details[key])  
+    return Object.keys(this.props.item_details).map( key => this.props.item_details[key])
   }
-  
 
 	render() {
+    let data = [{
+      "speed": 74,
+      "balance": 29,
+      "explosives": 40,
+      "energy": 40,
+      "flexibility": 30,
+      "agility": 25,
+      "endurance": 44
+    }]
+
+    let options = {
+      width: 290,
+      height: 290,
+      margin: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      },
+      r: 150,
+      max: 100,
+      fill: "#2980B9",
+      stroke: "#2980B9",
+      animate: {
+        type: 'oneByOne',
+        duration: 200
+      },
+      label: {
+        fontFamily: 'Arial',
+        fontSize: 14,
+        fontWeight: true,
+        fill: '#34495E'
+      }
+    }
    return (
           <Container>
               <Header>
@@ -51,6 +85,9 @@ export class Details extends Component {
                         </CardItem>
 
                         <CardItem>
+                        <View>
+                          <Radar data={data} options={options} />
+                        </View>
                             <Text>{this.props.cosmetic.type}</Text>
                             <Text>{this.props.cosmetic.description}</Text>
                             {this.itemDetails().map( cosmetic => { 
