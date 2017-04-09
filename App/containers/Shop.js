@@ -4,7 +4,6 @@ import ReactNative from 'react-native'
 import { ActionCreators } from '../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon, List, ListItem, CheckBox, Button} from 'native-base'
 const {
 	ScrollView,
 	View,
@@ -15,6 +14,7 @@ const {
 	StyleSheet,
 	TouchableWithoutFeedback,
 } = ReactNative
+import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon, List, ListItem, CheckBox, Button} from 'native-base'
 import { Icon as Icons } from 'react-native-elements'
 import { RadioButtons } from 'react-native-radio-buttons'
 
@@ -137,16 +137,16 @@ class Shop extends Component {
 	            	
             		<ScrollView style={styles.scrollView} >
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-								return 	<View key={cosmetic.item_id} >
-											 <Card>
-						                        <CardItem >
+								return 	<TouchableOpacity key={cosmetic.item_id} >
+											 <Card >
+						                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic}) }>
 						                            <Thumbnail  source={ { uri: cosmetic.img } }  />
-						                            <TouchableOpacity onPress={ () => this.navToDetailsPage({cosmetic}) } >
+						                            
 							                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
-						                            </TouchableOpacity>
+						                            
 						                            <Text note style={{fontWeight: '400',fontSize: 11,}} >{cosmetic.brand}</Text>
 						                        </CardItem>
-						                        <CardItem cardBody>
+						                        <CardItem cardBody onPress={ () => this.navToDetailsPage({cosmetic}) }>
 						                            <Image style={{ resizeMode: 'contain' }} source = { { uri: cosmetic.img } } />
 						                            <Text>
 						                                {cosmetic.description} 
@@ -156,7 +156,7 @@ class Shop extends Component {
 						                            </Button>
 						                        </CardItem>
 						                   </Card>
-										</View>
+									</TouchableOpacity>
 							})}
 						
 					</ScrollView>
@@ -165,17 +165,7 @@ class Shop extends Component {
 		)
 	}
 }
-// <CardItem header >
-	// 	<Text style={styles.resultHeaderText}> {cosmetic.item_id}.  {cosmetic.name} </Text>
-	// </CardItem>
-	// <CardItem style={ styles.list }>
-	// 	<Image style={styles.resultImageDetail} source={ { uri: cosmetic.img } }  />
-	// 	<View>
-	// 		<Text style={{marginTop:5}} >rate : </Text>
-	// 		<Text >Description : </Text>
-	// 		<Text style={styles.resultDescriptionDetail}> {cosmetic.description}  </Text>
-	// 	</View>
-	// </CardItem>
+
 
 const styles = StyleSheet.create({
   container: {

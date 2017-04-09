@@ -52,8 +52,10 @@ export class Details extends Component {
 
                         <CardItem>
                             <Text>{this.props.cosmetic.type}</Text>
+                            <Text>{this.props.cosmetic.description}</Text>
                             {this.itemDetails().map( cosmetic => { 
                               return <View key={cosmetic.item_id} >
+                                        <Text>item_id : {cosmetic.item_id}</Text> 
                                         <Text>COLOR_POS : {cosmetic.color_pos}</Text> 
                                         <Text>COLOR_NEG : {cosmetic.color_neg}</Text> 
                                         <Text>SMELL_POS : {cosmetic.smell_pos}</Text> 

@@ -59,6 +59,7 @@ export function setBarcodeNumber(obj) {
   }
 }
 
+
 // react native router flux
 // const loginUserSuccess = (dispatch, user) => {
 //   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
