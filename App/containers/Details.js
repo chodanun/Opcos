@@ -17,36 +17,56 @@ export class Details extends Component {
 	constructor(props) {
         super(props);
         this.state = {
-           
+           data: [{
+
+           }]
         }
 	}
+
+  componentWillMount(){
+    if (this.props.cosmetic.type == "lipstick"){
+      this.setState({
+        data: [{
+          color: 0,
+          smell: 0,
+          durable: 0,
+        }]
+      })
+    }
+    else if (this.props.cosmetic.type == "skin protection"){
+
+    }
+  }
+
+  componentWillReceiveProps(nextprops){
+    // console.log("NEXT")
+    this.setState({
+        data: [{
+          color: nextprops.item_details[0].color_pos,
+          smell: nextprops.item_details[0].smell_pos,
+          durable: nextprops.item_details[0].durable_pos,
+        }]
+      })
+
+  }
 
   itemDetails(){
     return Object.keys(this.props.item_details).map( key => this.props.item_details[key])
   }
 
 	render() {
-    let data = [{
-      "speed": 74,
-      "balance": 29,
-      "explosives": 40,
-      "energy": 40,
-      "flexibility": 30,
-      "agility": 25,
-      "endurance": 44
-    }]
-
+   
     let options = {
-      width: 290,
-      height: 290,
+      width: 300,
+      height: 300,
       margin: {
         top: 0,
         left: 0,
         right: 0,
-        bottom: 0
+        bottom: 0,
       },
-      r: 150,
-      max: 100,
+      r: 120,
+      max: 10,
       fill: "#2980B9",
       stroke: "#2980B9",
       animate: {
@@ -63,7 +83,7 @@ export class Details extends Component {
    return (
           <Container>
               <Header>
-                  <Button transparent onPress = {()=> console.log(Actions.pop())} >
+                  <Button transparent onPress = {()=> Actions.pop()} >
                       <Icon name="ios-arrow-back" />
                   </Button>
 
@@ -86,7 +106,7 @@ export class Details extends Component {
 
                         <CardItem>
                         <View>
-                          <Radar data={data} options={options} />
+                          <Radar data={this.state.data} options={options} />
                         </View>
                             <Text>{this.props.cosmetic.type}</Text>
                             <Text>{this.props.cosmetic.description}</Text>
