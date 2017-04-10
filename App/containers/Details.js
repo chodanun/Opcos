@@ -64,25 +64,71 @@ export class Details extends Component {
       })
     }
     else if (this.props.cosmetic.type == "skin protection"){
-
+      this.setState({
+        data_pos: [{
+          sticky: 0,
+          permeate: 0,
+          stain: 0,
+          smell: 0,
+          moist: 0,
+          irritate: 0,
+          waterproof: 0,
+          sunproof: 0,
+        }],
+        data_neg: [{
+          sticky: 0,
+          permeate: 0,
+          stain: 0,
+          smell: 0,
+          moist: 0,
+          irritate: 0,
+          waterproof: 0,
+          sunproof: 0,
+        }],
+      })
     }
   }
 
   componentWillReceiveProps(nextprops){
-    // console.log("NEXT")
-    this.setState({
+    if (this.props.cosmetic.type == "lipstick"){
+      this.setState({
+          data_pos: [{
+            color: nextprops.item_details[0].color_pos,
+            smell: nextprops.item_details[0].smell_pos,
+            durable: nextprops.item_details[0].durable_pos,
+          }],
+          data_neg: [{
+            color: nextprops.item_details[0].color_neg,
+            smell: nextprops.item_details[0].smell_neg,
+            durable: nextprops.item_details[0].durable_neg,
+          }],
+          
+      })
+    }
+    else if (this.props.cosmetic.type == "skin protection"){
+      this.setState({
         data_pos: [{
-          color: nextprops.item_details[0].color_pos,
+          sticky: nextprops.item_details[0].sticky_pos,
+          permeate: nextprops.item_details[0].permeate_pos,
+          stain: nextprops.item_details[0].stain_pos,
           smell: nextprops.item_details[0].smell_pos,
-          durable: nextprops.item_details[0].durable_pos,
+          moist: nextprops.item_details[0].moist_pos,
+          irritate: nextprops.item_details[0].irritate_pos,
+          waterproof: nextprops.item_details[0].waterproof_pos,
+          sunproof: nextprops.item_details[0].sunproof_pos,
         }],
         data_neg: [{
-          color: nextprops.item_details[0].color_neg,
+          sticky: nextprops.item_details[0].sticky_neg,
+          permeate: nextprops.item_details[0].permeate_neg,
+          stain: nextprops.item_details[0].stain_neg,
           smell: nextprops.item_details[0].smell_neg,
-          durable: nextprops.item_details[0].durable_neg,
+          moist: nextprops.item_details[0].moist_neg,
+          irritate: nextprops.item_details[0].irritate_neg,
+          waterproof: nextprops.item_details[0].waterproof_neg,
+          sunproof: nextprops.item_details[0].sunproof_neg,
         }],
-        
-    })
+      })
+    }
 
   }
 
@@ -98,7 +144,7 @@ export class Details extends Component {
                       <Icon name="ios-arrow-back" />
                   </Button>
 
-                  <Title> Opinion Analysis </Title>
+                  <Title> Opinion Graph Analysis </Title>
 
                   <Button transparent>
                       <Icon name="ios-menu" />
@@ -106,31 +152,21 @@ export class Details extends Component {
               </Header>
               <Content>
                 <Card>
-                        <CardItem>
-                            <Text>{this.props.cosmetic.name}</Text>
-                            <Text note>{this.props.cosmetic.brand}</Text>
-                        </CardItem>
+                    <CardItem >
+                        <Text>{this.props.cosmetic.name}</Text>
+                        <Text note>{this.props.cosmetic.brand}</Text>
+                    </CardItem>
 
-                        <CardItem>
-                        <View>
-                          <Radar data={this.state.data_pos} options={this.state.options} />
-                          <Radar data={this.state.data_neg} options={this.state.options} />
-                        </View>
-                            <Text>{this.props.cosmetic.type}</Text>
-                            <Text>{this.props.cosmetic.description}</Text>
-                            {this.itemDetails().map( cosmetic => { 
-                              return <View key={cosmetic.item_id} >
-                                        <Text>item_id : {cosmetic.item_id}</Text> 
-                                        <Text>COLOR_POS : {cosmetic.color_pos}</Text> 
-                                        <Text>COLOR_NEG : {cosmetic.color_neg}</Text> 
-                                        <Text>SMELL_POS : {cosmetic.smell_pos}</Text> 
-                                        <Text>SMELL_NEG : {cosmetic.smell_neg}</Text> 
-                                        <Text>DURABLE_POS : {cosmetic.durable_pos}</Text> 
-                                        <Text>DURABLE_NEG : {cosmetic.durable_neg}</Text> 
-                                    </View>
-                            })}
-                            
-                        </CardItem>
+                    <CardItem onPress={ () => {console.log(this.props.cosmetic);console.log(this.props.item_details);Actions.comments()} }>
+                      <View>
+                        <Radar data={this.state.data_pos} options={this.state.options} />
+                      </View>
+                    </CardItem>
+                    <CardItem onPress={ () => console.log("HELLO2") }>
+                      <View>
+                        <Radar data={this.state.data_neg} options={this.state.options} />
+                      </View>  
+                    </CardItem>
                   </Card>
                 </Content>
           </Container>

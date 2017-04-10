@@ -26,7 +26,7 @@ class Search extends Component {
 	}
 
 	componentDidMount(){ // debuging
-		this.onBarCodeRead({'data':'800897829995'})
+		this.onBarCodeRead({'data':'79656049770'})
 	}
 	render() {
 		return (

@@ -5,6 +5,7 @@ import Search from './Search'
 import LoginForm from './LoginForm'
 import RegisterForm  from './RegisterForm'
 import Details  from './Details'
+import Comments  from './Comments'
 
  
 const RouterComponent = () => {
@@ -25,6 +26,7 @@ const RouterComponent = () => {
         		hideNavBar
         	/>
         	<Scene key="details" component={Details} title="Deatils" />
+        	<Scene key="comments" component={Comments} title="Comments" />
      		<Scene key="barcodeSearch" component={Search} title="Search" hideNavBar/>
 		</Scene>
    </Router>
