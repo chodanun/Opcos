@@ -22,15 +22,15 @@ export class Details extends Component {
            data_neg: [{
            }],
            options: {
-              width: 300,
-              height: 300,
+              width: 190,
+              height: 180,
               margin: {
                 top: 0,
                 left: 0,
                 right: 0,
                 bottom: 0,
               },
-              r: 120,
+              r: 65,
               max: 10,
               fill: "#2980B9",
               stroke: "#2980B9",
@@ -40,7 +40,7 @@ export class Details extends Component {
               },
               label: {
                 fontFamily: 'Arial',
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: true,
                 fill: '#34495E'
               }
@@ -156,22 +156,21 @@ export class Details extends Component {
                         <Text>{this.props.cosmetic.name}</Text>
                         <Text note>{this.props.cosmetic.brand}</Text>
                     </CardItem>
-
-                    <CardItem onPress={ () => {console.log(this.props.cosmetic);console.log(this.props.item_details);Actions.comments()} }>
-                      <View>
-                        <Radar data={this.state.data_pos} options={this.state.options} />
-                      </View>
-                    </CardItem>
-                    <CardItem onPress={ () => console.log("HELLO2") }>
-                      <View>
-                        <Radar data={this.state.data_neg} options={this.state.options} />
-                      </View>  
-                    </CardItem>
+                    <View style={{flexDirection: 'row'}}>
+                      <CardItem onPress={ () => {console.log(this.props.cosmetic);console.log(this.props.item_details);Actions.comments()} }>
+                        <View>
+                          <Radar data={this.state.data_pos} options={this.state.options} />
+                        </View>
+                      </CardItem>
+                      <CardItem onPress={ () => console.log("HELLO2") }>
+                        <View>
+                          <Radar data={this.state.data_neg} options={this.state.options} />
+                        </View>  
+                      </CardItem>
+                    </View>
                   </Card>
                 </Content>
-          </Container>
-            
-          
+          </Container>    
 
     );
   }
