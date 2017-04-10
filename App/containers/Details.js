@@ -17,20 +17,50 @@ export class Details extends Component {
 	constructor(props) {
         super(props);
         this.state = {
-           data: [{
-
-           }]
+           data_pos: [{
+           }],
+           data_neg: [{
+           }],
+           options: {
+              width: 300,
+              height: 300,
+              margin: {
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              },
+              r: 120,
+              max: 10,
+              fill: "#2980B9",
+              stroke: "#2980B9",
+              animate: {
+                type: 'oneByOne',
+                duration: 200
+              },
+              label: {
+                fontFamily: 'Arial',
+                fontSize: 14,
+                fontWeight: true,
+                fill: '#34495E'
+              }
+            },
         }
 	}
 
   componentWillMount(){
     if (this.props.cosmetic.type == "lipstick"){
       this.setState({
-        data: [{
+        data_pos: [{
           color: 0,
           smell: 0,
           durable: 0,
-        }]
+        }],
+        data_neg: [{
+          color: 0,
+          smell: 0,
+          durable: 0,
+        }],
       })
     }
     else if (this.props.cosmetic.type == "skin protection"){
@@ -41,12 +71,18 @@ export class Details extends Component {
   componentWillReceiveProps(nextprops){
     // console.log("NEXT")
     this.setState({
-        data: [{
+        data_pos: [{
           color: nextprops.item_details[0].color_pos,
           smell: nextprops.item_details[0].smell_pos,
           durable: nextprops.item_details[0].durable_pos,
-        }]
-      })
+        }],
+        data_neg: [{
+          color: nextprops.item_details[0].color_neg,
+          smell: nextprops.item_details[0].smell_neg,
+          durable: nextprops.item_details[0].durable_neg,
+        }],
+        
+    })
 
   }
 
@@ -55,31 +91,6 @@ export class Details extends Component {
   }
 
 	render() {
-   
-    let options = {
-      width: 300,
-      height: 300,
-      margin: {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      },
-      r: 120,
-      max: 10,
-      fill: "#2980B9",
-      stroke: "#2980B9",
-      animate: {
-        type: 'oneByOne',
-        duration: 200
-      },
-      label: {
-        fontFamily: 'Arial',
-        fontSize: 14,
-        fontWeight: true,
-        fill: '#34495E'
-      }
-    }
    return (
           <Container>
               <Header>
@@ -101,12 +112,9 @@ export class Details extends Component {
                         </CardItem>
 
                         <CardItem>
-                            <Image style={{ resizeMode: 'contain' }} source={{ uri: this.props.cosmetic.img }} />
-                        </CardItem>
-
-                        <CardItem>
                         <View>
-                          <Radar data={this.state.data} options={options} />
+                          <Radar data={this.state.data_pos} options={this.state.options} />
+                          <Radar data={this.state.data_neg} options={this.state.options} />
                         </View>
                             <Text>{this.props.cosmetic.type}</Text>
                             <Text>{this.props.cosmetic.description}</Text>
