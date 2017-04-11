@@ -48,7 +48,41 @@ export class Details extends Component {
       
     }
     else if (this.props.cosmetic.type == "skin protection"){
-
+      if(key=="pos"){
+        if (obj.sticky_pos>0)
+          arr.push({"name":"Sticky ("+obj.sticky_pos+")","population":obj.sticky_pos})
+        if (obj.permeate_pos>0)
+          arr.push({"name":"Permeate ("+obj.permeate_pos+")","population":obj.permeate_pos})
+        if (obj.stain_pos>0)
+          arr.push({"name":"Stain ("+obj.stain_pos+")","population":obj.stain_pos})
+        if (obj.smell_pos>0)
+          arr.push({"name":"Smell ("+obj.smell_pos+")","population":obj.smell_pos})
+        if (obj.moist_pos>0)
+          arr.push({"name":"Moist ("+obj.moist_pos+")","population":obj.moist_pos})
+        if (obj.irritate_pos>0)
+          arr.push({"name":"Irritate ("+obj.irritate_pos+")","population":obj.irritate_pos})
+        if (obj.waterproof_pos>0)
+          arr.push({"name":"Waterproof ("+obj.waterproof_pos+")","population":obj.waterproof_pos})
+        if (obj.sunproof_pos>0)
+          arr.push({"name":"Sunproof ("+obj.sunproof_pos+")","population":obj.sunproof_pos})
+      }else{
+        if (obj.sticky_neg>0)
+          arr.push({"name":"Sticky ("+obj.sticky_neg+")","population":obj.sticky_neg})
+        if (obj.permeate_neg>0)
+          arr.push({"name":"Permeate ("+obj.permeate_neg+")","population":obj.permeate_neg})
+        if (obj.stain_neg>0)
+          arr.push({"name":"Stain ("+obj.stain_neg+")","population":obj.stain_neg})
+        if (obj.smell_neg>0)
+          arr.push({"name":"Smell ("+obj.smell_neg+")","population":obj.smell_neg})
+        if (obj.moist_neg>0)
+          arr.push({"name":"Moist ("+obj.moist_neg+")","population":obj.moist_neg})
+        if (obj.irritate_neg>0)
+          arr.push({"name":"Irritate ("+obj.irritate_neg+")","population":obj.irritate_neg})
+        if (obj.waterproof_neg>0)
+          arr.push({"name":"Waterproof ("+obj.waterproof_neg+")","population":obj.waterproof_neg})
+        if (obj.sunproof_neg>0)
+          arr.push({"name":"Sunproof ("+obj.sunproof_neg+")","population":obj.sunproof_neg})
+      }
     }
     return arr
   }
@@ -75,8 +109,8 @@ export class Details extends Component {
         width: 350,
         height: 250,
         color: '#2980B9',
-        r: 35,
-        R: 110,
+        r: 40,
+        R: 120,
         legendPosition: 'topLeft',
         animate: {
           type: 'oneByOne',
@@ -85,7 +119,7 @@ export class Details extends Component {
         },
         label: {
           fontFamily: 'Arial',
-          fontSize: 14,
+          fontSize: 12,
           fontWeight: true,
           color: '#ECF0F1'
         },
@@ -95,6 +129,8 @@ export class Details extends Component {
           var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos")
       }
       else if (this.props.cosmetic.type == "skin protection"){
+          var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
+          var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos") 
       }
       if (data_pos.length>0 && data_neg.length >0)
         return <View>
