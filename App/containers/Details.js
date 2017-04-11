@@ -10,130 +10,159 @@ import {
   View,
   Text,
 } from 'react-native'
-import { Radar } from 'react-native-pathjs-charts'
+import { Pie } from 'react-native-pathjs-charts'
 
 export class Details extends Component {
 
 	constructor(props) {
         super(props);
         this.state = {
-           data_pos: [{
-           }],
-           data_neg: [{
-           }],
-           options: {
-              width: 190,
-              height: 180,
-              margin: {
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-              },
-              r: 65,
-              max: 10,
-              fill: "#2980B9",
-              stroke: "#2980B9",
-              animate: {
-                type: 'oneByOne',
-                duration: 200
-              },
-              label: {
-                fontFamily: 'Arial',
-                fontSize: 12,
-                fontWeight: true,
-                fill: '#34495E'
-              }
-            },
+           searching: false,
         }
 	}
 
   componentWillMount(){
-    if (this.props.cosmetic.type == "lipstick"){
-      this.setState({
-        data_pos: [{
-          color: 0,
-          smell: 0,
-          durable: 0,
-        }],
-        data_neg: [{
-          color: 0,
-          smell: 0,
-          durable: 0,
-        }],
-      })
-    }
-    else if (this.props.cosmetic.type == "skin protection"){
-      this.setState({
-        data_pos: [{
-          sticky: 0,
-          permeate: 0,
-          stain: 0,
-          smell: 0,
-          moist: 0,
-          irritate: 0,
-          waterproof: 0,
-          sunproof: 0,
-        }],
-        data_neg: [{
-          sticky: 0,
-          permeate: 0,
-          stain: 0,
-          smell: 0,
-          moist: 0,
-          irritate: 0,
-          waterproof: 0,
-          sunproof: 0,
-        }],
-      })
-    }
+    this.setState({searching:true})
+    this.props.navToDeatils(this.props.cosmetic).then( ()=> this.setState({searching:false}) )    
   }
 
-  componentWillReceiveProps(nextprops){
+  assignValueToArray(cosmetic_obj,key){
+    let obj = cosmetic_obj[0]
+    let arr = []
     if (this.props.cosmetic.type == "lipstick"){
-      this.setState({
-          data_pos: [{
-            color: nextprops.item_details[0].color_pos,
-            smell: nextprops.item_details[0].smell_pos,
-            durable: nextprops.item_details[0].durable_pos,
-          }],
-          data_neg: [{
-            color: nextprops.item_details[0].color_neg,
-            smell: nextprops.item_details[0].smell_neg,
-            durable: nextprops.item_details[0].durable_neg,
-          }],
-          
-      })
+      if (key == "pos"){
+        if (obj.color_pos>0)
+          arr.push({"name":"Color ("+obj.color_pos+")","population":obj.color_pos})
+        if (obj.smell_pos>0)
+          arr.push({"name":"Smell ("+obj.smell_pos+")","population":obj.smell_pos})
+        if (obj.durable_pos>0)
+          arr.push({"name":"Durable ("+obj.durable_pos+")","population":obj.durable_pos})
+      }else{
+        if (obj.color_neg>0)
+          arr.push({"name":"Color ("+obj.color_neg+")","population":obj.color_neg})
+        if (obj.smell_neg>0)
+          arr.push({"name":"Smell ("+obj.smell_neg+")","population":obj.smell_neg})
+        if (obj.durable_neg>0)
+          arr.push({"name":"Durable ("+obj.durable_neg+")","population":obj.durable_neg})
+      }
+      
     }
     else if (this.props.cosmetic.type == "skin protection"){
-      this.setState({
-        data_pos: [{
-          sticky: nextprops.item_details[0].sticky_pos,
-          permeate: nextprops.item_details[0].permeate_pos,
-          stain: nextprops.item_details[0].stain_pos,
-          smell: nextprops.item_details[0].smell_pos,
-          moist: nextprops.item_details[0].moist_pos,
-          irritate: nextprops.item_details[0].irritate_pos,
-          waterproof: nextprops.item_details[0].waterproof_pos,
-          sunproof: nextprops.item_details[0].sunproof_pos,
-        }],
-        data_neg: [{
-          sticky: nextprops.item_details[0].sticky_neg,
-          permeate: nextprops.item_details[0].permeate_neg,
-          stain: nextprops.item_details[0].stain_neg,
-          smell: nextprops.item_details[0].smell_neg,
-          moist: nextprops.item_details[0].moist_neg,
-          irritate: nextprops.item_details[0].irritate_neg,
-          waterproof: nextprops.item_details[0].waterproof_neg,
-          sunproof: nextprops.item_details[0].sunproof_neg,
-        }],
-      })
-    }
 
+    }
+    return arr
   }
 
-  itemDetails(){
-    return Object.keys(this.props.item_details).map( key => this.props.item_details[key])
+  renderGraph(){
+    if (!this.state.searching){
+      let pallete_pos = [
+        {'r':0,'g':0,'b':255},
+        {'r':0,'g':204,'b':0},
+        {'r':204,'g':0,'b':0},
+        {'r':102,'g':0,'b':204},
+        {'r':204,'g':204,'b':0},
+        {'r':255,'g':128,'b':0},
+        {'r':255,'g':51,'b':123},
+        {'r':102,'g':51,'b':0}
+      ]
+      let options = {
+        margin: {
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
+        },
+        width: 350,
+        height: 250,
+        color: '#2980B9',
+        r: 35,
+        R: 110,
+        legendPosition: 'topLeft',
+        animate: {
+          type: 'oneByOne',
+          duration: 200,
+          fillTransition: 3
+        },
+        label: {
+          fontFamily: 'Arial',
+          fontSize: 14,
+          fontWeight: true,
+          color: '#ECF0F1'
+        },
+      }
+      if (this.props.cosmetic.type == "lipstick"){   
+          var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
+          var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos")
+      }
+      else if (this.props.cosmetic.type == "skin protection"){
+      }
+      if (data_pos.length>0 && data_neg.length >0)
+        return <View>
+                  <CardItem onPress={ () => {console.log("X") }}>
+                    <Text>POSITIVE</Text>
+                    <Pie data={data_pos}
+                      options={options}
+                      accessorKey="population"
+                      pallete={
+                        pallete_pos
+                      }
+                      />
+                  </CardItem>
+                  <CardItem onPress={ () => {console.log("Y") }}>
+                    <Text>NEGATIVE</Text>
+                    <Pie data={data_neg}
+                    options={options}
+                    accessorKey="population"
+                    pallete={
+                      [
+                        {'r':25,'g':99,'b':201},
+                        {'r':24,'g':175,'b':35},
+                        {'r':190,'g':31,'b':69},
+                        {'r':100,'g':36,'b':199},
+                        {'r':214,'g':207,'b':32},
+                        {'r':198,'g':84,'b':45}
+                      ]
+                    }
+                    />
+                  </CardItem>
+                </View>
+      else if (data_pos.length>0)
+        return <CardItem onPress={ () => {console.log(Actions.comments()) }}>
+                <Text>POSITIVE</Text>
+                <Pie data={data_pos}
+                  options={options}
+                  accessorKey="population"
+                  pallete={
+                    [
+                      {'r':25,'g':99,'b':201},
+                      {'r':24,'g':175,'b':35},
+                      {'r':190,'g':31,'b':69},
+                      {'r':100,'g':36,'b':199},
+                      {'r':214,'g':207,'b':32},
+                      {'r':198,'g':84,'b':45}
+                    ]
+                  }
+                  />
+              </CardItem>
+      else
+        return <CardItem onPress={ () => {console.log(Actions.comments()) }}>
+                <Text>NEGATIVE</Text>
+                <Pie data={data_neg}
+                  options={options}
+                  accessorKey="population"
+                  pallete={
+                    [
+                      {'r':25,'g':99,'b':201},
+                      {'r':24,'g':175,'b':35},
+                      {'r':190,'g':31,'b':69},
+                      {'r':100,'g':36,'b':199},
+                      {'r':214,'g':207,'b':32},
+                      {'r':198,'g':84,'b':45}
+                    ]
+                  }
+                  />
+                </CardItem>
+    }
   }
 
 	render() {
@@ -143,31 +172,19 @@ export class Details extends Component {
                   <Button transparent onPress = {()=> Actions.pop()} >
                       <Icon name="ios-arrow-back" />
                   </Button>
-
                   <Title> Opinion Graph Analysis </Title>
-
                   <Button transparent>
                       <Icon name="ios-menu" />
                   </Button>
               </Header>
+
               <Content>
                 <Card>
-                    <CardItem >
+                    <CardItem header>
                         <Text>{this.props.cosmetic.name}</Text>
                         <Text note>{this.props.cosmetic.brand}</Text>
                     </CardItem>
-                    <View style={{flexDirection: 'row'}}>
-                      <CardItem onPress={ () => {console.log(this.props.cosmetic);console.log(this.props.item_details);Actions.comments()} }>
-                        <View>
-                          <Radar data={this.state.data_pos} options={this.state.options} />
-                        </View>
-                      </CardItem>
-                      <CardItem onPress={ () => console.log("HELLO2") }>
-                        <View>
-                          <Radar data={this.state.data_neg} options={this.state.options} />
-                        </View>  
-                      </CardItem>
-                    </View>
+                    {this.renderGraph()}
                   </Card>
                 </Content>
           </Container>    
@@ -191,7 +208,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return { 
   	num : state.num,
-    item_details : state.cosmeticDetails,
+    cosmetic_details : state.cosmeticDetails,
   };
 }
 

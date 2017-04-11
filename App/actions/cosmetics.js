@@ -30,10 +30,9 @@ export function setSearchedCosmetics({ cosmetics }){
 	}
 }
 
-export function navToDeatils({cosmetic}){
+export function navToDeatils(cosmetic){
   var item_id = cosmetic.item_id
   var item_type = cosmetic.type
-  Actions.details({cosmetic})
   return (dispatch, getState) => {
     const route = `/api/search/itemOpinion/${item_type}/${item_id}`
     return Api.get(route).then(resp => {

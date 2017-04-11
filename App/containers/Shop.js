@@ -17,6 +17,7 @@ const {
 import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon, List, ListItem, CheckBox, Button} from 'native-base'
 import { Icon as Icons } from 'react-native-elements'
 import { RadioButtons } from 'react-native-radio-buttons'
+import { Actions } from 'react-native-router-flux';
 
 class Shop extends Component {
 
@@ -106,7 +107,8 @@ class Shop extends Component {
 	}
 
 	navToDetailsPage({cosmetic}){
-		this.props.navToDeatils({cosmetic})
+		Actions.details({cosmetic})
+		// this.props.navToDeatils({cosmetic})
 	}
 
 	render(){
