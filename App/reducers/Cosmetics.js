@@ -26,11 +26,11 @@ export const cosmeticCount = createReducer(0,{
 	}
 })
 
-// export const num = createReducer(0,{
-// 	[types.ADD](state, action){
-// 		return state+10
-// 	}
-// })
+export const comments = createReducer({},{
+	[types.SET_COMMENTS](state, action){
+		return action.comment
+	}
+})
 
 export const barcode_number = createReducer(null,{
 	[types.SET_BARCODE_NUMBER](state, action){
@@ -38,3 +38,8 @@ export const barcode_number = createReducer(null,{
 	}
 })
 
+// export const num = createReducer(0,{
+// 	[types.ADD](state, action){
+// 		return state+10
+// 	}
+// })

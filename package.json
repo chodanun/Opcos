@@ -17,6 +17,7 @@
     "react-native-pathjs-charts": "0.0.26",
     "react-native-radio-buttons": "^0.13.0",
     "react-native-router-flux": "^3.37.0",
+    "react-native-segmented-control-tab": "^3.0.1",
     "react-native-vector-icons": "^4.0.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",

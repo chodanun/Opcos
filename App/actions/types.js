@@ -18,4 +18,7 @@ export const SET_BARCODE_NUMBER = 'SET_BARCODE_NUMBER'
 //Detail Pages
 export const SET_DETAILS_COSMETIC = 'SET_DETAILS_COSMETIC' 
 
+//Comments
+export const SET_COMMENTS = 'SET_COMMENTS' 
+
 

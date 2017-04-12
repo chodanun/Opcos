@@ -26,7 +26,7 @@ const RouterComponent = () => {
         		hideNavBar
         	/>
         	<Scene key="details" component={Details} title="Deatils" />
-        	<Scene key="comments" component={Comments} title="Comments" />
+        	<Scene key="comments" component={Comments} title="Comments" hideNavBar/>
      		<Scene key="barcodeSearch" component={Search} title="Search" hideNavBar/>
 		</Scene>
    </Router>

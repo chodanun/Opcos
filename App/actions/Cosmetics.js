@@ -23,6 +23,24 @@ export function fetchCosmetics(input,option){
   }
 }
 
+export function queryComments(type,item_id){
+  return (dispatch, getState) => {
+    route = `/api/search/item-comments/${type}/${item_id}`
+    return Api.get(route).then(resp => {
+      dispatch(setComments({comment:resp}))
+    }).catch( (ex) => {
+      console.log(ex);
+    })
+  }
+}
+
+export function setComments({comment}){
+  return {
+    type : types.SET_COMMENTS,
+    comment
+  }
+}
+
 export function setSearchedCosmetics({ cosmetics }){
 	return {
 		type : types.SET_SEARCHED_COSMETICS,

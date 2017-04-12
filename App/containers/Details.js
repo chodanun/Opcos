@@ -132,7 +132,7 @@ export class Details extends Component {
       },
     }
     let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
-    return <CardItem onPress={ () => { Actions.comments() }}>
+    return <CardItem onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}>
               <Text>{prompt}</Text>
               <Pie data={data}
                 options={options}
@@ -143,6 +143,7 @@ export class Details extends Component {
                 />
             </CardItem>
   }
+  
   renderGraph(){
     if (!this.state.searching){
       
