@@ -14,12 +14,12 @@ import { Pie } from 'react-native-pathjs-charts'
 
 export class Details extends Component {
 
-	constructor(props) {
+  constructor(props) {
         super(props);
         this.state = {
            searching: false,
         }
-	}
+  }
 
   componentWillMount(){
     this.setState({searching:true})
@@ -87,9 +87,8 @@ export class Details extends Component {
     return arr
   }
 
-  renderGraph(){
-    if (!this.state.searching){
-      let pallete_pos = [
+  renderElementGraph(data,prompt){
+    let pallete_pos = [
         {'r':0,'g':0,'b':255},
         {'r':0,'g':204,'b':0},
         {'r':204,'g':0,'b':0},
@@ -98,32 +97,55 @@ export class Details extends Component {
         {'r':255,'g':128,'b':0},
         {'r':255,'g':51,'b':123},
         {'r':102,'g':51,'b':0}
-      ]
-      let options = {
-        margin: {
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0
-        },
-        width: 350,
-        height: 250,
-        color: '#2980B9',
-        r: 40,
-        R: 120,
-        legendPosition: 'topLeft',
-        animate: {
-          type: 'oneByOne',
-          duration: 200,
-          fillTransition: 3
-        },
-        label: {
-          fontFamily: 'Arial',
-          fontSize: 12,
-          fontWeight: true,
-          color: '#ECF0F1'
-        },
-      }
+    ]
+    let pallete_neg =[
+      {'r':25,'g':99,'b':201},
+      {'r':24,'g':175,'b':35},
+      {'r':190,'g':31,'b':69},
+      {'r':100,'g':36,'b':199},
+      {'r':214,'g':207,'b':32},
+      {'r':198,'g':84,'b':45}
+    ]
+    let options = {
+      margin: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      },
+      width: 350,
+      height: 250,
+      color: '#2980B9',
+      r: 40,
+      R: 120,
+      legendPosition: 'topLeft',
+      animate: {
+        type: 'oneByOne',
+        duration: 200,
+        fillTransition: 3
+      },
+      label: {
+        fontFamily: 'Arial',
+        fontSize: 12,
+        fontWeight: true,
+        color: '#ECF0F1'
+      },
+    }
+    let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
+    return <CardItem onPress={ () => { Actions.comments() }}>
+              <Text>{prompt}</Text>
+              <Pie data={data}
+                options={options}
+                accessorKey="population"
+                pallete={
+                  pallete
+                }
+                />
+            </CardItem>
+  }
+  renderGraph(){
+    if (!this.state.searching){
+      
       if (this.props.cosmetic.type == "lipstick"){   
           var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
           var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos")
@@ -134,81 +156,28 @@ export class Details extends Component {
       }
       if (data_pos.length>0 && data_neg.length >0)
         return <View>
-                  <CardItem onPress={ () => {console.log("X") }}>
-                    <Text>POSITIVE</Text>
-                    <Pie data={data_pos}
-                      options={options}
-                      accessorKey="population"
-                      pallete={
-                        pallete_pos
-                      }
-                      />
-                  </CardItem>
-                  <CardItem onPress={ () => {console.log("Y") }}>
-                    <Text>NEGATIVE</Text>
-                    <Pie data={data_neg}
-                    options={options}
-                    accessorKey="population"
-                    pallete={
-                      [
-                        {'r':25,'g':99,'b':201},
-                        {'r':24,'g':175,'b':35},
-                        {'r':190,'g':31,'b':69},
-                        {'r':100,'g':36,'b':199},
-                        {'r':214,'g':207,'b':32},
-                        {'r':198,'g':84,'b':45}
-                      ]
-                    }
-                    />
-                  </CardItem>
+                  {this.renderElementGraph(data_pos,"POSITIVE")}
+                  {this.renderElementGraph(data_neg,"NEGATIVE")}
                 </View>
       else if (data_pos.length>0)
-        return <CardItem onPress={ () => {console.log(Actions.comments()) }}>
-                <Text>POSITIVE</Text>
-                <Pie data={data_pos}
-                  options={options}
-                  accessorKey="population"
-                  pallete={
-                    [
-                      {'r':25,'g':99,'b':201},
-                      {'r':24,'g':175,'b':35},
-                      {'r':190,'g':31,'b':69},
-                      {'r':100,'g':36,'b':199},
-                      {'r':214,'g':207,'b':32},
-                      {'r':198,'g':84,'b':45}
-                    ]
-                  }
-                  />
-              </CardItem>
-      else
-        return <CardItem onPress={ () => {console.log(Actions.comments()) }}>
-                <Text>NEGATIVE</Text>
-                <Pie data={data_neg}
-                  options={options}
-                  accessorKey="population"
-                  pallete={
-                    [
-                      {'r':25,'g':99,'b':201},
-                      {'r':24,'g':175,'b':35},
-                      {'r':190,'g':31,'b':69},
-                      {'r':100,'g':36,'b':199},
-                      {'r':214,'g':207,'b':32},
-                      {'r':198,'g':84,'b':45}
-                    ]
-                  }
-                  />
-                </CardItem>
+        return <View>
+                  {this.renderElementGraph(data_pos,"POSITIVE")}
+                </View>
+      else if (data_neg.length>0)
+        return <View>
+                  {this.renderElementGraph(data_neg,"NEGATIVE")}
+                </View>
     }
   }
 
-	render() {
+  render() {
    return (
           <Container>
               <Header>
                   <Button transparent onPress = {()=> Actions.pop()} >
                       <Icon name="ios-arrow-back" />
                   </Button>
-                  <Title> Opinion Graph Analysis </Title>
+                  <Title> Opinion Analysis Graph</Title>
                   <Button transparent>
                       <Icon name="ios-menu" />
                   </Button>
@@ -243,7 +212,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return { 
-  	num : state.num,
+    num : state.num,
     cosmetic_details : state.cosmeticDetails,
   };
 }
