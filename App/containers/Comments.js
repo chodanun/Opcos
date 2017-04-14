@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import { Actions } from 'react-native-router-flux';
-import { Container, Header, Button, Icon, Title, Content, Card, CardItem } from 'native-base';
+import { Container, Header, Button, Icon, Title, Content, Card, CardItem, Tabs } from 'native-base';
 import {
   Image,
   StyleSheet,
@@ -11,7 +11,7 @@ import {
   Text,
 } from 'react-native'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
-
+import QueryAll from './QueryAll'
 export class Comments extends Component {
 
 	constructor(props) {
@@ -19,20 +19,11 @@ export class Comments extends Component {
         this.state = {
           selectedIndex: 0,
           arr: [],
-          searching: false,
         }
 	}
 
-  // componentDidUpdate(){
-  //   if (this.state.arr[this.state.selectedIndex]== "All")
-  //     this.props.queryComments(this.props.cosmetic.type,this.props.cosmetic.item_id).then(()=>{
-  //       console.log(this.props.comments)
-  //     })
-  // }
-
   componentWillMount(){
-    this.setState({searching:true})
-    this.props.queryComments(this.props.cosmetic.type,this.props.cosmetic.item_id).then(()=> this.setState({searching:false}))
+    this.props.queryComments(this.props.cosmetic.type,this.props.cosmetic.item_id)
 
     let arr = ["All"]
     if (this.props.cosmetic.type == "lipstick"){
@@ -44,8 +35,7 @@ export class Comments extends Component {
         if (this.props.details.color_neg>0) arr.push("Color")
         if (this.props.details.smell_neg>0) arr.push("Smell")
         if (this.props.details.durable_neg>0) arr.push("Durable")
-      }
-      
+      }    
     }else{
       if (this.props.prompt == "POSITIVE"){
         if (this.props.details.sticky_pos>0) arr.push("Sticky")
@@ -89,8 +79,20 @@ export class Comments extends Component {
     return Object.keys(this.props.comments).map( key => this.props.comments[key])
   }
 
-  renderNumberComment(){
-    return "WFQ"
+  renderData(){
+
+    return  <View>    
+                      <Tabs>
+                        <QueryAll tabLabel="One" />
+                        <QueryAll tabLabel="Two" />
+                        <QueryAll tabLabel="Three" />
+                        <QueryAll tabLabel="four" />
+                        <QueryAll tabLabel="four1" />
+                        <QueryAll tabLabel="four2" />
+                        <QueryAll tabLabel="four3" />
+                        <QueryAll tabLabel="four4" />
+                        </Tabs>
+            </View>
   }
 
 	render() {
@@ -106,25 +108,18 @@ export class Comments extends Component {
               </Header>
               
               <Content>
-                <Card>
-                    <CardItem>
-                        <Text>
-                            Found {this.renderNumberComment()} comments > {this.state.arr[this.state.selectedIndex]}'s feature
-                        </Text>
-                    </CardItem>
-                </Card>
-                 {this.renderSegments()}
+                
                  
-                 {!this.state.searching && this.commentsKey().map(obj => {
-                  return <Card key={obj.comment_id}>
-                           <CardItem header>
-                                <Text>{obj.comment_title}</Text>
-                            </CardItem>
-                            <CardItem >
-                                <Text>{obj.comment_com}</Text>
-                            </CardItem>
-                         </Card>
-                 })}
+                        <Tabs>
+                        <QueryAll tabLabel="One" />
+                        <QueryAll tabLabel="Two" />
+                        
+                        <QueryAll tabLabel="four4" />
+                        </Tabs>
+                        
+                 
+                 
+                 
                  
 
               </Content>
@@ -157,3 +152,13 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+// {this.state.arr[this.state.selectedIndex]=="All" && this.commentsKey().map(obj => {
+//                   return <Card key={obj.comment_id}>
+//                            <CardItem header>
+//                                 <Text>{obj.comment_title}</Text>
+//                             </CardItem>
+//                             <CardItem >
+//                                 <Text>{obj.comment_com}</Text>
+//                             </CardItem>
+//                          </Card>
+//                  })}
