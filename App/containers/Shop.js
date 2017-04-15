@@ -26,7 +26,6 @@ class Shop extends Component {
 	  this.state = { 
 	  	searching: false,
 	  	cosmeticsInput: this.props.barcode? this.props.barcode:'',
-	  	// search options
 	  	searchOption : false,
 	  	searchChecked: [true,false,false,false],
 	  	searchName : 'Search by name',
