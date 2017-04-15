@@ -9,8 +9,10 @@ import {
   StyleSheet,
   View,
   Text,
+  TouchableWithoutFeedback,
 } from 'react-native'
 import { Pie } from 'react-native-pathjs-charts'
+import Modal from 'react-native-modalbox';
 
 export class Details extends Component {
 
@@ -18,6 +20,7 @@ export class Details extends Component {
         super(props);
         this.state = {
            searching: false,
+           isDisabled: false,
         }
   }
 
@@ -116,7 +119,7 @@ export class Details extends Component {
       width: 350,
       height: 250,
       color: '#2980B9',
-      r: 40,
+      r: 35,
       R: 120,
       legendPosition: 'topLeft',
       animate: {
@@ -133,16 +136,17 @@ export class Details extends Component {
     }
     let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
     // onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}
-    return <CardItem onPress={ ()=> console.log("click"+prompt)}>
-              <Text>{prompt}</Text>
-              <Pie data={data}
-                options={options}
-                accessorKey="population"
-                pallete={
-                  pallete
-                }
-                />
-            </CardItem>
+    return  <TouchableWithoutFeedback onPress={ ()=> this.refs.modal3.open()} >
+              <View style={{backgroundColor: prompt=="POSITIVE"? '#AAF07E':'#F74251' ,flex:1,alignItems:'center',justifyContent:'center'}}>
+                <Pie data={data}
+                  options={options}
+                  accessorKey="population"
+                  pallete={
+                    pallete
+                  }
+                  />
+              </View>
+            </TouchableWithoutFeedback>
   }
   
   renderGraph(){
@@ -157,24 +161,26 @@ export class Details extends Component {
           var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos") 
       }
       if (data_pos.length>0 && data_neg.length >0)
-        return <View>
+        return <View style={{flex:1}}>
                   {this.renderElementGraph(data_pos,"POSITIVE")}
                   {this.renderElementGraph(data_neg,"NEGATIVE")}
                 </View>
       else if (data_pos.length>0)
-        return <View>
+        return <View style={{flex:1}}>
                   {this.renderElementGraph(data_pos,"POSITIVE")}
                 </View>
       else if (data_neg.length>0)
-        return <View>
+        return <View style={{flex:1}}>
                   {this.renderElementGraph(data_neg,"NEGATIVE")}
                 </View>
     }
   }
 
   render() {
+    // this.props.cosmetic
+    // this.props.cosmetic_details
    return (
-          <Container>
+          <Container stlye={styles.wrapper}>
               <Header>
                   <Button transparent onPress = {()=> Actions.pop()} >
                       <Icon name="ios-arrow-back" />
@@ -185,15 +191,14 @@ export class Details extends Component {
                   </Button>
               </Header>
 
-              <Content>
-                <Card>
-                    <CardItem header>
-                        <Text>{this.props.cosmetic.name}</Text>
-                        <Text note>{this.props.cosmetic.brand}</Text>
-                    </CardItem>
-                    {this.renderGraph()}
-                  </Card>
-                </Content>
+              <View style={{flex:1,backgroundColor:'black'}}>
+                  {this.renderGraph()}
+                  <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
+                    <Text style={styles.text}>Modal centered</Text>
+                    <Button onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
+                  </Modal>
+              </View>
+
           </Container>    
 
     );
@@ -202,8 +207,36 @@ export class Details extends Component {
 }
 
 const styles = StyleSheet.create({
-  container :{
-    flex:1,
+   wrapper: {
+    paddingTop: 50,
+    flex: 1,
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modal3: {
+    height: 300,
+    width: 300
+  },
+  text: {
+    color: "black",
+    fontSize: 22
+  },
+  btn: {
+    margin: 10,
+    backgroundColor: "#3B5998",
+    padding: 10,
+
+  },
+
+  btnModal: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 50,
+    height: 50,
+    backgroundColor: "transparent"
   },
 
 })
@@ -219,5 +252,36 @@ function mapStateToProps(state) {
   };
 }
 
-
 export default connect(mapStateToProps, mapDispatchToProps)(Details);
+
+// <Button onPress={() => this.refs.modal3.open()} style={styles.btn}>Position centered + backdrop + disable</Button>
+//                 <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
+//           <Text style={styles.text}>Modal centered</Text>
+//           <Button onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
+//         </Modal>
+
+
+
+ // <Container stlye={styles.wrapper}>
+ //              <Header>
+ //                  <Button transparent onPress = {()=> Actions.pop()} >
+ //                      <Icon name="ios-arrow-back" />
+ //                  </Button>
+ //                  <Title> Opinion Analysis Graph</Title>
+ //                  <Button transparent>
+ //                      <Icon name="ios-menu" />
+ //                  </Button>
+ //              </Header>
+
+ //              <Content>
+ //              <Button onPress={() => this.refs.modal3.open()} style={styles.btn}>Position centered + backdrop + disable</Button>
+ //                <Card>
+ //                    <CardItem header>
+ //                        <Text>{this.props.cosmetic.name}</Text>
+ //                        <Text note>{this.props.cosmetic.brand}</Text>
+ //                    </CardItem>
+ //                    {this.renderGraph()}
+ //                  </Card>
+ //                </Content>
+
+ //          </Container>   
