@@ -21,72 +21,144 @@ export class Details extends Component {
         this.state = {
            searching: false,
            isDisabled: false,
+           listItems_neg: [],
+           listItems_pos: [],
+           data_neg: [],
+           data_pos: [],
         }
+  }
+
+  shouldComponentUpdate(nextProps,nextState){
+    return this.props.cosmetic_details != nextState.cosmetic_details
   }
 
   componentWillMount(){
     this.setState({searching:true})
-    this.props.navToDeatils(this.props.cosmetic).then( ()=> this.setState({searching:false}) )    
+    this.props.navToDeatils(this.props.cosmetic).then( ()=> {
+      this.setState({searching:false})
+      if (this.props.cosmetic.type == "lipstick"){   
+          var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
+          var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos")
+      }
+      else if (this.props.cosmetic.type == "skin protection"){
+          var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
+          var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos") 
+      }
+      this.setState({data_pos,data_neg})
+    })
   }
 
   assignValueToArray(cosmetic_obj,key){
     let obj = cosmetic_obj[0]
     let arr = []
+    let listItems_pos = []
+    let listItems_neg = []
     if (this.props.cosmetic.type == "lipstick"){
       if (key == "pos"){
-        if (obj.color_pos>0)
+        if (obj.color_pos>0){
           arr.push({"name":"Color ("+obj.color_pos+")","population":obj.color_pos})
-        if (obj.smell_pos>0)
+          listItems_pos.push("color")
+        }
+        if (obj.smell_pos>0){
           arr.push({"name":"Smell ("+obj.smell_pos+")","population":obj.smell_pos})
-        if (obj.durable_pos>0)
+          listItems_pos.push("smell")
+        }
+        if (obj.durable_pos>0){
           arr.push({"name":"Durable ("+obj.durable_pos+")","population":obj.durable_pos})
+          listItems_pos.push("durable")
+        }
       }else{
-        if (obj.color_neg>0)
+        if (obj.color_neg>0){
           arr.push({"name":"Color ("+obj.color_neg+")","population":obj.color_neg})
-        if (obj.smell_neg>0)
+          listItems_neg.push("color")
+        }
+        if (obj.smell_neg>0){
           arr.push({"name":"Smell ("+obj.smell_neg+")","population":obj.smell_neg})
-        if (obj.durable_neg>0)
+          listItems_neg.push("smell")
+        }
+        if (obj.durable_neg>0){
           arr.push({"name":"Durable ("+obj.durable_neg+")","population":obj.durable_neg})
-      }
-      
+          listItems_neg.push("durable")
+        }
+      }   
     }
     else if (this.props.cosmetic.type == "skin protection"){
       if(key=="pos"){
-        if (obj.sticky_pos>0)
+        if (obj.sticky_pos>0){
           arr.push({"name":"Sticky ("+obj.sticky_pos+")","population":obj.sticky_pos})
-        if (obj.permeate_pos>0)
+          listItems_pos.push('sticky')
+        }
+        if (obj.permeate_pos>0){
           arr.push({"name":"Permeate ("+obj.permeate_pos+")","population":obj.permeate_pos})
-        if (obj.stain_pos>0)
+          listItems_pos.push('permeate')
+        }
+        if (obj.stain_pos>0){
           arr.push({"name":"Stain ("+obj.stain_pos+")","population":obj.stain_pos})
-        if (obj.smell_pos>0)
+          listItems_pos.push('stain')
+        }
+        if (obj.smell_pos>0){
           arr.push({"name":"Smell ("+obj.smell_pos+")","population":obj.smell_pos})
-        if (obj.moist_pos>0)
+          listItems_pos.push('smell')
+        }
+        if (obj.moist_pos>0){
           arr.push({"name":"Moist ("+obj.moist_pos+")","population":obj.moist_pos})
-        if (obj.irritate_pos>0)
+          listItems_pos.push('moist')
+        }
+        if (obj.irritate_pos>0){
           arr.push({"name":"Irritate ("+obj.irritate_pos+")","population":obj.irritate_pos})
-        if (obj.waterproof_pos>0)
+          listItems_pos.push('irritate')
+        }
+        if (obj.waterproof_pos>0){
           arr.push({"name":"Waterproof ("+obj.waterproof_pos+")","population":obj.waterproof_pos})
-        if (obj.sunproof_pos>0)
+          listItems_pos.push('waterproof')
+        }
+        if (obj.sunproof_pos>0){
           arr.push({"name":"Sunproof ("+obj.sunproof_pos+")","population":obj.sunproof_pos})
+          listItems_pos.push('sunproof')
+        }
       }else{
-        if (obj.sticky_neg>0)
+        if (obj.sticky_neg>0){
           arr.push({"name":"Sticky ("+obj.sticky_neg+")","population":obj.sticky_neg})
-        if (obj.permeate_neg>0)
+          listItems_neg.push('sticky')
+        }
+        if (obj.permeate_neg>0){
           arr.push({"name":"Permeate ("+obj.permeate_neg+")","population":obj.permeate_neg})
-        if (obj.stain_neg>0)
+          listItems_neg.push('permeate')
+        }
+        if (obj.stain_neg>0){
           arr.push({"name":"Stain ("+obj.stain_neg+")","population":obj.stain_neg})
-        if (obj.smell_neg>0)
+          listItems_neg.push('stain')
+        }
+        if (obj.smell_neg>0){
           arr.push({"name":"Smell ("+obj.smell_neg+")","population":obj.smell_neg})
-        if (obj.moist_neg>0)
+          listItems_neg.push('smell')
+        }
+        if (obj.moist_neg>0){
           arr.push({"name":"Moist ("+obj.moist_neg+")","population":obj.moist_neg})
-        if (obj.irritate_neg>0)
+          listItems_neg.push('moist')
+        }
+        if (obj.irritate_neg>0){
           arr.push({"name":"Irritate ("+obj.irritate_neg+")","population":obj.irritate_neg})
-        if (obj.waterproof_neg>0)
+          listItems_neg.push('irritate')
+        }
+        if (obj.waterproof_neg>0){
           arr.push({"name":"Waterproof ("+obj.waterproof_neg+")","population":obj.waterproof_neg})
-        if (obj.sunproof_neg>0)
+          listItems_neg.push('waterproof')
+        }
+        if (obj.sunproof_neg>0){
           arr.push({"name":"Sunproof ("+obj.sunproof_neg+")","population":obj.sunproof_neg})
+          listItems_neg.push('sunproof')
+        }
       }
     }
+
+    if (key=="pos"){
+      this.setState({listItems_pos})
+    }
+    else{
+      this.setState({listItems_neg}) 
+    }
+    
     return arr
   }
 
@@ -136,7 +208,7 @@ export class Details extends Component {
     }
     let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
     // onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}
-    return  <TouchableWithoutFeedback onPress={ ()=> this.refs.modal3.open()} >
+    return  <TouchableWithoutFeedback onPress={ ()=> this.refs.modal3.open() } >
               <View style={{backgroundColor: prompt=="POSITIVE"? '#AAF07E':'#F74251' ,flex:1,alignItems:'center',justifyContent:'center'}}>
                 <Pie data={data}
                   options={options}
@@ -151,15 +223,8 @@ export class Details extends Component {
   
   renderGraph(){
     if (!this.state.searching){
-      
-      if (this.props.cosmetic.type == "lipstick"){   
-          var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
-          var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos")
-      }
-      else if (this.props.cosmetic.type == "skin protection"){
-          var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
-          var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos") 
-      }
+      var data_pos = this.state.data_pos
+      var data_neg = this.state.data_neg
       if (data_pos.length>0 && data_neg.length >0)
         return <View style={{flex:1}}>
                   {this.renderElementGraph(data_pos,"POSITIVE")}
@@ -191,7 +256,7 @@ export class Details extends Component {
                   </Button>
               </Header>
 
-              <View style={{flex:1,backgroundColor:'black'}}>
+              <View style={{flex:1}}>
                   {this.renderGraph()}
                   <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
                     <Text style={styles.text}>Modal centered</Text>
@@ -253,35 +318,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Details);
-
-// <Button onPress={() => this.refs.modal3.open()} style={styles.btn}>Position centered + backdrop + disable</Button>
-//                 <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
-//           <Text style={styles.text}>Modal centered</Text>
-//           <Button onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
-//         </Modal>
-
-
-
- // <Container stlye={styles.wrapper}>
- //              <Header>
- //                  <Button transparent onPress = {()=> Actions.pop()} >
- //                      <Icon name="ios-arrow-back" />
- //                  </Button>
- //                  <Title> Opinion Analysis Graph</Title>
- //                  <Button transparent>
- //                      <Icon name="ios-menu" />
- //                  </Button>
- //              </Header>
-
- //              <Content>
- //              <Button onPress={() => this.refs.modal3.open()} style={styles.btn}>Position centered + backdrop + disable</Button>
- //                <Card>
- //                    <CardItem header>
- //                        <Text>{this.props.cosmetic.name}</Text>
- //                        <Text note>{this.props.cosmetic.brand}</Text>
- //                    </CardItem>
- //                    {this.renderGraph()}
- //                  </Card>
- //                </Content>
-
- //          </Container>   
