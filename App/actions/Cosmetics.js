@@ -23,9 +23,9 @@ export function fetchCosmetics(input,option){
   }
 }
 
-export function queryComments(type,item_id){
+export function queryComments(item_id,type,feature,kind){
   return (dispatch, getState) => {
-    route = `/api/search/item-comments/${type}/${item_id}`
+    route = `/api/search/item-comments/${item_id}/${type}/${feature}/${kind}`
     return Api.get(route).then(resp => {
       dispatch(setComments({comment:resp}))
     }).catch( (ex) => {

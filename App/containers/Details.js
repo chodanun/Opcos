@@ -243,19 +243,23 @@ export class Details extends Component {
     }
   }
 
-
+  navToComments(feature,kind){
+    kind = kind.toLowerCase()
+    let {type,item_id} = this.props.cosmetic
+    this.props.queryComments(item_id,type,feature,kind).then( ()=> console.log("query finish"))
+  }
 
   renderModal(){
     let arr = []
     if (this.state.selectVal == "POSITIVE"){
       this.state.listItems_pos.map(obj => {
-        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> console.log(obj,this.state.selectVal)}>
+        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
                     <Text style={styles.listText}>{obj}</Text>
                   </TouchableHighlight>)
       })
     }else{
       this.state.listItems_neg.map(obj => {
-        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> console.log(obj,this.state.selectVal)}>
+        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
                     <Text style={styles.listText}>{obj}</Text>
                   </TouchableHighlight>)
       })
