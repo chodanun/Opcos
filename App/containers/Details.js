@@ -10,6 +10,7 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
+  TouchableHighlight,
 } from 'react-native'
 import { Pie } from 'react-native-pathjs-charts'
 import Modal from 'react-native-modalbox';
@@ -25,6 +26,7 @@ export class Details extends Component {
            listItems_pos: [],
            data_neg: [],
            data_pos: [],
+           selectVal: '',
         }
   }
 
@@ -34,7 +36,7 @@ export class Details extends Component {
 
   componentWillMount(){
     this.setState({searching:true})
-    this.props.navToDeatils(this.props.cosmetic).then( ()=> {
+    this.props.loadOpinionFiles(this.props.cosmetic).then( ()=> {
       this.setState({searching:false})
       if (this.props.cosmetic.type == "lipstick"){   
           var data_neg = this.assignValueToArray(this.props.cosmetic_details,"neg")
@@ -208,7 +210,7 @@ export class Details extends Component {
     }
     let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
     // onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}
-    return  <TouchableWithoutFeedback onPress={ ()=> this.refs.modal3.open() } >
+    return  <TouchableWithoutFeedback onPress={ ()=> {this.refs.modal3.open();this.setState({selectVal:prompt})} } >
               <View style={{backgroundColor: prompt=="POSITIVE"? '#AAF07E':'#F74251' ,flex:1,alignItems:'center',justifyContent:'center'}}>
                 <Pie data={data}
                   options={options}
@@ -241,9 +243,26 @@ export class Details extends Component {
     }
   }
 
+
+
+  renderModal(){
+    let arr = []
+    if (this.state.selectVal == "POSITIVE"){
+      this.state.listItems_pos.map(obj => {
+        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> console.log(obj,this.state.selectVal)}>
+                    <Text style={styles.listText}>{obj}</Text>
+                  </TouchableHighlight>)
+      })
+    }else{
+      this.state.listItems_neg.map(obj => {
+        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> console.log(obj,this.state.selectVal)}>
+                    <Text style={styles.listText}>{obj}</Text>
+                  </TouchableHighlight>)
+      })
+    }
+    return arr
+  }
   render() {
-    // this.props.cosmetic
-    // this.props.cosmetic_details
    return (
           <Container stlye={styles.wrapper}>
               <Header>
@@ -259,8 +278,8 @@ export class Details extends Component {
               <View style={{flex:1}}>
                   {this.renderGraph()}
                   <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}>
-                    <Text style={styles.text}>Modal centered</Text>
-                    <Button onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>
+                    <Text style={styles.text}>{this.state.selectVal}</Text>
+                    {this.renderModal()}
                   </Modal>
               </View>
 
@@ -286,7 +305,13 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "black",
-    fontSize: 22
+    fontSize: 22,
+    padding:10,
+  },
+  listText: {
+    color: "black",
+    fontSize: 15,
+    padding:5,
   },
   btn: {
     margin: 10,
@@ -318,3 +343,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Details);
+
+// <Button onPress={() => this.setState({isDisabled: !this.state.isDisabled})} style={styles.btn}>Disable ({this.state.isDisabled ? "true" : "false"})</Button>

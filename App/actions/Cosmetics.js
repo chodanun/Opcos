@@ -48,7 +48,7 @@ export function setSearchedCosmetics({ cosmetics }){
 	}
 }
 
-export function navToDeatils(cosmetic){
+export function loadOpinionFiles(cosmetic){
   var item_id = cosmetic.item_id
   var item_type = cosmetic.type
   return (dispatch, getState) => {
