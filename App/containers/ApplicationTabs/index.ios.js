@@ -67,7 +67,7 @@ class ApplicationTabs extends Component {
 						<Icon size={30}  name='ios-power' style={{fontSize: 30, color: 'red'}} />
                     </Button>
 					{this.renderTitle()}
-					<Button transparent onPress = {this.barcodeSearch} >
+					<Button transparent onPress = { () => this.barcodeSearch() } >
                         <Icon name='ios-barcode'/>
                     </Button>
                 </Header>

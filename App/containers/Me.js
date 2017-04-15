@@ -28,23 +28,6 @@ export class Me extends Component {
         }
 	}
 
-    // componentDidMount(){
-    //     if (this.props.login_method == "facebook"){
-    //         this.setState({
-    //             name : this.props.user_profile.name,
-    //             birthday : this.props.user_profile.birthday,
-    //             email : this.props.user_profile.email,
-    //         })
-    //     }
-    //     else if (this.props.login_method == "opcos"){
-    //         this.setState({
-    //             name : this.props.user_profile.name,
-    //             // birthday : this.props.user_profile.birthday,
-    //             email : this.props.user_profile.email,
-    //         })
-    //     }
-    // }
-
 	renderImage(){
         // console.log(this.props.user_profile.picture != undefined)
         if (this.props.user_profile.picture != undefined)

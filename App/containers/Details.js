@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import { Actions } from 'react-native-router-flux';
-import { Container, Header, Button, Icon, Title, Content, Card, CardItem } from 'native-base';
+import { Container, Header, Button, Icon, Title, Content, Card, CardItem, Picker} from 'native-base';
 import {
   Image,
   StyleSheet,
@@ -132,7 +132,8 @@ export class Details extends Component {
       },
     }
     let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
-    return <CardItem onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}>
+    // onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}
+    return <CardItem onPress={ ()=> console.log("click"+prompt)}>
               <Text>{prompt}</Text>
               <Pie data={data}
                 options={options}
