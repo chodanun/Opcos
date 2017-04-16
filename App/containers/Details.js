@@ -245,8 +245,16 @@ export class Details extends Component {
 
   navToComments(feature,kind){
     kind = kind.toLowerCase()
-    let {type,item_id} = this.props.cosmetic
-    this.props.queryComments(item_id,type,feature,kind).then( ()=> console.log("query finish"))
+    let item_id = this.props.cosmetic.item_id
+    let item_type = this.props.cosmetic.type
+    // this.props.queryComments(item_id,type,feature,kind)
+    let data ={
+      item_id,
+      item_type,
+      feature,
+      kind,
+    }
+    Actions.comments({data})
   }
 
   renderModal(){
@@ -254,13 +262,13 @@ export class Details extends Component {
     if (this.state.selectVal == "POSITIVE"){
       this.state.listItems_pos.map(obj => {
         arr.push(<TouchableHighlight  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
-                    <Text style={styles.listText}>{obj}</Text>
+                    <Text style={[styles.listText,{color:'green'}]}>{obj.toUpperCase()}</Text>
                   </TouchableHighlight>)
       })
     }else{
       this.state.listItems_neg.map(obj => {
         arr.push(<TouchableHighlight  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
-                    <Text style={styles.listText}>{obj}</Text>
+                    <Text style={[styles.listText,{color:'red'}]}>{obj.toUpperCase()}</Text>
                   </TouchableHighlight>)
       })
     }

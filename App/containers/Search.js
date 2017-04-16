@@ -21,12 +21,11 @@ class Search extends Component {
 		// console.log(obj.data)
 		// alert(obj.data)
 		this.props.setBarcodeNumber(obj)
-		// this.props.fetchCosmetics(obj.data,"Search by barcode")
 		Actions.home({barcode:obj.data})
 	}
 
 	componentDidMount(){ // debuging
-		this.onBarCodeRead({'data':'79656003819'})
+		this.onBarCodeRead({'data':'604153515147'})
 	}
 	render() {
 		return (
