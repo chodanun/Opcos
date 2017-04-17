@@ -27,6 +27,7 @@ class Search extends Component {
 	componentDidMount(){ // debuging
 		this.onBarCodeRead({'data':'604153515147'})
 	}
+	
 	render() {
 		return (
 		  <Container>

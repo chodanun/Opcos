@@ -110,6 +110,37 @@ class Shop extends Component {
 		// this.props.navToDeatils({cosmetic})
 	}
 
+	renderStart(score){
+		if (score <= 1)
+			return <Icons name='star' color='red' size={15} />
+		else if (score <= 2)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+					</View>
+		else if (score <= 3)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+					</View>
+		else if (score <= 4)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+					</View>
+		else if (score <= 5)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+					</View>					
+
+	}
 	render(){
 		return (
 			<Container style={styles.container}>
@@ -138,21 +169,27 @@ class Shop extends Component {
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<TouchableOpacity key={cosmetic.item_id} >
 											 <Card >
+
 						                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic}) }>
-						                            <Thumbnail  source={ { uri: cosmetic.img } }  />
-						                            
+						                            <Thumbnail source={ { uri: cosmetic.img } }  />
 							                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
-						                            
 						                            <Text note style={{fontWeight: '400',fontSize: 11,}} >{cosmetic.brand}</Text>
 						                        </CardItem>
+
 						                        <CardItem cardBody onPress={ () => this.navToDetailsPage({cosmetic}) }>
+						                        	<View style={{flexDirection:'row',justifyContent:'flex-end'}} >
+							                        	<Text style={styles.scoreInfo} >
+							                        		{cosmetic.score}({cosmetic.reviews} reviews)
+							                            </Text>
+							                            {this.renderStart(cosmetic.score)}
+						                            </View>
 						                            <Image style={{ resizeMode: 'contain' }} source = { { uri: cosmetic.img } } />
 						                            <Text>
 						                                {cosmetic.description} 
 						                            </Text>
-						                            <Button transparent textStyle={{color: '#87838B'}}>
+						                             <Text style={styles.textInfo}>
 						                                Matching Point : {cosmetic.point}
-						                            </Button>
+						                            </Text>
 						                        </CardItem>
 						                   </Card>
 									</TouchableOpacity>
@@ -207,6 +244,15 @@ const styles = StyleSheet.create({
   	flexDirection: 'row',
   	justifyContent: 'space-between',
   	paddingTop:5,
+  },
+  textInfo:{
+  	color: '#87838B',
+  	fontSize: 15,
+  	paddingTop:4,
+  },
+  scoreInfo:{
+  	color: '#87838B',
+  	fontSize: 12,
   },
 
 
