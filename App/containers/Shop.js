@@ -179,7 +179,7 @@ class Shop extends Component {
 						                        <CardItem cardBody onPress={ () => this.navToDetailsPage({cosmetic}) }>
 						                        	<View style={{flexDirection:'row',justifyContent:'flex-end'}} >
 							                        	<Text style={styles.scoreInfo} >
-							                        		{cosmetic.score}({cosmetic.reviews} reviews)
+							                        		{cosmetic.score+' '}({cosmetic.reviews} reviews)
 							                            </Text>
 							                            {this.renderStart(cosmetic.score)}
 						                            </View>

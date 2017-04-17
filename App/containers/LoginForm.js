@@ -8,6 +8,12 @@ import { Scene, Router, Actions } from 'react-native-router-flux'
 import ReactNative from 'react-native'
 import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button, Card, CardItem } from 'native-base'
 import { SocialIcon } from 'react-native-elements'
+const FBSDK = require('react-native-fbsdk');
+const {
+	LoginManager,
+  	LoginButton,
+  	AccessToken
+} = FBSDK;
 const {
 	View,
 	TextInput,
@@ -15,13 +21,6 @@ const {
 	StyleSheet,
 	Image,
 } = ReactNative
-
-const FBSDK = require('react-native-fbsdk');
-const {
-	LoginManager,
-  	LoginButton,
-  	AccessToken
-} = FBSDK;
 
 class LoginForm extends Component {
 	
