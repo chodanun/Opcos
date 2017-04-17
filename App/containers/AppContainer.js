@@ -24,7 +24,7 @@ export class AppContainer extends Component {
 	setDefaultAuthSystem(){
 		let login_obj = {
 			email: '',
-			isLogin: false,
+			isLogin: null,
 			loginMethod: '',
 		}
 		this.props.updateStatusUser(login_obj)

@@ -52,6 +52,12 @@ class LoginForm extends Component {
 					// uid = user.uid; 
 				})
 				this.updateStatusUser()
+			}else{
+				this.props.updateStatusUser({
+					email: '',
+					isLogin: false,
+					loginMethod: '',
+				})
 			}
 			
 		})
@@ -64,7 +70,6 @@ class LoginForm extends Component {
 			isLogin: this.state.isLogin,
 			loginMethod: this.state.loginMethod,
 		}
-		console.log("FROM LOGIN FORM")
 		this.props.updateStatusUser(login_obj)
 	}
 	
@@ -75,7 +80,7 @@ class LoginForm extends Component {
 		})
 	}
 
-	facebookLoading(){
+	setFacebookLoading(){
 		this.setState({
 			facebook_loading: true ,
 		})
@@ -113,11 +118,10 @@ class LoginForm extends Component {
 
 	onPressRegist(){
 		Actions.regist()
-		// LoginManager.logOut()
 	}
 
 	onPressLoginFacebook(){
-		this.facebookLoading()
+		this.setFacebookLoading()
 		LoginManager.logInWithReadPermissions(['public_profile','email','user_birthday']).then(
 		  (result) => {
 		    if (result.isCancelled) {
@@ -125,10 +129,19 @@ class LoginForm extends Component {
 		    } else {
 		      // alert('Login was successful with permissions: '
 		        // + result.grantedPermissions.toString())
-		        AccessToken.getCurrentAccessToken().then(
-                  (data) => {
-                		this.props.loginTokenFacebook(data.accessToken.toString())    
-                		this.props.updateStatusUser(true,"facebook",data.accessToken.toString())
+		        AccessToken.getCurrentAccessToken().then((data) => {
+                		this.props.loginTokenFacebook(data.accessToken.toString()) 
+                		this.setState({
+                			isLogin: true,
+							loginMethod: 'facebook',
+                		})
+                		let login_obj = {
+							isLogin: this.state.isLogin,
+							loginMethod: this.state.loginMethod,
+							token: data.accessToken.toString()
+						}   
+                		this.props.updateStatusUser(login_obj)
+           				this.onLoginSuccess()     		
                   }
                 )
 		        
@@ -138,28 +151,6 @@ class LoginForm extends Component {
 		    alert('Login failed with error: ' + error);
 		  }
 		)
-	}
-
-	onPressLoginGoogle(){
-		var provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().signInWithPopup(provider).then(function(result) {
-		  // This gives you a Google Access Token. You can use it to access the Google API.
-		  var token = result.credential.accessToken;
-		  // The signed-in user info.
-		  var user = result.user;
-		  alert(token)
-		  // ...
-		}).catch(function(error) {
-		  // Handle Errors here.
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  // The email of the user's account used.
-		  var email = error.email;
-		  // The firebase.auth.AuthCredential type that was used.
-		  var credential = error.credential;
-		  alert(errorMessage)
-		  // ...
-		});
 	}
 
 	renderButton(){
@@ -234,13 +225,7 @@ class LoginForm extends Component {
 		                		<Text> OR </Text>
 		                	</View>
 		                	{this.renderFacebookButton()}
-							<SocialIcon
-							  title='Sign In With Google+'
-							  button type='google-plus-official'
-							  onPress={ () => this.onPressLoginGoogle() }
-							  iconSize={20}
-							  style={{height:42,margin:10,marginTop:0}}
-							/>
+							
 						</View>
 	                </View>
 
