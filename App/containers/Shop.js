@@ -106,6 +106,10 @@ class Shop extends Component {
 	}
 
 	navToDetailsPage({cosmetic}){
+		let item_id = cosmetic.item_id
+		let uid = this.props.login_details.uid
+		console.log(item_id,uid)
+		this.props.queryLogs(uid,item_id)
 		Actions.details({cosmetic})
 		// this.props.navToDeatils({cosmetic})
 	}
@@ -262,6 +266,7 @@ function mapStateToProps(state){
 	return {
 		searchedCosmetics : state.searchedCosmetics,
 		barcode_number : state.barcode_number,
+		login_details: state.login_details,
 	}
 }
 

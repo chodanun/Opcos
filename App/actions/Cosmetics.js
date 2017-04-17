@@ -76,17 +76,21 @@ export function setBarcodeNumber(obj) {
   }
 }
 
+export function queryLogs(uid,item_id){
+  // console.log(item_id,uid)
+  return (dispatch)=>{
+    const route = `/api/log/stores/${uid}/${item_id}`
+      return Api.get(route).then(resp => {
+        console.log(resp)
+        return{
+          type: 'STORES_LOG',
+        }
+      })  
+  }
+  
 
-// react native router flux
-// const loginUserSuccess = (dispatch, user) => {
-//   dispatch({ type: LOGIN_USER_SUCCESS, payload: user });
- 
-//   Actions.employeeList();
-// };
+  
+}
 
 
-// export function add(){
-//  return {
-//    type : types.ADD,
-//  }
-// }
+

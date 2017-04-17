@@ -35,6 +35,8 @@ export class Details extends Component {
   }
 
   componentWillMount(){
+    console.log("ASDASDASDASDASDASDSAD")
+
     this.setState({searching:true})
     this.props.loadOpinionFiles(this.props.cosmetic).then( ()=> {
       this.setState({searching:false})
@@ -47,8 +49,11 @@ export class Details extends Component {
           var data_pos = this.assignValueToArray(this.props.cosmetic_details,"pos") 
       }
       this.setState({data_pos,data_neg})
-    })
+    }).catch( err=> console.log(err))
+
+    
   }
+
 
   assignValueToArray(cosmetic_obj,key){
     let obj = cosmetic_obj[0]
@@ -351,6 +356,7 @@ function mapStateToProps(state) {
   return { 
     num : state.num,
     cosmetic_details : state.cosmeticDetails,
+    login_details: state.login_details
   };
 }
 

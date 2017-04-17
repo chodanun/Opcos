@@ -41,7 +41,6 @@ class LoginForm extends Component {
 	}
 
 	componentWillMount(){
-		var test = "2"
 		fetchToken().then( (token) => {
 			this.props.checkToken(token).then((isLoginFb) =>{
 				if (isLoginFb){
