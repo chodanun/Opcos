@@ -30,10 +30,10 @@ export class Me extends Component {
 
 	renderImage(){
         // console.log(this.props.user_profile.picture != undefined)
-        if (this.props.user_profile.picture != undefined)
+        if (this.props.user_profile.img != undefined)
             return <Image 
                         style={styles.imageProfile} 
-                        source={ { uri: this.props.user_profile.picture.data.url } }  
+                        source={ { uri: this.props.user_profile.img } }  
                     />
     }
 

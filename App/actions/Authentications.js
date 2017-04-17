@@ -20,7 +20,6 @@ export function updateStatusUser(obj){
 		  		let token = obj.token
 				const route = `/me?fields=id,name,email,birthday,picture.height(400){url}&access_token=${token}`
 			    return Api.fb_get(route).then(resp => {
-			    	// dispatch(setUserDetails(resp))
 			      	dispatch(insertCheckInfo(resp))
 			    }).catch( (ex) => {
 			      console.log(ex);
@@ -81,6 +80,7 @@ export function insertCheckInfo (info){
 		const route = `/api/newuser`
 		Api.post(route,info).then(resp => {
 			dispatch(setLoginDetails(resp))
+			dispatch(mapUidFbtoUid(info.id))
 		}).catch( err =>{
 			// console.log(err)
 		})
@@ -102,9 +102,8 @@ export function checkToken(token){
 				}else{
 					resolve(false)
 				}
-				console.log("3")
 			}).catch(err=>{
-				// console.log(err)
+				console.log(err)
 				resolve(false)
 			})
 		})
@@ -132,3 +131,12 @@ export function setUserDetailsFromDb(uid){
 	}
 }
 
+export function mapUidFbtoUid(uid_fb){
+	return (dispatch) =>{
+		let route = `/api/map/UidFbToUid/${uid_fb}`
+		Api.get(route).then(resp=>{
+			// console.log(resp.uid)
+			dispatch(setUserDetailsFromDb(resp.uid))
+		})
+	}
+}
