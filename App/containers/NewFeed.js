@@ -26,7 +26,7 @@ class NewFeed extends Component {
 
 	async fetch(){
 		try {
-		  const value = await AsyncStorage.getItem('@MySuperStore:key');
+		  const value = await AsyncStorage.getItem('token');
 		  if (value !== null){
 		    // We have data!!
 		    console.log(value);
