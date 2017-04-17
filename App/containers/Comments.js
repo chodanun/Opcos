@@ -24,7 +24,7 @@ export class Comments extends Component {
   // }
 
   componentWillMount(){
-     let { item_id,item_type,feature,kind} = this.props.data
+    let { item_id,item_type,feature,kind} = this.props.data
     console.log(item_id,item_type,feature,kind)
     this.props.queryComments(item_id,item_type,feature,kind).then( ()=> this.setState({isFinished:true}))
   }

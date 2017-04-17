@@ -5,24 +5,7 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
 import RouterComponent from './Router'
 
-import {
-  Animated,
-  StyleSheet,
-  View,
-  Text,
-  TouchableHighlight
-} from 'react-native'
-
 export class AppContainer extends Component {
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			loggedIn: null,
-			name : '',
-			email:'',
-		}
-	}
 
 	// Initialize Firebase
 	componentWillMount(){
@@ -34,68 +17,35 @@ export class AppContainer extends Component {
 			messagingSenderId: '655410303822',
 		}
 		firebase.initializeApp(config)
-
-		firebase.auth().onAuthStateChanged((user) => {
-			if (user) {
-				name = user.displayName;
-				email = user.email;
-				// photoUrl = user.photoURL;
-				// emailVerified = user.emailVerified;
-				// uid = user.uid; 
-				// console.log(name)
-				// console.log(email)
-				this.setState({ 
-					loggedIn: true ,
-					name : name,
-					email : email,
-
-				});
-			}
-			else {
-				this.setState({ loggedIn: false });
-			}
-			this.updateStatusUser()
-		})
+		this.setDefaultAuthSystem()
 		
-	}
+	}	
 
-	updateStatusUser(){
-		if (this.state.loggedIn){
-			var user_profile = {}
-			user_profile = {name: this.state.name , email : this.state.email}
-			this.props.updateStatusUser(this.state.loggedIn,"opcos")
-			this.props.setUserDetails_noObj(user_profile)
+	setDefaultAuthSystem(){
+		let login_obj = {
+			email: '',
+			isLogin: false,
+			loginMethod: '',
 		}
-		else
-			this.props.updateStatusUser(this.state.loggedIn,null,null)
+		this.props.updateStatusUser(login_obj)
 	}
-
 
 	render() {
 		return (
 			<RouterComponent />
 		)
-		
 	}
-
 }
 
-const styles = StyleSheet.create({
-  tabs : {
-	flex : 1,
-  },
-
-})
+function mapStateToProps(state){
+	return {
+	}
+}
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
+	return bindActionCreators(ActionCreators, dispatch);
 }
 
-function mapStateToProps(state) {
-  return { 
-	// num : state.num,
-	status_user : state.status_user ,
-  };
-}
+export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+

@@ -36,6 +36,7 @@ class NewFeed extends Component {
 		  console.log(error)
 		}
 	}
+	
 	render(){
 		// console.log(this.cosmetics())
 		return (

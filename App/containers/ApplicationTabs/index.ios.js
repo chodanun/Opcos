@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions'
@@ -10,11 +10,6 @@ import {
 	Text,
 	TouchableHighlight,
 } from 'react-native'
-
-const FBSDK = require('react-native-fbsdk');
-const {
-	LoginManager,
-} = FBSDK;
 
 import Shop from '../Shop'
 import NewFeed from '../NewFeed'
@@ -32,12 +27,7 @@ class ApplicationTabs extends Component {
 	}
 
 	onPressSignOut(){
-	    firebase.auth().signOut()
-	    LoginManager.logOut()
-  		
-  		this.props.loginToken(null)    
-        this.props.updateStatusUser(false,null,null)
-	    Actions.auth()
+		this.props.logOut()
   	}
 
 	renderTitle(){
@@ -90,7 +80,8 @@ class ApplicationTabs extends Component {
 
 function mapStateToProps(state){
 	return {
-		
+		num: state.num,
+		isLogin: state.status_user
 	}
 }
 
@@ -99,29 +90,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ApplicationTabs)
-
-
-
-// <TabBarIOS >
-// 				<TabBarIOS.Item
-// 				// icon={require('../../image/test.png')}
-// 				systemIcon={this.state.titleNewFeed}
-// 				selected={this.state.selectedTab === this.state.titleNewFeed}
-// 				onPress={() => this.changeTabs(this.state.titleNewFeed) }>
-// 					{this.renderScene(NewFeed)}
-// 				</TabBarIOS.Item>
-
-// 				<TabBarIOS.Item 
-// 				systemIcon={this.state.titleShop} 
-// 				selected={this.state.selectedTab === this.state.titleShop}
-// 				onPress={() => this.changeTabs(this.state.titleShop) }>
-// 					{this.renderScene(Shop)}
-// 				</TabBarIOS.Item>
-
-// 				<TabBarIOS.Item 
-// 				systemIcon={this.state.titleMe}
-// 				selected={this.state.selectedTab === this.state.titleMe}
-// 				onPress={() => this.changeTabs(this.state.titleMe) }>
-// 					{this.renderScene(Me)}
-// 				</TabBarIOS.Item>
-// 			</TabBarIOS>

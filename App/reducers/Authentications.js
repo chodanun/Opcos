@@ -4,19 +4,18 @@ import * as types from '../actions/types'
 export const status_user = createReducer(null,{
 	[types.SET_STATUS_USER](state, action){
 		// console.log(action.loggedIn)
-		return action.status
+		return action.obj.isLogin
 	}
 })
 
 export const login_method = createReducer(null,{
 	[types.SET_STATUS_USER](state, action){
-		// console.log(action.loggedIn)
-		return action.login_method
+		return action.obj.loginMethod
 	}
 })
 
 export const login_token = createReducer(null,{
-	[types.SET_LOGIN_TOKEN](state, action){
+	[types.SET_LOGIN_TOKEN_FACEBOOK](state, action){
 		return action.token
 	}
 })

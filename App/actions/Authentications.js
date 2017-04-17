@@ -2,17 +2,21 @@ import firebase from 'firebase';
 import * as types from './types'
 import Api from '../lib/api'
 import { Actions } from 'react-native-router-flux';
+const FBSDK = require('react-native-fbsdk');
+const {
+	LoginManager,
+} = FBSDK;
 
-export function updateStatusUser(status,login_method,token){
+export function updateStatusUser(obj){
+	console.log(obj)
 	return (dispatch) => {
 		dispatch({
 		  	type : types.SET_STATUS_USER,
-		  	status,
-		  	login_method,
+		  	obj,
 		})
-		if (status){
+		if (obj.isLogin){
 		  	Actions.main()
-		  	if (login_method == "facebook"){
+		  	if (obj.loginMethod == "facebook"){
 				const route = `/me?fields=id,name,email,birthday,picture.height(400){url}&access_token=${token}`
 			    return Api.fb_get(route).then(resp => {
 			    	dispatch(setUserDetails({user_profile : resp}))
@@ -21,15 +25,32 @@ export function updateStatusUser(status,login_method,token){
 			      console.log(ex);
 			    })
 			}
+			else if (obj.loginMethod == "firebase"){
+				dispatch(setUserDetails({email : obj.email}))
+			}
 		}
 		// Default to Actions.auth()
-	
 	}
 }
 
-export function setUserDetails({user_profile}){
+export function logOut(){
+	let logout_obj = {
+		email: '',
+		isLogin: false,
+		loginMethod: '',
+	}
+	firebase.auth().signOut()
+    LoginManager.logOut()
+	Actions.auth()
+	return (dispatch) => {
+		dispatch(loginTokenFacebook(null))
+		dispatch(updateStatusUser(logout_obj))
+
+	}
+}
+export function setUserDetails(user_profile){
 	return {
-		type : types.SET_USER_DETAILS,
+		type : types.SET_USER_DETAILS, 
 		user_profile,
 	}
 }
@@ -41,9 +62,9 @@ export function setUserDetails_noObj(user_profile){
 	}
 }
 
-export function loginToken(token){
+export function loginTokenFacebook(token){
 	return {
-		type : types.SET_LOGIN_TOKEN,
+		type : types.SET_LOGIN_TOKEN_FACEBOOK,
 		token
 	}
 }

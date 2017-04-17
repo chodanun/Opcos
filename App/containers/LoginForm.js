@@ -32,7 +32,40 @@ class LoginForm extends Component {
 			error:'',
 			loading: false,
 			facebook_loading:false,
+
+			isLogin:false,
+			name:'',
+			loginMethod:'',
 		}
+	}
+
+	componentWillMount(){
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.setState({ 
+					isLogin: true ,
+					name : user.displayName,
+					email : user.email,
+					loginMethod: "firebase"
+					// photoUrl = user.photoURL;
+					// emailVerified = user.emailVerified;
+					// uid = user.uid; 
+				})
+				this.updateStatusUser()
+			}
+			
+		})
+
+	}
+
+	updateStatusUser(){
+		let login_obj = {
+			email: this.state.email,
+			isLogin: this.state.isLogin,
+			loginMethod: this.state.loginMethod,
+		}
+		console.log("FROM LOGIN FORM")
+		this.props.updateStatusUser(login_obj)
 	}
 	
 	clearErrorDisplayed(){
@@ -94,7 +127,7 @@ class LoginForm extends Component {
 		        // + result.grantedPermissions.toString())
 		        AccessToken.getCurrentAccessToken().then(
                   (data) => {
-                		this.props.loginToken(data.accessToken.toString())    
+                		this.props.loginTokenFacebook(data.accessToken.toString())    
                 		this.props.updateStatusUser(true,"facebook",data.accessToken.toString())
                   }
                 )
