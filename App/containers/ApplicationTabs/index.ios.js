@@ -27,7 +27,9 @@ class ApplicationTabs extends Component {
 	}
 
 	onPressSignOut(){
-		this.props.logOut()
+		let token = this.props.login_details.token
+		let login_method = this.props.login_method
+		this.props.logOut(token,login_method)
   	}
 
 	renderTitle(){
@@ -81,7 +83,8 @@ class ApplicationTabs extends Component {
 function mapStateToProps(state){
 	return {
 		num: state.num,
-		isLogin: state.status_user
+		login_details: state.login_details,
+		login_method: state.login_method,
 	}
 }
 

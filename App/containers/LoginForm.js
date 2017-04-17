@@ -8,6 +8,7 @@ import { Scene, Router, Actions } from 'react-native-router-flux'
 import ReactNative from 'react-native'
 import { Container, Content, List, ListItem, InputGroup, Input, Icon, Button, Card, CardItem } from 'native-base'
 import { SocialIcon } from 'react-native-elements'
+import {fetchToken} from '../lib/token'
 const FBSDK = require('react-native-fbsdk');
 const {
 	LoginManager,
@@ -40,27 +41,38 @@ class LoginForm extends Component {
 	}
 
 	componentWillMount(){
-		firebase.auth().onAuthStateChanged((user) => {
-			if (user) {
-				this.setState({ 
-					isLogin: true ,
-					name : user.displayName,
-					email : user.email,
-					loginMethod: "firebase"
-					// photoUrl = user.photoURL;
-					// emailVerified = user.emailVerified;
-					// uid = user.uid; 
-				})
-				this.updateStatusUser()
-			}else{
-				this.props.updateStatusUser({
-					email: '',
-					isLogin: false,
-					loginMethod: '',
-				})
-			}
-			
-		})
+		var test = "2"
+		fetchToken().then( (token) => {
+			this.props.checkToken(token).then((isLoginFb) =>{
+				if (isLoginFb){
+					console.log("FACEBOOK TOKEN : "+ token+" isLogin: true")
+				}else{
+					console.log("FACEBOOK TOKEN : "+ token+" isLogin: false")
+					firebase.auth().onAuthStateChanged((user) => {
+						if (user) {
+							this.setState({ 
+								isLogin: true ,
+								name : user.displayName,
+								email : user.email,
+								loginMethod: "firebase"
+								// photoUrl = user.photoURL;
+								// emailVerified = user.emailVerified;
+								// uid = user.uid;
+							})
+							this.updateStatusUser()
+							console.log("FIREBASE LOGIN : true")
+						}else{
+							this.props.updateStatusUser({
+								email: '',
+								isLogin: false,
+								loginMethod: '',
+							})
+						}
+					
+					})
+				}
+			}).catch(err => console.log(err))
+		}).catch(err => console.log(err))
 
 	}
 

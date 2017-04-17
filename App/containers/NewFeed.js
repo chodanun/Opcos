@@ -26,7 +26,7 @@ class NewFeed extends Component {
 
 	async fetch(){
 		try {
-		  const value = await AsyncStorage.getItem('@MySuperStore:key');
+		  const value = await AsyncStorage.getItem('token');
 		  if (value !== null){
 		    // We have data!!
 		    console.log(value);
@@ -36,6 +36,15 @@ class NewFeed extends Component {
 		  console.log(error)
 		}
 	}
+
+	async remove(){
+		try {
+		  await AsyncStorage.removeItem('token');
+		} catch (error) {
+		  console.log(error)
+		}	
+	}
+	
 	
 	render(){
 		// console.log(this.cosmetics())
@@ -47,6 +56,9 @@ class NewFeed extends Component {
 			</Button>
 			<Button onPress={ ()=> this.fetch()} >
 				<Text>fetch</Text>
+			</Button>
+			<Button onPress={ ()=> this.remove()} >
+				<Text>remove</Text>
 			</Button>
 			</Content>
 			</Container>
