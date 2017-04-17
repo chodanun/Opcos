@@ -130,7 +130,7 @@ class LoginForm extends Component {
 		      // alert('Login was successful with permissions: '
 		        // + result.grantedPermissions.toString())
 		        AccessToken.getCurrentAccessToken().then((data) => {
-                		this.props.loginTokenFacebook(data.accessToken.toString()) 
+                		// this.props.loginTokenFacebook(data.accessToken.toString()) 
                 		this.setState({
                 			isLogin: true,
 							loginMethod: 'facebook',

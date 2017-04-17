@@ -20,7 +20,7 @@ export function updateStatusUser(obj){
 				const route = `/me?fields=id,name,email,birthday,picture.height(400){url}&access_token=${token}`
 			    return Api.fb_get(route).then(resp => {
 			    	dispatch(setUserDetails(resp))
-			      	this.insertInfo(resp)
+			      	dispatch(insertCheckInfo(resp))
 			    }).catch( (ex) => {
 			      console.log(ex);
 			    })
@@ -41,7 +41,6 @@ export function logOut(){
 		dispatch(loginTokenFacebook(null))
 		// done by componentwillmount in login (firebase)
 		// dispatch(updateStatusUser(logout_obj)) 
-
 	}
 }
 export function setUserDetails(user_profile){
@@ -51,20 +50,25 @@ export function setUserDetails(user_profile){
 	}
 }
 
-export function loginTokenFacebook(token){
-	return {
-		type : types.SET_LOGIN_TOKEN_FACEBOOK,
-		token
+export function setLoginDetails(resp){
+	console.log(resp)
+	return{
+		type : types.SET_LOGIN_DETAILS,
+		resp
 	}
 }
 
-insertInfo = (info) => {
-	console.log(info)
-	const route = `/api/newuser`
-	Api.post(route,info).then(resp => {
-		console.log(resp)
-	}).catch(err => {
-		console.log(err)
-	})
+export function insertCheckInfo (info){
+	return (dispatch)=>{
+		// console.log(info)
+		const route = `/api/newuser`
+		Api.post(route,info).then(resp => {
+			// console.log(resp)
+			dispatch(setLoginDetails(resp))
+		}).catch( err =>{
+			console.log(err)
+		})
 
+	}
+	
 }

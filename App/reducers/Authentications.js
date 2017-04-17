@@ -14,9 +14,9 @@ export const login_method = createReducer(null,{
 	}
 })
 
-export const login_token = createReducer(null,{
-	[types.SET_LOGIN_TOKEN_FACEBOOK](state, action){
-		return action.token
+export const login_details = createReducer(null,{
+	[types.SET_LOGIN_DETAILS](state, action){
+		return action.resp
 	}
 })
 
