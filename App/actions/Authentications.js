@@ -109,7 +109,6 @@ export function checkToken(token){
 		})
 	}
 }
-
 export function clearLoginDetails(){
 	let resp = {
 		isLogin: 0,
