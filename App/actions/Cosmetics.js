@@ -88,21 +88,3 @@ export function queryLogs(uid,item_id){
       })  
   }
 }
-
-export function fetchLogs(uid){
-  return (dispatch)=>{
-    const route = `/api/log/fetches/${uid}`
-      return Api.get(route).then(resp => {
-        dispatch(storeLogs(resp))
-      }).catch(err=>{
-        console.log(err)
-      })  
-  }
-}
-
-export function storeLogs(resp){
-  return{
-    type: types.SET_ITEM_LOGS,
-    resp
-  }
-}

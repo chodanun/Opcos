@@ -265,7 +265,6 @@ const styles = StyleSheet.create({
 function mapStateToProps(state){
 	return {
 		searchedCosmetics : state.searchedCosmetics,
-		barcode_number : state.barcode_number,
 		login_details: state.login_details,
 	}
 }
