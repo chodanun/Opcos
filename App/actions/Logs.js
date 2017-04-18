@@ -19,3 +19,16 @@ export function storeLogs(resp){
     resp
   }
 }
+
+export function queryLogs(uid,item_id){
+  // console.log(item_id,uid)
+  return (dispatch)=>{
+    const route = `/api/log/stores/${uid}/${item_id}`
+      return Api.get(route).then(resp => {
+        console.log(resp)
+        return{
+          type: 'STORES_LOG',
+        }
+      })  
+  }
+}
