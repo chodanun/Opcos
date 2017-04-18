@@ -104,7 +104,6 @@ export class Me extends Component {
 
 	    );
 	  }
-
 }
 
 const styles = StyleSheet.create({

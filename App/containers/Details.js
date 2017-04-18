@@ -27,6 +27,8 @@ export class Details extends Component {
            data_neg: [],
            data_pos: [],
            selectVal: '',
+           color_list_pos: '#004909',
+           color_list_neg: '#A80000',
         }
   }
 
@@ -171,22 +173,25 @@ export class Details extends Component {
 
   renderElementGraph(data,prompt){
     let pallete_pos = [
-        {'r':0,'g':0,'b':255},
-        {'r':0,'g':204,'b':0},
-        {'r':204,'g':0,'b':0},
-        {'r':102,'g':0,'b':204},
-        {'r':204,'g':204,'b':0},
-        {'r':255,'g':128,'b':0},
-        {'r':255,'g':51,'b':123},
-        {'r':102,'g':51,'b':0}
+        // {'r':0,'g':39,'b':9},
+        {'r':0,'g':73,'b':9},
+        {'r':4,'g':107,'b':0},
+        {'r':11,'g':133,'b':0},
+        {'r':0,'g':178,'b':21},
+        {'r':74,'g':229,'b':74},
+        {'r':164,'g':251,'b':166},
+        {'r':201,'g':223,'b':138},
+        {'r':240,'g':247,'b':218},
     ]
     let pallete_neg =[
-      {'r':25,'g':99,'b':201},
-      {'r':24,'g':175,'b':35},
-      {'r':190,'g':31,'b':69},
-      {'r':100,'g':36,'b':199},
+      {'r':168,'g':0,'b':0},
+      {'r':254,'g':175,'b':35},
+      {'r':255,'g':81,'b':82},
+      {'r':255,'g':122,'b':123},
       {'r':214,'g':207,'b':32},
-      {'r':198,'g':84,'b':45}
+      {'r':254,'g':81,'b':82},
+      {'r':240,'g':81,'b':82},
+
     ]
     let options = {
       margin: {
@@ -199,7 +204,7 @@ export class Details extends Component {
       height: 250,
       color: '#2980B9',
       r: 35,
-      R: 120,
+      R: 110,
       legendPosition: 'topLeft',
       animate: {
         type: 'oneByOne',
@@ -216,7 +221,8 @@ export class Details extends Component {
     let pallete = prompt=="POSITIVE"? pallete_pos:pallete_neg;
     // onPress={ () => { Actions.comments({ cosmetic : this.props.cosmetic,details:this.props.cosmetic_details[0], prompt: prompt})}}
     return  <TouchableWithoutFeedback onPress={ ()=> {this.refs.modal3.open();this.setState({selectVal:prompt})} } >
-              <View style={{backgroundColor: prompt=="POSITIVE"? '#AAF07E':'#F74251' ,flex:1,alignItems:'center',justifyContent:'center'}}>
+              <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <Text style={{color: prompt=="POSITIVE"? 'green':'red',fontWeight:'bold',fontSize:15}} >{prompt}</Text>
                 <Pie data={data}
                   options={options}
                   accessorKey="population"
@@ -248,7 +254,15 @@ export class Details extends Component {
     }
   }
 
+  // dropListColorTone(){
+  //   this.setState({
+  //     color_list_pos:'green',
+  //     color_list_neg:'red',
+  //   })
+  // }
+
   navToComments(feature,kind){
+    // this.dropListColorTone()
     kind = kind.toLowerCase()
     let item_id = this.props.cosmetic.item_id
     let item_type = this.props.cosmetic.type
@@ -266,15 +280,19 @@ export class Details extends Component {
     let arr = []
     if (this.state.selectVal == "POSITIVE"){
       this.state.listItems_pos.map(obj => {
-        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
-                    <Text style={[styles.listText,{color:'green'}]}>{obj.toUpperCase()}</Text>
-                  </TouchableHighlight>)
+        arr.push(<TouchableWithoutFeedback  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
+                    <View>
+                      <Text style={[styles.listText,{color:this.state.color_list_pos}]}>{obj.toUpperCase()}</Text>
+                    </View>
+                  </TouchableWithoutFeedback>)
       })
     }else{
       this.state.listItems_neg.map(obj => {
-        arr.push(<TouchableHighlight  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
-                    <Text style={[styles.listText,{color:'red'}]}>{obj.toUpperCase()}</Text>
-                  </TouchableHighlight>)
+        arr.push(<TouchableWithoutFeedback  key={obj} onPress={ ()=> this.navToComments(obj,this.state.selectVal) }>
+                    <View>
+                      <Text style={[styles.listText,{color:this.state.color_list_neg}]}>{obj.toUpperCase()}</Text>
+                    </View>
+                  </TouchableWithoutFeedback>)
       })
     }
     return arr
@@ -324,11 +342,13 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 22,
     padding:10,
+
   },
   listText: {
     color: "black",
     fontSize: 15,
-    padding:5,
+    padding:4,
+    fontWeight:'bold',
   },
   btn: {
     margin: 10,
