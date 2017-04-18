@@ -21,4 +21,5 @@ export const SET_DETAILS_COSMETIC = 'SET_DETAILS_COSMETIC'
 //Comments
 export const SET_COMMENTS = 'SET_COMMENTS' 
 
-
+//
+export const SET_ITEM_LOGS = 'SET_ITEM_LOGS'

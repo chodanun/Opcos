@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
-import { Container, Content, Tabs, List, ListItem } from 'native-base';
+import { Container, Content, Tabs, List, ListItem, Button } from 'native-base';
 import {
   Image,
   StyleSheet,
   View,
   Text,
+  TouchableWithoutFeedback,
 } from 'react-native'
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -25,16 +26,41 @@ export class Me extends Component {
             name : '',
             birthday : '',
             email : '',
+            searching:false,
         }
 	}
 
 	renderImage(){
-        // console.log(this.props.user_profile.picture != undefined)
-        if (this.props.user_profile.img != undefined)
-            return <Image 
-                        style={styles.imageProfile} 
-                        source={ { uri: this.props.user_profile.img } }  
-                    />
+    if (this.props.user_profile.img != undefined)
+        return <Image 
+                  style={styles.imageProfile} 
+                  source={ { uri: this.props.user_profile.img } }  
+                />
+    }
+
+    loadItemLogs(){
+      this.setState({searching:true})
+      this.props.fetchLogs(this.props.login_details.uid).then(this.setState({searching:false}))
+    }
+
+    logs(){
+      return Object.keys(this.props.item_logs).map( key => this.props.item_logs[key])
+    }
+    renderLogs(){
+      if (this.state.searching){
+        return <Text>Moment</Text>
+      }
+      else{
+        return <View>
+                  {this.logs().map(log => {
+                    console.log(log.time_stamp)
+                    return  <ListItem key={log.id} style={{justifyContent:'center'}}>
+                              <Text>Item id : {log.item_id} ; </Text>
+                              <Text>Time : {log.time_stamp}</Text>
+                            </ListItem>
+                    })}
+              </View>
+      }
     }
 
   	render() {
@@ -48,7 +74,7 @@ export class Me extends Component {
                     <Content>
                         <List>
                             <ListItem itemDivider>
-                                <Text>Profile</Text>
+                                <Text style={{fontWeight: 'bold'}} >Profile</Text>
                             </ListItem>                    
                             <ListItem >
                                 <Text>Name :  {this.props.user_profile.name} </Text>
@@ -61,12 +87,13 @@ export class Me extends Component {
                             </ListItem>
 
                             <ListItem itemDivider>
-                                <Text>Activity Log</Text>
+                                <TouchableWithoutFeedback onPress={()=>this.loadItemLogs()}> 
+                                  <View>
+                                    <Text style={styles.text_header} >Activity Log</Text>
+                                  </View>
+                                </TouchableWithoutFeedback>
                             </ListItem>  
-                            <ListItem>
-                                <Text>...</Text>
-                            </ListItem>
-                            
+                            {this.renderLogs()}
                         </List>
                     </Content>                                       
                 </View>
@@ -106,6 +133,10 @@ const styles = StyleSheet.create({
     flex:1,
     
   },
+  text_header:{
+    color:'#5996F7',
+    fontWeight: 'bold',
+  }
 
 
 })
@@ -116,9 +147,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return { 
-  	num : state.num,
-    user_profile : state.user_profile,
-    login_method : state.login_method,
+    user_profile: state.user_profile,
+    login_details: state.login_details,
+    item_logs: state.item_logs,
   };
 }
 
