@@ -62,16 +62,35 @@ export function loadOpinionFiles(cosmetic){
   
 }
 
-export function setItemDetails(cosmetic) {
+export function setItemDetails(cosmetic){
   return{
     type : types.SET_DETAILS_COSMETIC,
     cosmetic
   }
 }
 
-export function setBarcodeNumber(obj) {
+export function setBarcodeNumber(obj){
   return{
     type: types.SET_BARCODE_NUMBER,
     obj
   }
 }
+
+export function queryInfoBarcode(barcode){
+  return (dispatch)=>{
+    let route = `/api/search/info_barcode/${barcode}`
+    return Api.get(route).then( resp => {
+      console.log(resp)
+      dispatch(setDefaultItemBarcode(resp))
+    })
+  }
+}
+
+export function setDefaultItemBarcode(resp){
+  return {
+    type: types.SET_DEFAULT_ITEM_BARCODE,
+    resp
+  }
+}
+
+

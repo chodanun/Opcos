@@ -14,6 +14,7 @@ export const SET_USER_DETAILS = 'SET_USER_DETAILS'
 
 //Barcode
 export const SET_BARCODE_NUMBER = 'SET_BARCODE_NUMBER' 
+export const SET_DEFAULT_ITEM_BARCODE = 'SET_DEFAULT_ITEM_BARCODE'
 
 //Detail Pages
 export const SET_DETAILS_COSMETIC = 'SET_DETAILS_COSMETIC' 
@@ -21,5 +22,5 @@ export const SET_DETAILS_COSMETIC = 'SET_DETAILS_COSMETIC'
 //Comments
 export const SET_COMMENTS = 'SET_COMMENTS' 
 
-//
+//logs
 export const SET_ITEM_LOGS = 'SET_ITEM_LOGS'

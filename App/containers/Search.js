@@ -21,9 +21,9 @@ class Search extends Component {
 		// console.log(obj.data)
 	
 		// this.props.setBarcodeNumber(obj)
-		// this.props.queryInfoBarcode(obj.data).then( ()=> {
+		this.props.queryInfoBarcode(obj.data).then( ()=> {
 			Actions.home({barcode:obj.data})
-		// })
+		})
 		
 	}
 
