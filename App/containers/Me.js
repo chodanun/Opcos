@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
-import { Container, Content, Tabs, List, ListItem, Button } from 'native-base';
+import { Container, Content, Tabs, List, ListItem, Button, Spinner } from 'native-base';
 import {
   Image,
   StyleSheet,
@@ -40,7 +40,7 @@ export class Me extends Component {
 
     loadItemLogs(){
       this.setState({searching:true})
-      this.props.fetchLogs(this.props.login_details.uid).then(this.setState({searching:false}))
+      this.props.fetchLogs(this.props.login_details.uid).then( ()=> this.setState({searching:false}))
     }
 
     logs(){
@@ -48,7 +48,9 @@ export class Me extends Component {
     }
     renderLogs(){
       if (this.state.searching){
-        return <Text>Moment</Text>
+        return  <View style={styles.spinner} >
+          <Spinner color='#5996F7'/>
+        </View>
       }
       else{
         return <View>
@@ -136,6 +138,9 @@ const styles = StyleSheet.create({
   text_header:{
     color:'#5996F7',
     fontWeight: 'bold',
+  },
+  spinner:{
+    alignItems:'center',
   }
 
 
