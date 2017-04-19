@@ -10,31 +10,54 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
+  Image,
+  Button,
 } from 'react-native';
 import Camera from 'react-native-camera';
-import { Container, Content, Tabs, Header, Title, Button, Icon} from 'native-base'
-
+import Modal from 'react-native-modalbox';
 class Search extends Component {
 
-	onBarCodeRead(obj){
-		// console.log(obj.data)
+	constructor(props) {
+	  super(props);
 	
-		// this.props.setBarcodeNumber(obj)
-		this.props.queryInfoBarcode(obj.data).then( ()=> {
-			Actions.home({barcode:obj.data})
+	  this.state = {
+	  	barcode: null,
+	  };
+	}
+
+	// onCloseModalBox(){
+	// 	this.setState({isFound:false})
+	// }
+
+	findButton(){
+		this.props.fetchCosmetics(this.state.barcode,"Search by barcode").then( () => {
+			Actions.home()
 		})
+	}
+	onBarCodeRead(obj){
+		this.setState({barcode:obj.data})
+		this.props.queryInfoBarcode(obj.data).then( ()=> {
+			this.refs.modal3.open()
+			// Actions.home({barcode:obj.data})
+		})	
 		
 	}
 
 	componentDidMount(){ // debuging
-		this.onBarCodeRead({'data':'604153515147'})
+		setTimeout( ()=>this.onBarCodeRead({'data':'604153515147'}),3000) 
 	}
 	
+	renderModal(){		
+		return	<View>
+					<Text style={styles.text}>Barcode : {this.props.default.barcode}</Text>
+					<Text style={styles.text}>{this.props.default.name}</Text>
+					<Button title="Enter" onPress={()=>this.findButton()} ></Button>
+				</View>
+
+	}
+
 	render() {
 		return (
-		  <Container>
-		  	<Content>
 				<View style={styles.container}>
 					<Camera
 						style={styles.preview}
@@ -48,11 +71,11 @@ class Search extends Component {
 						<View style={styles.rectangleContainer}>
 							<View style={styles.rectangle} />
 						</View>
-						
 					</Camera>
+					<Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={false} >
+			          {this.renderModal()}
+			        </Modal> 
 				  </View>
-			</Content>
-		  </Container>
 		);
 	}
 
@@ -95,9 +118,45 @@ const styles = StyleSheet.create({
 	borderColor: '#00FF00',
 	backgroundColor: 'transparent'
   },
+  wrapper: {
+    paddingTop: 50,
+    flex: 1
+  },
+
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  modal3: {
+    height: 250,
+    width: 250,
+  },
+
+  btn: {
+    margin: 10,
+    backgroundColor: "#3B5998",
+    padding: 10
+  },
+
+  btnModal: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 50,
+    height: 50,
+    backgroundColor: "transparent"
+  },
+
+  text: {
+    fontSize: 18,
+    padding:5,
+
+  }
 })
 function mapStateToProps(state){
 	return {
+		default: state.default_item_barcode
 	}
 }
 

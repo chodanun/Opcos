@@ -38,7 +38,13 @@ export const barcode_number = createReducer(null,{
 	}
 })
 
-export const default_item_barcde = createReducer({},{
+export const default_item_barcode = createReducer({
+	name: '',
+	barcode:'',
+	description:'',
+	img:'',
+	brand:'',
+},{
 	[types.SET_DEFAULT_ITEM_BARCODE](state, action){
 		return action.resp
 	}

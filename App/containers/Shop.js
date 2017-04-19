@@ -266,6 +266,7 @@ function mapStateToProps(state){
 	return {
 		searchedCosmetics : state.searchedCosmetics,
 		login_details: state.login_details,
+		default: state.default_item_barcode,
 	}
 }
 

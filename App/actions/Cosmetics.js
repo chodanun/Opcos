@@ -80,7 +80,7 @@ export function queryInfoBarcode(barcode){
   return (dispatch)=>{
     let route = `/api/search/info_barcode/${barcode}`
     return Api.get(route).then( resp => {
-      console.log(resp)
+      // console.log(resp)
       dispatch(setDefaultItemBarcode(resp))
     })
   }
