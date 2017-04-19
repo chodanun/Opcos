@@ -209,7 +209,7 @@ class LoginForm extends Component {
 		                                	placeholder='EMAIL'
 		                                	value={this.state.email}
 											onChangeText={ email => this.setState({ email })}
-											style={{color:'white',fontWeight:'bold',fontSize:20}}
+											style={{fontWeight:'bold',fontSize:20}}
 		                                />
 		                            </InputGroup>
 		                        </ListItem>
@@ -223,7 +223,7 @@ class LoginForm extends Component {
 		                                	value={this.state.password}
 											onChangeText={ password => this.setState({ password })}
 											onSubmitEditing={ ()=> this.onPressLogin() }
-											style={{color:'white',fontWeight:'bold'}}
+											style={{fontWeight:'bold'}}
 		                                />
 		                            </InputGroup>
 		                        </ListItem>
@@ -256,9 +256,9 @@ class LoginForm extends Component {
 	}
 	render(){
 		return (
-				<Image source={{uri: "https://dailypost.files.wordpress.com/2015/04/turnpike-blur.jpg"}} style={styles.backgroundImage}>
+				<View style={{flex:1}}>
 					{this.renderScene()}
-				</Image>
+				</View>
 			
 		)
 	}
