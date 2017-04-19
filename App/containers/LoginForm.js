@@ -196,8 +196,7 @@ class LoginForm extends Component {
 			return (
 				<Container style={styles.container}>
 	            	<View style={styles.logo} >
-	            		<Text>..logo..</Text>
-	            		<Text>OpCos</Text>
+	            		<Image source={{uri: "https://www.mx7.com/i/1c0/2bxy9d.png"}} style={{width:400,height:100,}}  />
 	            	</View>
 
 	            	<View style={styles.input_form} >
@@ -210,6 +209,7 @@ class LoginForm extends Component {
 		                                	placeholder='EMAIL'
 		                                	value={this.state.email}
 											onChangeText={ email => this.setState({ email })}
+											style={{color:'white',fontWeight:'bold',fontSize:20}}
 		                                />
 		                            </InputGroup>
 		                        </ListItem>
@@ -223,27 +223,21 @@ class LoginForm extends Component {
 		                                	value={this.state.password}
 											onChangeText={ password => this.setState({ password })}
 											onSubmitEditing={ ()=> this.onPressLogin() }
+											style={{color:'white',fontWeight:'bold'}}
 		                                />
 		                            </InputGroup>
 		                        </ListItem>
 		                    </List>
 		                </View>
-		                <View style={{flex:1,justifyContent:'center'}}>
+		                <View style={{flex:1,justifyContent:'center',top:20}}>
 	                    	{this.renderButton()}
 	                    </View>
-	                    <View style={{flex:5}}>
-							<View style={styles.text} >
-		                		<Text> OR </Text>
-		                	</View>
+	                    <View style={{flex:5,top:40}}>
 		                	{this.renderFacebookButton()}
-							
 						</View>
 	                </View>
 
 	                <View style={styles.footer}>
-                		<Text>
-	                		CREATE AN ACCOUNT?
-	                	</Text>
 	                	<Button 
 							block warning
 							onPress={ () => this.onPressRegist() }
@@ -262,13 +256,9 @@ class LoginForm extends Component {
 	}
 	render(){
 		return (
-			
-			<View style={styles.container}>
-				
+				<Image source={{uri: "https://dailypost.files.wordpress.com/2015/04/turnpike-blur.jpg"}} style={styles.backgroundImage}>
 					{this.renderScene()}
-				
-			</View>
-	
+				</Image>
 			
 		)
 	}
@@ -279,21 +269,21 @@ var styles = StyleSheet.create({
   	flex:1,
   },
   logo:{
-  	flex:3,
+  	flex:6,
   	justifyContent: 'center',
   	alignItems : 'center',
-  	backgroundColor: 'powderblue',
+  	// backgroundColor: 'powderblue',
   },
   input_form:{
   	flex:5,
   	justifyContent: 'center',
-  	backgroundColor: 'skyblue',
+  	// backgroundColor: 'skyblue',
   },
   footer:{
-	flex:2,
+	flex:3,
 	alignItems:'center',
 	justifyContent:'center',
-	backgroundColor: 'steelblue',
+	// backgroundColor: 'steelblue',
   },
   login_button:{
   	margin:10,
@@ -302,7 +292,11 @@ var styles = StyleSheet.create({
   text:{
   	alignItems : 'center', 
   	margin:20,
+  },
+  backgroundImage:{
+  	flex:1,
   }
+
  })
 
 function mapStateToProps(state){
