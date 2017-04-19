@@ -11,8 +11,9 @@ import {
   Text,
   View,
   Image,
-  Button,
+  // Button,
 } from 'react-native';
+import { Button } from 'native-base';
 import Camera from 'react-native-camera';
 import Modal from 'react-native-modalbox';
 class Search extends Component {
@@ -22,6 +23,7 @@ class Search extends Component {
 	
 	  this.state = {
 	  	barcode: null,
+	  	searching:false,
 	  };
 	}
 
@@ -35,43 +37,52 @@ class Search extends Component {
 		})
 	}
 	onBarCodeRead(obj){
-		this.setState({barcode:obj.data})
-		this.props.queryInfoBarcode(obj.data).then( ()=> {
-			this.refs.modal3.open()
-			// Actions.home({barcode:obj.data})
-		})	
+		if (!this.state.searching){
+			this.setState({barcode:obj.data,searching:true})
+			this.props.queryInfoBarcode(obj.data).then( ()=> {
+				this.refs.modal3.open()
+				this.setState({searching:false})
+			}).catch( ()=> {
+				alert("NOT FOUND ("+this.state.barcode+")")
+				this.setState({searching:false})
+			})	
+		}
 		
 	}
 
-	componentDidMount(){ // debuging
-		setTimeout( ()=>this.onBarCodeRead({'data':'604153515147'}),3000) 
-	}
+	// componentDidMount(){ // debuging
+	// 	setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),2000) 
+	// }
 	
 	renderModal(){		
-		return	<View>
-					<Text style={styles.text}>Barcode : {this.props.default.barcode}</Text>
+		return	<View style={{alignItems:'center',justifyContent:'center'}}>
+					<Text style={[styles.text,{color:'green'}]}>Barcode : {this.props.default.barcode}</Text>
 					<Text style={styles.text}>{this.props.default.name}</Text>
-					<Button title="Enter" onPress={()=>this.findButton()} ></Button>
+					<Button style={[styles.btn,{left:35}]} onPress={()=>this.findButton()} >OPCOS SEARCH</Button>
 				</View>
 
 	}
 
+	renderCamera(){
+		if (!this.state.searching)
+		return <Camera
+					style={styles.preview}
+					aspect={Camera.constants.Aspect.fill}
+					barcodeScannerEnabled = {true}
+					onBarCodeRead={ (obj) => this.onBarCodeRead(obj)}
+					ref={(cam) => {
+						this.camera = cam;
+					}}
+				>
+					<View style={styles.rectangleContainer}>
+						<View style={styles.rectangle} />
+					</View>
+				</Camera>
+	}
 	render() {
 		return (
 				<View style={styles.container}>
-					<Camera
-						style={styles.preview}
-						aspect={Camera.constants.Aspect.fill}
-						barcodeScannerEnabled = {true}
-						onBarCodeRead={ (obj) => this.onBarCodeRead(obj)}
-						ref={(cam) => {
-							this.camera = cam;
-						}}
-					>
-						<View style={styles.rectangleContainer}>
-							<View style={styles.rectangle} />
-						</View>
-					</Camera>
+					{this.renderCamera()}
 					<Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={false} >
 			          {this.renderModal()}
 			        </Modal> 
@@ -113,7 +124,7 @@ const styles = StyleSheet.create({
   },
   rectangle: {
 	height: Dimensions.get('window').height/2,
-	width: 250,
+	width: 220,
 	borderWidth: 2,
 	borderColor: '#00FF00',
 	backgroundColor: 'transparent'
@@ -136,7 +147,6 @@ const styles = StyleSheet.create({
   btn: {
     margin: 10,
     backgroundColor: "#3B5998",
-    padding: 10
   },
 
   btnModal: {
@@ -151,7 +161,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     padding:5,
-
+    fontWeight:'bold',
   }
 })
 function mapStateToProps(state){
