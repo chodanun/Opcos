@@ -55,10 +55,8 @@ export class Me extends Component {
       else{
         return <View>
                   {this.logs().map(log => {
-                    console.log(log.time_stamp)
                     return  <ListItem key={log.id} style={{justifyContent:'center'}}>
-                              <Text>Item id : {log.item_id} ; </Text>
-                              <Text>Time : {log.time_stamp}</Text>
+                              <Text>{log.name+'\n'}Time : {log.time_stamp}</Text>
                             </ListItem>
                     })}
               </View>
@@ -73,7 +71,7 @@ export class Me extends Component {
                 </View>
 
                 <View style={styles.profile}>
-                    <Content>
+                    
                         <List>
                             <ListItem itemDivider>
                                 <Text style={{fontWeight: 'bold'}} >Profile</Text>
@@ -97,7 +95,7 @@ export class Me extends Component {
                             </ListItem>  
                             {this.renderLogs()}
                         </List>
-                    </Content>                                       
+                                                    
                 </View>
 
             </Container>

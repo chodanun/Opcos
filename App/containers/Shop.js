@@ -36,12 +36,7 @@ class Shop extends Component {
 	componentWillMount(){
 		if (this.props.barcode){
 			this.checkedPress(3)
-			// this.setState({ searching:true })
-			// this.props.fetchCosmetics(this.props.barcode,"Search by barcode").then( () => {
-			// 	this.setState( {searching: false})
-			// })
-		}
-		
+		}	
 	}
 
 	searchedPress(){
@@ -56,8 +51,6 @@ class Shop extends Component {
 	}
 
 	checkedPress(index){
-		// console.log(obj.target)
-		// console.log(this.state.searchChecked[0])
 		switch (index){
 			case 0 :
 			// console.log("0")
@@ -77,6 +70,7 @@ class Shop extends Component {
 		}
 		// this.setState({searchIndex:0})
 	}
+
 	renderSearchOption(){
 		if (this.state.searchOption)
 			return 	<List>
@@ -108,47 +102,78 @@ class Shop extends Component {
 	navToDetailsPage({cosmetic}){
 		let item_id = cosmetic.item_id
 		let uid = this.props.login_details.uid
-		console.log(item_id,uid)
 		this.props.queryLogs(uid,item_id)
 		Actions.details({cosmetic})
 		// this.props.navToDeatils({cosmetic})
 	}
 
 	renderStart(score){
-		if (score <= 1)
-			return <Icons name='star' color='red' size={15} />
-		else if (score <= 2)
-			return <View style={{flexDirection:'row'}} >
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-					</View>
-		else if (score <= 3)
-			return <View style={{flexDirection:'row'}} >
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-					</View>
-		else if (score <= 4)
-			return <View style={{flexDirection:'row'}} >
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-					</View>
-		else if (score <= 5)
-			return <View style={{flexDirection:'row'}} >
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-						<Icons name='star' color='red' size={15} />
-					</View>					
+		var star_half = <View/>
+		if (score%1>=0.5)
+			star_half =  <Icons name='star-half' color='red' size={15} />
 
+
+		if (score <= 1)
+			return <View style={{flexDirection:'row'}} >
+						{star_half}
+					</View>
+		else if (score < 2)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						{star_half}
+					</View>
+		else if (score < 3)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						{star_half}
+					</View>
+		else if (score < 4)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						{star_half}
+					</View>
+		else if (score < 5)
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						{star_half}
+					</View>
+		else
+			return <View style={{flexDirection:'row'}} >
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						<Icons name='star' color='red' size={15} />
+						{star_half}
+					</View>	
+	}
+
+	renderMatching(){
+		let numb = this.props.searchedCosmetics.length
+		if (numb>0){
+			if (this.props.searchedCosmetics[0].point == 100){
+				return <View style={styles.view_header_matching} >
+			                <Text style={styles.text_header_matching} >Found 1 item matching!!</Text>
+			                <Text style={styles.text_header_similar} >And {numb} similar items</Text>
+						</View>
+			}else{
+				return <View style={styles.view_header_matching} >
+			                <Text style={styles.text_header_similar} >Found {numb} similar items</Text>
+						</View>
+			}
+		}
+		
 	}
 	render(){
 		return (
 			<Container style={styles.container}>
-				<Content style={styles.content} >
+				
 					<View style= {styles.searchOption}>
 						<InputGroup borderType='rounded' style={styles.searchBar}>
 							<Icon
@@ -167,13 +192,17 @@ class Shop extends Component {
 		            		<Icons name='build' onPress={ ()=> this.searchOptionPress() } color = {this.state.searchOption ? 'black' : 'blue'} />
 		            	</View>
 	            	</View>
-	            	{this.renderSearchOption()}
+	            	<View>
+		            	{this.renderSearchOption()}
+	            	</View>
 	            	
             		<ScrollView style={styles.scrollView} >
+            				{this.renderMatching()}
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-								return 	<TouchableOpacity key={cosmetic.item_id} >
-											 <Card >
+								
 
+								return <TouchableOpacity key={cosmetic.item_id} >
+											 <Card >
 						                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic}) }>
 						                            <Thumbnail source={ { uri: cosmetic.img } }  />
 							                            <Text style={styles.resultHeaderText} >{cosmetic.name}</Text>
@@ -197,10 +226,9 @@ class Shop extends Component {
 						                        </CardItem>
 						                   </Card>
 									</TouchableOpacity>
+									
 							})}
-						
 					</ScrollView>
-				</Content>
 			</Container>
 		)
 	}
@@ -258,6 +286,25 @@ const styles = StyleSheet.create({
   	color: '#87838B',
   	fontSize: 12,
   },
+  text_header_matching:{
+  	paddingTop:5,
+  	color:'green',
+  	fontWeight:'bold',
+  	fontSize: 15,
+  },
+  view_header_matching:{
+  	alignItems:'center',
+  	// borderColor:'#BEB5B4',
+  	// borderWidth:2,
+  	marginTop:5,
+  },
+  text_header_similar:{
+  	paddingTop:5,
+  	color:'#D4670B',
+  	fontWeight:'bold',
+  	fontSize: 15,
+  },
+
 
 
 });

@@ -37,8 +37,6 @@ export class Details extends Component {
   }
 
   componentWillMount(){
-    console.log("ASDASDASDASDASDASDSAD")
-
     this.setState({searching:true})
     this.props.loadOpinionFiles(this.props.cosmetic).then( ()=> {
       this.setState({searching:false})

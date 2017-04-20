@@ -27,11 +27,15 @@ class Search extends Component {
 	  };
 	}
 
-	// onCloseModalBox(){
-	// 	this.setState({isFound:false})
-	// }
+	onCloseModalBox(){
+		this.setState({
+			searching:false,
+			barcode:null,
+		})
+	}
 
 	findButton(){
+		this.setState({searching:false})
 		this.props.fetchCosmetics(this.state.barcode,"Search by barcode").then( () => {
 			Actions.home()
 		})
@@ -41,7 +45,6 @@ class Search extends Component {
 			this.setState({barcode:obj.data,searching:true})
 			this.props.queryInfoBarcode(obj.data).then( ()=> {
 				this.refs.modal3.open()
-				this.setState({searching:false})
 			}).catch( ()=> {
 				alert("NOT FOUND ("+this.state.barcode+")")
 				this.setState({searching:false})
@@ -50,9 +53,9 @@ class Search extends Component {
 		
 	}
 
-	// componentDidMount(){ // debuging
-	// 	setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),2000) 
-	// }
+	componentDidMount(){ // debuging
+		setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),500) 
+	}
 	
 	renderModal(){		
 		return	<View style={{alignItems:'center',justifyContent:'center'}}>
@@ -83,7 +86,7 @@ class Search extends Component {
 		return (
 				<View style={styles.container}>
 					{this.renderCamera()}
-					<Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={false} >
+					<Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={false} onClosed={ ()=> this.onCloseModalBox()}>
 			          {this.renderModal()}
 			        </Modal> 
 				  </View>
