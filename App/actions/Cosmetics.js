@@ -4,17 +4,18 @@ import { Actions } from 'react-native-router-flux';
 
 export function fetchCosmetics(input,option){
 	return (dispatch, getState) => {
-    const params = [
-      `${input}`,
-    ].join('&')
+    let json = {
+      "barcode":input,
+      "name":input,
+    }
     var route = "";
     if (option == "Search by name"){
-      route = `/api/search/byName/${params}`
+      route = `/api/search/byName/`
     }
     else if (option == "Search by barcode"){
-      route = `/api/search/byBarcode/${params}`
+      route = `/api/search/byBarcode/`
     }
-    return Api.get(route).then(resp => {
+    return Api.post(route,json).then(resp => {
     	dispatch(setSearchedCosmetics({cosmetics : resp,option}))
       // console.log(resp)
     }).catch( (ex) => {
