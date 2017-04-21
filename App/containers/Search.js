@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../actions'
+import { Spinner } from 'native-base';
 import {
   AppRegistry,
   Dimensions,
@@ -24,6 +25,7 @@ class Search extends Component {
 	  this.state = {
 	  	barcode: null,
 	  	searching:false,
+	  	findingButton:false,
 	  };
 	}
 
@@ -35,10 +37,12 @@ class Search extends Component {
 	}
 
 	findButton(){
-		this.setState({searching:false})
+		this.setState({searching:false,findingButton:true})
+
 		this.props.fetchCosmetics(this.state.barcode,"Search by barcode").then( () => {
 			Actions.home()
 		})
+
 	}
 	onBarCodeRead(obj){
 		if (!this.state.searching){
@@ -56,12 +60,19 @@ class Search extends Component {
 	componentDidMount(){ // debuging
 		setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),500) 
 	}
-	
+
+	renderButtonModal(){
+		if (this.state.findingButton)
+			return <Spinner color='black'/>
+		else
+			return <Button style={[styles.btn,{left:35}]} onPress={()=>this.findButton()} >OPCOS SEARCH</Button>
+	}
+
 	renderModal(){		
 		return	<View style={{alignItems:'center',justifyContent:'center'}}>
 					<Text style={[styles.text,{color:'green'}]}>Barcode : {this.props.default.barcode}</Text>
 					<Text style={styles.text}>{this.props.default.name}</Text>
-					<Button style={[styles.btn,{left:35}]} onPress={()=>this.findButton()} >OPCOS SEARCH</Button>
+					{this.renderButtonModal()}
 				</View>
 
 	}
