@@ -109,8 +109,10 @@ class Shop extends Component {
 
 	renderStart(score){
 		var star_half = <View/>
-		if (score%1>=0.5)
+		if (score%1>=0.3 && score%1<=0.7)
 			star_half =  <Icons name='star-half' color='red' size={15} />
+		else if (score%1>0.7)
+			star_half =  <Icons name='star' color='red' size={15} />
 
 
 		if (score <= 1)
@@ -199,8 +201,6 @@ class Shop extends Component {
             		<ScrollView style={styles.scrollView} >
             				{this.renderMatching()}
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-								
-
 								return <TouchableOpacity key={cosmetic.item_id} >
 											 <Card >
 						                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic}) }>
