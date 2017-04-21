@@ -38,8 +38,9 @@ class Search extends Component {
 
 	findButton(){
 		this.setState({searching:false,findingButton:true})
-		Actions.home()
-		this.props.fetchCosmetics(this.state.barcode,"Search by barcode")
+		this.props.fetchCosmetics(this.state.barcode,"Search by barcode").then( ()=>{
+			Actions.home()
+		})
 	}
 	onBarCodeRead(obj){
 		if (!this.state.searching){
@@ -54,9 +55,9 @@ class Search extends Component {
 		
 	}
 
-	// componentDidMount(){ // debuging
-	// 	setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),500) 
-	// }
+	componentDidMount(){ // debuging
+		setTimeout( ()=>this.onBarCodeRead({'data':'604153528949'}),500) 
+	}
 
 	renderButtonModal(){
 		if (this.state.findingButton)

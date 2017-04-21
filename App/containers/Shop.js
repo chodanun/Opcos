@@ -156,26 +156,28 @@ class Shop extends Component {
 					</View>	
 	}
 
-	renderMatching(){
-		let numb = this.props.searchedCosmetics.length
-		if (numb>0){
+	renderMatching(id){
+		if (id==0){
 			if (this.props.searchedCosmetics[0].point == 100){
 				return <View style={styles.view_header_matching} >
 			                <Text style={styles.text_header_matching} >Found 1 item matching!!</Text>
-			                <Text style={styles.text_header_similar} >And {numb} similar items</Text>
 						</View>
 			}else{
 				return <View style={styles.view_header_matching} >
-			                <Text style={styles.text_header_similar} >Found {numb} similar items</Text>
+			                <Text style={styles.text_header_similar} >Found {this.props.cosmeticCount} similar items</Text>
 						</View>
 			}
+		}
+		if (id==1 && this.props.searchedCosmetics[0].point == 100){
+			return <View style={styles.view_header_matching} >
+		                <Text style={styles.text_header_similar} >Found {this.props.cosmeticCount-1} similar items</Text>
+					</View>
 		}
 		
 	}
 	render(){
 		return (
 			<Container style={styles.container}>
-				
 					<View style= {styles.searchOption}>
 						<InputGroup borderType='rounded' style={styles.searchBar}>
 							<Icon
@@ -199,9 +201,10 @@ class Shop extends Component {
 	            	</View>
 	            	
             		<ScrollView style={styles.scrollView} >
-            				{this.renderMatching()}
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
-								return <TouchableOpacity key={cosmetic.item_id} >
+								return 	<View key={cosmetic.keyId}>
+										{this.renderMatching(cosmetic.keyId)}
+										<TouchableOpacity  >
 											 <Card >
 						                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic}) }>
 						                            <Thumbnail source={ { uri: cosmetic.img } }  />
@@ -225,7 +228,8 @@ class Shop extends Component {
 						                            </Text>
 						                        </CardItem>
 						                   </Card>
-									</TouchableOpacity>
+										</TouchableOpacity>
+									</View>
 									
 							})}
 					</ScrollView>
@@ -314,6 +318,7 @@ function mapStateToProps(state){
 		searchedCosmetics : state.searchedCosmetics,
 		login_details: state.login_details,
 		default: state.default_item_barcode,
+		cosmeticCount: state.cosmeticCount,
 	}
 }
 
