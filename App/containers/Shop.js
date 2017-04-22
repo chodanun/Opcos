@@ -18,7 +18,6 @@ import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon,
 import { Icon as Icons } from 'react-native-elements'
 import { RadioButtons } from 'react-native-radio-buttons'
 import { Actions } from 'react-native-router-flux';
-import Autocomplete from 'react-native-autocomplete-input';
 
 class Shop extends Component {
 
@@ -30,25 +29,16 @@ class Shop extends Component {
 	  	searchOption : false,
 	  	searchChecked: [true,false,false,false],
 	  	searchName : 'Search by name',
-	  	query: '',
-	  	cosmetics: [],	  	
 	  }
 	}
 
 	componentWillMount(){
-		this.props.queryCosmetics() // for search name -> autoCompleteInput
 		if (this.props.barcode){
 			this.checkedPress(3)
 		}	
 	}
 
-	componentDidMount(){
-		// if (this.props.cosmetics_autocom_details){
-		// 	console.log(this.props.cosmetics_autocom_details)
-		// 	this.setState({ cosmetics :this.props.cosmetics_autocom_details });
-		// }   
-	}
-
+	
 	searchedPress(){
 		this.setState({ searching:true })
 		this.props.fetchCosmetics(this.state.cosmeticsInput,this.state.searchName).then( () => {
@@ -329,7 +319,7 @@ function mapStateToProps(state){
 		login_details: state.login_details,
 		default: state.default_item_barcode,
 		cosmeticCount: state.cosmeticCount,
-		cosmetics_autocom_details : this.state.cosmetics_autocom_details
+		cosmetics_autocom_details : state.cosmetics_autocom_details
 	}
 }
 
