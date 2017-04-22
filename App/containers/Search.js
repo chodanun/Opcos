@@ -56,7 +56,7 @@ class Search extends Component {
 	}
 
 	componentDidMount(){ // debuging
-		setTimeout( ()=>this.onBarCodeRead({'data':'604153528949'}),500) 
+		setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),500) 
 	}
 
 	renderButtonModal(){

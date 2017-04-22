@@ -69,15 +69,6 @@ class Shop extends Component {
 	    // 	return cosmetic.name.search(regex) >= 0
 	    // });
 	}
-
-	renderCosmetic(cosmetic) {
-	    const { name , description } = cosmetic;
-	    return (
-	      <View>
-	        <Text style={styles.titleText}>{name} , {description}</Text>
-	      </View>
-	    );
-	  }
 	
 	renderArrSearching(cosmetics){
 		return <View>
@@ -90,15 +81,6 @@ class Shop extends Component {
 	                    }>
 					</List>
 			</View>
-	}
-	renderListNull({name}){
-		// this.setState({arr: {name} })
-		return null
-		// return <TouchableOpacity onPress={() => this.setState({ query: name})}>
-		 //              <Text>
-		 //                {name} 
-		 //              </Text>
-		 //            </TouchableOpacity>
 	}
 
 	searchedPress(name=null){
@@ -241,19 +223,10 @@ class Shop extends Component {
 	render(){
 		const { query } = this.state;
 	    const cosmetics = this.findCosmetic(query);
-	    // const cosmetics = this.state.arr_search
-	    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+
 		return (
 			<Container style={styles.container}>
-			<Autocomplete
-		      style={{width:100}}
-	          autoCapitalize="none"
-	          autoCorrect={false}
-	          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
-	          // defaultValue={query}
-	          onChangeText={text => this.setState({ query: text })}
-	          renderItem={ ({name}) => this.renderListNull() }
-	        />
+			
 			<View style={styles.container}>
 					<View style= {styles.searchOption}>
 						<InputGroup borderType='rounded' style={styles.searchBar}>
@@ -265,9 +238,7 @@ class Shop extends Component {
 	            				autoCorrect={false}
 	            				onFocus = { () => this.setState({searchOption:false,}) }
 	            				placeholder= {this.state.searchName}
-	            				// onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
 	            				onChangeText={text => this.setState({ query: text })}
-								// value={this.state.cosmeticsInput}
 								value={this.state.query}
 								onSubmitEditing={()=> this.searchedPress()}
 	            			/>
