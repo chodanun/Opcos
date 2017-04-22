@@ -31,7 +31,6 @@ class Shop extends Component {
 	  	searchName : 'Search by name',
 	  	cosmetics: [],
       	query: '',
-      	arr: [],
 	  }
 	}
 
@@ -45,8 +44,9 @@ class Shop extends Component {
 	componentWillReceiveProps(nextProps){
 		if (nextProps.cosmetics_autocom_details.length>0){
 			this.setState({ cosmetics :nextProps.cosmetics_autocom_details});
-		}   
+		} 
 	}
+
 
 	findCosmetic(query) {
 		let arr = []
@@ -56,9 +56,8 @@ class Shop extends Component {
 	    }
 	    const { cosmetics } = this.state;
 	    const regex = new RegExp(`${query.trim()}`, 'i');
-	    console.log("IN1")
 	    for(let i = 0 ; i<this.props.cosmetics_autocom_details.length;i++){
-	    	if (count > 10)
+	    	if (count > 8)
 	    		return arr
 	    	if (cosmetics[i].name.search(regex)>=0){
 	    		arr.push(cosmetics[i])
@@ -80,6 +79,27 @@ class Shop extends Component {
 	    );
 	  }
 	
+	renderArrSearching(cosmetics){
+		return <View>{
+				cosmetics.map( (item)=> {
+					return <TouchableOpacity onPress={() => this.setState({ query: item.name})} key={item.item_id}>
+				              <Text>
+				                {item.name} 
+				              </Text>
+				            </TouchableOpacity>
+				})}
+		</View>
+	}
+	renderListNull({name}){
+		// this.setState({arr: {name} })
+		return null
+		// return <TouchableOpacity onPress={() => this.setState({ query: name})}>
+	 //              <Text>
+	 //                {name} 
+	 //              </Text>
+	 //            </TouchableOpacity>
+	}
+
 	searchedPress(){
 		this.setState({ searching:true })
 		this.props.fetchCosmetics(this.state.cosmeticsInput,this.state.searchName).then( () => {
@@ -217,21 +237,22 @@ class Shop extends Component {
 		
 	}
 
-	renderListItems({name}){
-		// this.setState({arr: {name} })
-		// return <View/>
-		return <TouchableOpacity onPress={() => this.setState({ query: name})}>
-	              <Text>
-	                {name} 
-	              </Text>
-	            </TouchableOpacity>
-	}
 	render(){
 		const { query } = this.state;
 	    const cosmetics = this.findCosmetic(query);
+	    // const cosmetics = this.state.arr_search
 	    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 		return (
 			<Container style={styles.container}>
+			<Autocomplete
+		      style={{width:100}}
+	          autoCapitalize="none"
+	          autoCorrect={false}
+	          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
+	          // defaultValue={query}
+	          onChangeText={text => this.setState({ query: text })}
+	          renderItem={ ({name}) => this.renderListNull() }
+	        />
 			<View style={styles.container}>
 					<View style= {styles.searchOption}>
 						<InputGroup borderType='rounded' style={styles.searchBar}>
@@ -257,16 +278,9 @@ class Shop extends Component {
 	            	<View>
 		            	{this.renderSearchOption()}
 	            	</View>
-	            	
-	            	<Autocomplete
-		              style={{marginTop:0}}
-			          autoCapitalize="none"
-			          autoCorrect={false}
-			          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
-			          // defaultValue={query}
-			          onChangeText={text => this.setState({ query: text })}
-			          renderItem={ ({name}) => ( this.renderListItems({name}))}
-			        />
+	            	<View>
+		            	{this.renderArrSearching(cosmetics)}
+	            	</View>
             		<ScrollView style={styles.scrollView} >
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.keyId}>
@@ -342,6 +356,7 @@ const styles = StyleSheet.create({
   },
   searchOption:{
   	flexDirection: 'row',
+  	paddingBottom: 5
   },
   option:{
   	flex:1,
@@ -378,9 +393,8 @@ const styles = StyleSheet.create({
   },
   itemText:{
   	flex:0.1
-  }
-
-
+  },
+ 
 
 });
 
