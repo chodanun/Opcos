@@ -94,19 +94,19 @@ export function setDefaultItemBarcode(resp){
   }
 }
 
-export function queryAllCosmetics(){
+export function queryCosmetics(){
   return (dispatch)=>{
     return new Promise ( (resolve, reject)=>{
       let route = `/api/search/all/`
       return Api.get(route).then(res => {
         // console.log(res)
-        dispatch(setAllQueryCosmetics(res))
+        dispatch(setQueryCosmetics(res))
       })  
     })
   }
 }
 
-export function setAllQueryCosmetics(res){
+export function setQueryCosmetics(res){
   return {
     type: types.SET_COSMETICS_AUTOCOMPLETE_INPUT,
     res

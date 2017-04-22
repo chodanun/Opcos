@@ -35,7 +35,7 @@ class Shop extends Component {
 	}
 
 	componentWillMount(){
-		this.props.queryAllCosmetics() // for search name -> autoCompleteInput
+		this.props.queryCosmetics() // for search name -> autoCompleteInput
 		if (this.props.barcode){
 			this.checkedPress(3)
 		}	
