@@ -21,7 +21,6 @@ import { Actions } from 'react-native-router-flux';
 import Autocomplete from 'react-native-autocomplete-input';
 
 class Shop extends Component {
-
 	constructor(props) {
 	  super(props)
 	  this.state = { 
@@ -32,6 +31,7 @@ class Shop extends Component {
 	  	searchName : 'Search by name',
 	  	cosmetics: [],
       	query: '',
+      	arr: [],
 	  }
 	}
 
@@ -49,12 +49,26 @@ class Shop extends Component {
 	}
 
 	findCosmetic(query) {
+		let arr = []
+		let count = 0
 	    if (query === '') {
-	      return [];
+	      return arr
 	    }
 	    const { cosmetics } = this.state;
 	    const regex = new RegExp(`${query.trim()}`, 'i');
-	    return cosmetics.filter(cosmetic => cosmetic.name.search(regex) >= 0);
+	    console.log("IN1")
+	    for(let i = 0 ; i<this.props.cosmetics_autocom_details.length;i++){
+	    	if (count > 10)
+	    		return arr
+	    	if (cosmetics[i].name.search(regex)>=0){
+	    		arr.push(cosmetics[i])
+	    		count++
+	    	}
+	    }
+	    return arr
+	    // return cosmetics.filter( cosmetic => {
+	    // 	return cosmetic.name.search(regex) >= 0
+	    // });
 	}
 
 	renderCosmetic(cosmetic) {
@@ -202,6 +216,16 @@ class Shop extends Component {
 		}
 		
 	}
+
+	renderListItems({name}){
+		// this.setState({arr: {name} })
+		// return <View/>
+		return <TouchableOpacity onPress={() => this.setState({ query: name})}>
+	              <Text>
+	                {name} 
+	              </Text>
+	            </TouchableOpacity>
+	}
 	render(){
 		const { query } = this.state;
 	    const cosmetics = this.findCosmetic(query);
@@ -209,22 +233,6 @@ class Shop extends Component {
 		return (
 			<Container style={styles.container}>
 			<View style={styles.container}>
-					<Autocomplete
-						          autoCapitalize="none"
-						          autoCorrect={false}
-						          containerStyle={styles.autocompleteContainer}
-						          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
-						          defaultValue={query}
-						          onChangeText={text => this.setState({ query: text })}
-						          placeholder="Enter A Cosmetic Name"
-						          renderItem={ ({name}) => (
-						            <TouchableOpacity onPress={() => this.setState({ query: name})}>
-						              <Text>
-						                {name} 
-						              </Text>
-						            </TouchableOpacity>
-						          )}
-						        />
 					<View style= {styles.searchOption}>
 						<InputGroup borderType='rounded' style={styles.searchBar}>
 							<Icon
@@ -232,10 +240,13 @@ class Shop extends Component {
 								style={{paddingLeft:10,}} 
 							/>
 	            			<Input 
+	            				autoCorrect={false}
 	            				onFocus = { () => this.setState({searchOption:false,}) }
 	            				placeholder= {this.state.searchName}
-	            				onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
-								value={this.state.cosmeticsInput}
+	            				// onChangeText={ (cosmeticsInput) => this.setState({cosmeticsInput})}
+	            				onChangeText={text => this.setState({ query: text })}
+								// value={this.state.cosmeticsInput}
+								value={this.state.query}
 								onSubmitEditing={()=> this.searchedPress()}
 	            			/>
 		            	</InputGroup>
@@ -247,6 +258,15 @@ class Shop extends Component {
 		            	{this.renderSearchOption()}
 	            	</View>
 	            	
+	            	<Autocomplete
+		              style={{marginTop:0}}
+			          autoCapitalize="none"
+			          autoCorrect={false}
+			          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
+			          // defaultValue={query}
+			          onChangeText={text => this.setState({ query: text })}
+			          renderItem={ ({name}) => ( this.renderListItems({name}))}
+			        />
             		<ScrollView style={styles.scrollView} >
 							{!this.state.searching && this.cosmetics().map( (cosmetic) => {
 								return 	<View key={cosmetic.keyId}>
