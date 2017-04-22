@@ -57,22 +57,7 @@ class NewFeed extends Component {
 		return (
 			<Container>
 			<View style={styles.container}>
-				<Autocomplete
-		          autoCapitalize="none"
-		          autoCorrect={false}
-		          containerStyle={styles.autocompleteContainer}
-		          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
-		          defaultValue={query}
-		          onChangeText={text => this.setState({ query: text })}
-		          placeholder="Enter A Cosmetic Name"
-		          renderItem={({ name}) => (
-		            <TouchableOpacity onPress={() => this.setState({ query: name})}>
-		              <Text style={styles.itemText}>
-		                {name} 
-		              </Text>
-		            </TouchableOpacity>
-		          )}
-		        />
+				
 		        <View style={styles.descriptionContainer}>
 		          {cosmetics.length > 0 ? (
 		            this.renderCosmetic(cosmetics[0])

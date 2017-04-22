@@ -18,6 +18,7 @@ import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon,
 import { Icon as Icons } from 'react-native-elements'
 import { RadioButtons } from 'react-native-radio-buttons'
 import { Actions } from 'react-native-router-flux';
+import Autocomplete from 'react-native-autocomplete-input';
 
 class Shop extends Component {
 
@@ -29,15 +30,41 @@ class Shop extends Component {
 	  	searchOption : false,
 	  	searchChecked: [true,false,false,false],
 	  	searchName : 'Search by name',
+	  	cosmetics: [],
+      	query: '',
 	  }
 	}
 
 	componentWillMount(){
+		this.props.queryCosmetics() // for search name -> autoCompleteInput
 		if (this.props.barcode){
 			this.checkedPress(3)
 		}	
 	}
 
+	componentWillReceiveProps(nextProps){
+		if (nextProps.cosmetics_autocom_details.length>0){
+			this.setState({ cosmetics :nextProps.cosmetics_autocom_details});
+		}   
+	}
+
+	findCosmetic(query) {
+	    if (query === '') {
+	      return [];
+	    }
+	    const { cosmetics } = this.state;
+	    const regex = new RegExp(`${query.trim()}`, 'i');
+	    return cosmetics.filter(cosmetic => cosmetic.name.search(regex) >= 0);
+	}
+
+	renderCosmetic(cosmetic) {
+	    const { name , description } = cosmetic;
+	    return (
+	      <View>
+	        <Text style={styles.titleText}>{name} , {description}</Text>
+	      </View>
+	    );
+	  }
 	
 	searchedPress(){
 		this.setState({ searching:true })
@@ -176,8 +203,28 @@ class Shop extends Component {
 		
 	}
 	render(){
+		const { query } = this.state;
+	    const cosmetics = this.findCosmetic(query);
+	    const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
 		return (
 			<Container style={styles.container}>
+			<View style={styles.container}>
+					<Autocomplete
+						          autoCapitalize="none"
+						          autoCorrect={false}
+						          containerStyle={styles.autocompleteContainer}
+						          data={cosmetics.length === 1 && comp(query, cosmetics[0].name) ? [] : cosmetics}
+						          defaultValue={query}
+						          onChangeText={text => this.setState({ query: text })}
+						          placeholder="Enter A Cosmetic Name"
+						          renderItem={ ({name}) => (
+						            <TouchableOpacity onPress={() => this.setState({ query: name})}>
+						              <Text>
+						                {name} 
+						              </Text>
+						            </TouchableOpacity>
+						          )}
+						        />
 					<View style= {styles.searchOption}>
 						<InputGroup borderType='rounded' style={styles.searchBar}>
 							<Icon
@@ -233,6 +280,7 @@ class Shop extends Component {
 									
 							})}
 					</ScrollView>
+			</View>
 			</Container>
 		)
 	}
@@ -308,6 +356,9 @@ const styles = StyleSheet.create({
   	fontWeight:'bold',
   	fontSize: 15,
   },
+  itemText:{
+  	flex:0.1
+  }
 
 
 
