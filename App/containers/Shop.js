@@ -25,17 +25,17 @@ class Shop extends Component {
 	  super(props)
 	  this.state = { 
 	  	searching: false,
-	  	cosmeticsInput: this.props.barcode? this.props.barcode:'',
+	  	// cosmeticsInput: this.props.barcode? this.props.barcode:'',
 	  	searchOption : false,
 	  	searchChecked: [true,false,false,false],
 	  	searchName : 'Search by name',
 	  	cosmetics: [],
-      	query: '',
+      	query: this.props.barcode? this.props.barcode:'',
 	  }
 	}
 
 	componentWillMount(){
-		this.props.queryCosmetics() // for search name -> autoCompleteInput
+		this.props.queryAllCosmetics() // for search name -> autoCompleteInput
 		if (this.props.barcode){
 			this.checkedPress(3)
 		}	
@@ -50,14 +50,14 @@ class Shop extends Component {
 
 	findCosmetic(query) {
 		let arr = []
-		let count = 0
+		let count = 1
 	    if (query === '') {
 	      return arr
 	    }
 	    const { cosmetics } = this.state;
 	    const regex = new RegExp(`${query.trim()}`, 'i');
 	    for(let i = 0 ; i<this.props.cosmetics_autocom_details.length;i++){
-	    	if (count > 8)
+	    	if (count > 5)
 	    		return arr
 	    	if (cosmetics[i].name.search(regex)>=0){
 	    		arr.push(cosmetics[i])
@@ -80,30 +80,31 @@ class Shop extends Component {
 	  }
 	
 	renderArrSearching(cosmetics){
-		return <View>{
-				cosmetics.map( (item)=> {
-					return <TouchableOpacity onPress={() => this.setState({ query: item.name})} key={item.item_id}>
-				              <Text>
-				                {item.name} 
-				              </Text>
-				            </TouchableOpacity>
-				})}
-		</View>
+		return <View>
+					<List 
+						dataArray={cosmetics}
+                    	renderRow={(item) =>
+	                        <ListItem TouchableOpacity onPress={() => {this.setState({ query: item.name});this.searchedPress()}}>
+	                            <Text>{item.name}</Text>
+	                        </ListItem>
+	                    }>
+					</List>
+			</View>
 	}
 	renderListNull({name}){
 		// this.setState({arr: {name} })
 		return null
 		// return <TouchableOpacity onPress={() => this.setState({ query: name})}>
-	 //              <Text>
-	 //                {name} 
-	 //              </Text>
-	 //            </TouchableOpacity>
+		 //              <Text>
+		 //                {name} 
+		 //              </Text>
+		 //            </TouchableOpacity>
 	}
 
 	searchedPress(){
 		this.setState({ searching:true })
-		this.props.fetchCosmetics(this.state.cosmeticsInput,this.state.searchName).then( () => {
-			this.setState( {searching: false, cosmeticsInput:''})
+		this.props.fetchCosmetics(this.state.query,this.state.searchName).then( () => {
+			this.setState( {searching: false, query:''})
 		})
 	}
 
@@ -356,7 +357,7 @@ const styles = StyleSheet.create({
   },
   searchOption:{
   	flexDirection: 'row',
-  	paddingBottom: 5
+  	// paddingBottom: 5
   },
   option:{
   	flex:1,
