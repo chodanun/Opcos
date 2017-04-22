@@ -18,7 +18,6 @@ import { Container, Content, Card, CardItem, Thumbnail, InputGroup, Input, Icon,
 import { Icon as Icons } from 'react-native-elements'
 import { RadioButtons } from 'react-native-radio-buttons'
 import { Actions } from 'react-native-router-flux';
-import Autocomplete from 'react-native-autocomplete-input';
 
 class Shop extends Component {
 	constructor(props) {
@@ -55,14 +54,29 @@ class Shop extends Component {
 	      return arr
 	    }
 	    const { cosmetics } = this.state;
+
+		// var res = query.split(" ");
+		// console.log(res)
 	    const regex = new RegExp(`${query.trim()}`, 'i');
+	    var check=true
 	    for(let i = 0 ; i<this.props.cosmetics_autocom_details.length;i++){
-	    	if (count > 5)
+	    	if (count > 8)
 	    		return arr
 	    	if (cosmetics[i].name.search(regex)>=0){
 	    		arr.push(cosmetics[i])
 	    		count++
 	    	}
+	    	// if (cosmetics[i].name.search(regex)>=0) {
+	    	// 	res.forEach( item =>{
+	    	// 		if (cosmetics[i].name.search(new RegExp(`${res[i]}`, 'i'))<0)
+	    	// 			check=false
+	    	// 	})
+	    	// 	if (check){
+	    	// 		arr.push(cosmetics[i])
+	    	// 		count++
+	    	// 	}
+	    		
+	    	// }
 	    }
 	    return arr
 	    // return cosmetics.filter( cosmetic => {
@@ -206,10 +220,12 @@ class Shop extends Component {
 				return <View style={styles.view_header_matching} >
 			                <Text style={styles.text_header_matching} >Found 1 item matching!!</Text>
 						</View>
-			}else{
+			}else if (this.props.searchedCosmetics[0].point < 100){
 				return <View style={styles.view_header_matching} >
 			                <Text style={styles.text_header_similar} >Found {this.props.cosmeticCount} similar items</Text>
 						</View>
+			}else{
+				return <View/>
 			}
 		}
 		if (id==1 && this.props.searchedCosmetics[0].point == 100){
