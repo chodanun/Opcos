@@ -1,6 +1,13 @@
 import createReducer from '../lib/createReducer'
 import * as types from '../actions/types'
 
+export const cosmetics_autocom_details = createReducer({},{
+	[types.SET_COSMETICS_AUTOCOMPLETE_INPUT](state,action){
+		// console.log(action.res)
+		return action.res
+	}
+})
+
 export const searchedCosmetics = createReducer({},{
 	[types.SET_SEARCHED_COSMETICS](state, action){
 		let newState = {}
