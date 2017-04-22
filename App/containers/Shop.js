@@ -84,7 +84,7 @@ class Shop extends Component {
 					<List 
 						dataArray={cosmetics}
                     	renderRow={(item) =>
-	                        <ListItem TouchableOpacity onPress={() => {this.setState({ query: item.name});this.searchedPress()}}>
+	                        <ListItem TouchableOpacity onPress={() => this.searchedPress(item.name)} >
 	                            <Text>{item.name}</Text>
 	                        </ListItem>
 	                    }>
@@ -101,9 +101,9 @@ class Shop extends Component {
 		 //            </TouchableOpacity>
 	}
 
-	searchedPress(){
+	searchedPress(name=null){
 		this.setState({ searching:true })
-		this.props.fetchCosmetics(this.state.query,this.state.searchName).then( () => {
+		this.props.fetchCosmetics(name? name: this.state.query,this.state.searchName).then( () => {
 			this.setState( {searching: false, query:''})
 		})
 	}

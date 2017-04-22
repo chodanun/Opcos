@@ -17,7 +17,7 @@ export function fetchCosmetics(input,option){
     }
     return Api.post(route,json).then(resp => {
     	dispatch(setSearchedCosmetics({cosmetics : resp,option}))
-      // console.log(resp)
+      console.log(resp)
     }).catch( (ex) => {
       console.log(ex);
     })
