@@ -48,15 +48,15 @@ class Search extends Component {
 			this.props.queryInfoBarcode(obj.data).then( ()=> {
 				this.refs.modal3.open()
 			}).catch( ()=> {
-				alert("NOT FOUND ("+this.state.barcode+")")
-				this.setState({searching:false})
+				// alert("NOT FOUND ("+this.state.barcode+")")
+				this.refs.modal2.open()
 			})	
 		}
 		
 	}
 
 	componentDidMount(){ // debuging
-		setTimeout( ()=>this.onBarCodeRead({'data':'79656003819'}),500) 
+		setInterval( ()=>this.onBarCodeRead({'data':'604153682658'}),1500) 
 	}
 
 	renderButtonModal(){
@@ -97,6 +97,10 @@ class Search extends Component {
 					{this.renderCamera()}
 					<Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal3"} isDisabled={false} onClosed={ ()=> this.onCloseModalBox()}>
 			          {this.renderModal()}
+			        </Modal> 
+			        <Modal style={[styles.modal, styles.modal3]} position={"center"} ref={"modal2"} isDisabled={false} onClosed={ ()=> this.setState({searching:false}) }>
+			          <Text style={[styles.text,{color:'red',alignItems:'center'}]}> NOT FOUND</Text>
+			           <Text style={[styles.text,{color:'red',alignItems:'center'}]}>"{this.state.barcode}"</Text>
 			        </Modal> 
 				  </View>
 		);
