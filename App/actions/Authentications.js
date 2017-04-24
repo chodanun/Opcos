@@ -70,7 +70,6 @@ export function setUserDetails(user_profile){
 export function setLoginDetails(resp){
 	return (dispatch) => {
 		saveToken(resp)
-		console.log(resp)
 		dispatch({type : types.SET_LOGIN_DETAILS,resp})
 		dispatch(loadRecItems(resp.uid))
 	}

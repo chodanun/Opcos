@@ -68,7 +68,7 @@ class ApplicationTabs extends Component {
                     	onChangeTab={ (obj) => this.setState({title:obj.i})}
                     	initialPage= {1}
                     >
-                    	<NewFeed tabLabel='Home' />
+                    	<NewFeed tabLabel='Opcos' />
                         <Shop tabLabel='Shop' barcode = {this.props.barcode} />
                         <Me tabLabel='Me' />
 
