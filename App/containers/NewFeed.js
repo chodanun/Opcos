@@ -20,11 +20,18 @@ class NewFeed extends Component {
 	  }
 	}
 
-	render(){
+	renderRecItems(){
+		if (this.props.recommended_items.length>0){
+			return <Text>{this.props.recommended_items[0].name}</Text>	
+		}
 		
+	}
+
+	render(){
 		return (
 			<Container>
 				 <Content>
+				 	{this.renderRecItems()}
                 </Content>
 			</Container>
 		)

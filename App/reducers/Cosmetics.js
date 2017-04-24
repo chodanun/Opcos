@@ -57,7 +57,7 @@ export const default_item_barcode = createReducer({
 	}
 })
 
-export const recommended_items = createReducer({},{
+export const recommended_items = createReducer([],{
 	[types.SET_RECOMMENDED_ITEMS](state, action){
 		return action.res
 	}
