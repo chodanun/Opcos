@@ -113,3 +113,21 @@ export function setQueryCosmetics(res){
   }
 }
 
+export function loadRecItems(uid){
+  return (dispatch)=>{
+    return new Promise ( (resolve, reject)=>{
+      let route = `/api/recommendedItems/${uid}`
+      return Api.get(route).then(res => {
+        // console.log(res)
+        dispatch(setRecommendedItems(res))
+      })  
+    })
+  }
+}
+
+export function setRecommendedItems(res){
+  return {
+    type: types.SET_RECOMMENDED_ITEMS,
+    res
+  }
+}

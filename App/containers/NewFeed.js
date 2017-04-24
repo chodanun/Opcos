@@ -21,14 +21,38 @@ class NewFeed extends Component {
 	  }
 	}
 
-	componentWillMount(nextProps){
+	loadRecItems(uid){
+		this.props.loadRecItems(uid)
+	}
+
+	componentWillReceiveProps(nextProps){
+		if (nextProps.login_details.uid){
+			this.loadRecItems(nextProps.login_details.uid)
+		}
 		
 	}
 
 	render(){
 		return (
 			<Container>
-			
+				 <Content>
+                    <Card>
+                        <CardItem>
+                            
+                            <Text>Instrumental Songs</Text>
+                            <Text note>Guitar</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            
+                        </CardItem>
+
+                        <CardItem>
+                            <Icon name={'ios-musical-notes'} style={{color : '#ED4A6A'}} />
+                            <Text>Listen now</Text>
+                        </CardItem>
+                   </Card>
+                </Content>
 			</Container>
 		)
 	}
@@ -40,7 +64,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
 	return {
-		
+		login_details: state.login_details
 	}
 }
 
