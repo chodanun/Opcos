@@ -2,7 +2,8 @@ import firebase from 'firebase';
 import * as types from './types'
 import Api from '../lib/api'
 import { Actions } from 'react-native-router-flux';
-import {saveToken} from '../lib/token'
+import { saveToken } from '../lib/token'
+import { loadRecItems } from './Cosmetics'
 const FBSDK = require('react-native-fbsdk');
 const {
 	LoginManager,
@@ -67,12 +68,13 @@ export function setUserDetails(user_profile){
 }
 
 export function setLoginDetails(resp){
-	// console.log(resp)
-	saveToken(resp)
-	return{
-		type : types.SET_LOGIN_DETAILS,
-		resp
+	return (dispatch) => {
+		saveToken(resp)
+		console.log(resp)
+		dispatch({type : types.SET_LOGIN_DETAILS,resp})
+		dispatch(loadRecItems(resp.uid))
 	}
+	
 }
 
 export function insertCheckInfo (info){

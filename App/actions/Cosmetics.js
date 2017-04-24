@@ -118,7 +118,6 @@ export function loadRecItems(uid){
     return new Promise ( (resolve, reject)=>{
       let route = `/api/recommendedItems/${uid}`
       return Api.get(route).then(res => {
-        // console.log(res)
         dispatch(setRecommendedItems(res))
       })  
     })

@@ -13,7 +13,7 @@ export const login_method = createReducer(null,{
 		return action.obj.loginMethod
 	}
 })
-export const login_details = createReducer({token:''},{
+export const login_details = createReducer({token:'',uid:null},{
 	[types.SET_LOGIN_DETAILS](state, action){
 		return action.resp
 	}
