@@ -161,6 +161,7 @@ class Shop extends Component {
 		let item_id = cosmetic.item_id
 		let uid = this.props.login_details.uid
 		this.props.queryLogs(uid,item_id)
+		console.log(cosmetic)
 		Actions.details({cosmetic})
 		// this.props.navToDeatils({cosmetic})
 	}
