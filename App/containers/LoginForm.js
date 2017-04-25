@@ -21,6 +21,7 @@ const {
 	Text,
 	StyleSheet,
 	Image,
+	Dimensions,
 } = ReactNative
 
 class LoginForm extends Component {
@@ -191,11 +192,12 @@ class LoginForm extends Component {
 	}
 
 	renderScene(){
+		var {width, height} = Dimensions.get('window');
 		if (this.props.status_user == false){
 			return (
-				<Container style={styles.container}>
+				<View style={{height:height,width:width}}>
 	            	<View style={styles.logo} >
-	            		<Image source={{uri: "https://www.mx7.com/i/1c0/2bxy9d.png"}} style={{width:400,height:100,}}  />
+	            		<Image source={require('../img/icon.png')} style={{resizeMode: 'contain',width:200}}  />
 	            	</View>
 
 	            	<View style={styles.input_form} >
@@ -205,10 +207,11 @@ class LoginForm extends Component {
 		                            <InputGroup>
 		                                <Icon name='ios-person' />
 		                                <Input 
+		                                	autoCorrect={false}
 		                                	placeholder='EMAIL'
 		                                	value={this.state.email}
 											onChangeText={ email => this.setState({ email })}
-											style={{fontWeight:'bold',fontSize:20}}
+											style={{fontWeight:'bold',fontSize:15,color:'white'}}
 		                                />
 		                            </InputGroup>
 		                        </ListItem>
@@ -222,7 +225,7 @@ class LoginForm extends Component {
 		                                	value={this.state.password}
 											onChangeText={ password => this.setState({ password })}
 											onSubmitEditing={ ()=> this.onPressLogin() }
-											style={{fontWeight:'bold'}}
+											style={{fontWeight:'bold',fontSize:15,color:'white'}}
 		                                />
 		                            </InputGroup>
 		                        </ListItem>
@@ -247,7 +250,7 @@ class LoginForm extends Component {
 						> Register 
 						</Button>
 					</View>
-		        </Container>
+		        </View>
 				
 			)
 		}
@@ -259,7 +262,10 @@ class LoginForm extends Component {
 	render(){
 		return (
 				<View style={{flex:1}}>
-					{this.renderScene()}
+					<Image source={require('../img/bg.png')} style={{flex:1,}}>
+						{this.renderScene()}
+					</Image>
+
 				</View>
 			
 		)

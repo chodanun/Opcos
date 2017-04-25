@@ -56,7 +56,7 @@ class Search extends Component {
 	}
 
 	componentDidMount(){ // debuging
-		setInterval( ()=>this.onBarCodeRead({'data':'604153682658'}),1500) 
+		// setInterval( ()=>this.onBarCodeRead({'data':'604153682658'}),4000) 
 	}
 
 	renderButtonModal(){
