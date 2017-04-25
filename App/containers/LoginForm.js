@@ -32,7 +32,6 @@ class LoginForm extends Component {
 			password:'',
 			error:'',
 			loading: false,
-			facebook_loading:false,
 
 			isLogin:false,
 			name:'',
@@ -84,16 +83,11 @@ class LoginForm extends Component {
 		this.props.updateStatusUser(login_obj)
 	}
 	
+
 	clearErrorDisplayed(){
 		this.setState({
 			error : '',
 			loading: true,
-		})
-	}
-
-	setFacebookLoading(){
-		this.setState({
-			facebook_loading: true ,
 		})
 	}
 
@@ -115,6 +109,7 @@ class LoginForm extends Component {
 	}
 
 	onPressLogin(){
+		this.setState({loading:true})
 		this.clearErrorDisplayed()
 		const { email, password } = this.state;
 		firebase.auth().signInWithEmailAndPassword(email, password)
@@ -132,11 +127,12 @@ class LoginForm extends Component {
 	}
 
 	onPressLoginFacebook(){
-		this.setFacebookLoading()
+		this.setState({loading:true})
 		LoginManager.logInWithReadPermissions(['public_profile','email','user_birthday']).then(
 		  (result) => {
 		    if (result.isCancelled) {
 		      // alert('Login was cancelled')
+		      this.setState({loading:false})
 		    } else {
 		      // alert('Login was successful with permissions: '
 		        // + result.grantedPermissions.toString())
@@ -145,6 +141,7 @@ class LoginForm extends Component {
                 		this.setState({
                 			isLogin: true,
 							loginMethod: 'facebook',
+							loading:false,
                 		})
                 		let login_obj = {
 							isLogin: this.state.isLogin,
@@ -163,32 +160,34 @@ class LoginForm extends Component {
 		  }
 		)
 	}
-
-	renderButton(){
-		if (this.state.loading){
-			return <Spinner size='small' />
-		}
-		else{
-			return <Button 
-						block success
-						onPress={ () => this.onPressLogin() }
-						style ={styles.login_button}
-					> Login </Button>
-		}
+	renderButtonLogin(){
+		if (!this.state.loading)
+			return (
+				<Button 
+					block success
+					onPress={ () => this.onPressLogin() }
+					style ={styles.login_button}
+				> Login </Button>
+			)
 	}
-
-	renderFacebookButton(){
-
-		if (this.state.facebook_loading)
-			return <Spinner size='small' />
-		else
-			return <SocialIcon
+	renderButtonFacebookLogin(){
+		if (!this.state.loading)
+			return (
+				<SocialIcon
 				  title='Sign In With Facebook'
 				  button type='facebook'
 				  onPress={ () => this.onPressLoginFacebook() }
 				  iconSize={20}
-				  style={{height:42,margin:10,marginTop:0}}
+				  style={{height:42}}
 				/>
+			)
+	}
+
+	renderSpinner(){
+		if(this.state.loading)
+			return (
+				<Spinner size='large' />
+			)
 	}
 
 	renderScene(){
@@ -229,11 +228,14 @@ class LoginForm extends Component {
 		                        </ListItem>
 		                    </List>
 		                </View>
-		                <View style={{flex:1,justifyContent:'center',top:20}}>
-	                    	{this.renderButton()}
+		                <View style={{flex:1,justifyContent:'center',top:20}}>	
+	                    	{this.renderButtonLogin()}
+	                    	<View style={{top:20}}>
+		                    	{this.renderSpinner()}
+	                    	</View>
 	                    </View>
 	                    <View style={{flex:5,top:40}}>
-		                	{this.renderFacebookButton()}
+		                	{this.renderButtonFacebookLogin()}
 						</View>
 	                </View>
 
