@@ -72,14 +72,14 @@ class NewFeed extends Component {
 					</View>	
 	}
 
-	// navToDetailsPage({item}){
-
-	// 	let item_id = item.item_id
-	// 	let uid = this.props.login_details.uid
-	// 	this.props.queryLogs(uid,item_id)
-	// 	Actions.details({item})
+	navToDetailsPage({cosmetic}){
+		let item_id = cosmetic.item_id
+		let uid = this.props.login_details.uid
+		this.props.queryLogs(uid,item_id)
+		// console.log(cosmetic)
+		Actions.details({cosmetic})
 		
-	// }
+	}
 
 	renderRecItems(){
 		const items = this.props.recommended_items
@@ -88,16 +88,16 @@ class NewFeed extends Component {
 			{items.map( (item)=> {
 				return (
 					<Card key={item.item_id}>
-                        <CardItem onPress={ () => this.navToDetailsPage({item}) }>
+                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic:item}) }>
                             <Text style={styles.resultHeaderText}>{item.name}</Text>
                             <Text note style={{fontWeight: '400',fontSize: 14,}} >{item.brand}</Text>
                         </CardItem>
 
-                        <CardItem onPress={ () => this.navToDetailsPage({item}) }>
+                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic:item}) }>
                             <Image style={{ resizeMode: 'contain',width:300,alignSelf: 'center', }} source={{ uri: item.img}} />
                         </CardItem>
 
-                        <CardItem onPress={ () => this.navToDetailsPage({item}) }>
+                        <CardItem onPress={ () => this.navToDetailsPage({cosmetic:item}) }>
                         	<View style={{flexDirection:'row'}} >
                         		{this.renderStart(item.score)}
                         		<Text> {item.score} ({item.reviews} review{item.reviews>0? 's':''})</Text>
