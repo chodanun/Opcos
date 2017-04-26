@@ -255,14 +255,16 @@ class LoginForm extends Component {
 			)
 		}
 		else{
-			return <Spinner size='large' />
+			return <View style={{height:height,width:width}}>
+						<Spinner size='large' />
+					</View>
 		}
 		
 	}
 	render(){
 		return (
 				<View style={{flex:1}}>
-					<Image source={require('../img/bg.png')} style={{flex:1,}}>
+					<Image source={require('../img/bg1.png')} style={{flex:1,}}>
 						{this.renderScene()}
 					</Image>
 

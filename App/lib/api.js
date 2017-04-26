@@ -28,7 +28,7 @@ class Api {
   }
 
   static xhr(route, params, verb) {
-    // const host = "http://192.168.1.101:8000"
+    // const host = "http://192.168.1.104:8000"
     const host = "http://158.108.141.27:8000"
     // const host ="http://localhost:8000"
     const url = `${host}${route}`
